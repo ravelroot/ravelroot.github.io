@@ -120,6 +120,82 @@ function montarDocumentacao() {
 	});
 }
 
+function contarMinutos(nota) {
+	const texto = [nota.resumo, ...nota.corpo.map((bloco) => (typeof bloco === "string" ? bloco : bloco.codigo))].join(" ");
+	const palavras = texto.split(/\s+/).filter(Boolean).length;
+	return Math.max(1, Math.round(palavras / 200));
+}
+
+function montarNotas() {
+	const grade = document.getElementById("notas");
+	const projetoPorTitulo = {};
+	PROJETOS.forEach((projeto) => {
+		projetoPorTitulo[projeto.titulo] = projeto;
+	});
+	NOTAS.forEach((nota, indice) => {
+		const cartao = criar("article", "cartao cartao-largo cartao-nota");
+		const conteudo = criar("div", "cartao-conteudo");
+
+		conteudo.append(criar("p", "nota-meta", `${nota.tema} · ${contarMinutos(nota)} min de leitura`));
+		conteudo.append(criar("h3", "cartao-titulo", nota.titulo));
+		conteudo.append(criar("p", "cartao-descricao", nota.resumo));
+
+		const corpo = criar("div", "nota-corpo");
+		corpo.id = `nota-${indice + 1}`;
+		corpo.hidden = true;
+		nota.corpo.forEach((bloco) => {
+			if (typeof bloco === "string") {
+				corpo.append(criar("p", "nota-paragrafo", bloco));
+			} else {
+				const pre = criar("pre", "nota-codigo");
+				pre.append(criar("code", "", bloco.codigo));
+				pre.tabIndex = 0;
+				corpo.append(pre);
+			}
+		});
+		conteudo.append(corpo);
+
+		const projetos = criar("div", "habilidades");
+		nota.projetos.forEach((nome) => {
+			const projeto = projetoPorTitulo[nome] || {};
+			const etiqueta = criar(projeto.link ? "a" : "span", "habilidade nota-projeto");
+			if (projeto.link) {
+				etiqueta.href = projeto.link;
+				etiqueta.target = "_blank";
+				etiqueta.rel = "noopener noreferrer";
+			}
+			if (projeto.icone) {
+				const icone = criar("img", "cartao-icone");
+				icone.src = projeto.icone;
+				icone.alt = "";
+				icone.setAttribute("aria-hidden", "true");
+				etiqueta.append(icone);
+			}
+			etiqueta.append(nome);
+			projetos.append(etiqueta);
+		});
+		conteudo.append(projetos);
+
+		const botao = criar("button", "cartao-botao", "Ler nota");
+		botao.type = "button";
+		botao.setAttribute("aria-expanded", "false");
+		botao.setAttribute("aria-controls", corpo.id);
+		botao.addEventListener("click", () => {
+			const abrir = corpo.hidden;
+			corpo.hidden = !abrir;
+			cartao.classList.toggle("nota-aberta", abrir);
+			botao.setAttribute("aria-expanded", abrir ? "true" : "false");
+			botao.textContent = abrir ? "Fechar nota" : "Ler nota";
+			const reduzir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+			cartao.scrollIntoView({ block: "nearest", behavior: reduzir ? "auto" : "smooth" });
+		});
+		conteudo.append(botao);
+
+		cartao.append(conteudo);
+		grade.append(cartao);
+	});
+}
+
 // No celular as abas rolam na horizontal: garante que a aba ativa fique à vista.
 function mostrarAbaNaLista(aba) {
 	const lista = aba.parentElement;
@@ -219,6 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	montarProjetos();
 	montarHabilidades();
 	montarDocumentacao();
+	montarNotas();
 	alternarAbas();
 	acompanharRolagem();
 	digitarTitulo();

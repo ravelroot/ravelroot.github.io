@@ -17,7 +17,7 @@
 			if (localStorage.getItem("tema") === "claro") document.documentElement.dataset.tema = "claro";
 		} catch (erro) {}
 	</script>
-	<link rel="stylesheet" href="css/estilo.css?v=19">
+	<link rel="stylesheet" href="css/estilo.css?v=20">
 </head>
 <body>
 	<div id="pagina" class="pagina">
@@ -91,6 +91,7 @@
 					<button id="aba-habilidades" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-habilidades" tabindex="-1">Habilidades</button>
 					<button id="aba-documentacao" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-documentacao" tabindex="-1">Documentação</button>
 					<button id="aba-atividade" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-atividade" tabindex="-1">Atividade</button>
+					<button id="aba-notas" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-notas" tabindex="-1">Notas</button>
 				</div>
 
 				<div id="painel-projetos" class="painel" role="tabpanel" aria-labelledby="aba-projetos">
@@ -118,6 +119,11 @@
 						</article>
 					</div>
 				</div>
+
+				<div id="painel-notas" class="painel" role="tabpanel" aria-labelledby="aba-notas" hidden>
+					<p class="secao-descricao">Textos curtos sobre as decisões técnicas por trás dos projetos: o problema, a escolha feita e o que ela custa.</p>
+					<div id="notas" class="grade"></div>
+				</div>
 			</section>
 		</main>
 
@@ -130,6 +136,7 @@
 	<script src="js/habilidades.js?v=4"></script>
 	<script src="js/documentacao.js?v=3"></script>
 	<script src="js/atividade.js?v=4"></script>
-	<script src="js/main.js?v=8"></script>
+	<script src="js/notas.js?v=1"></script>
+	<script src="js/main.js?v=9"></script>
 </body>
 </html>

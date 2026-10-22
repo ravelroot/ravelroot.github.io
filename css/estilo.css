@@ -670,6 +670,89 @@ svg {
 	background: var(--etiqueta-fundo);
 }
 
+/* ---------- Aba Notas ---------- */
+
+button.cartao-botao {
+	font: inherit;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.cartao-botao:focus-visible {
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
+}
+
+.cartao-nota.nota-aberta:hover {
+	transform: none;
+}
+
+/* Na lista de notas, o botão não ocupa a largura toda do cartão */
+.cartao-nota .cartao-botao {
+	align-self: flex-start;
+	width: auto;
+	min-width: 10rem;
+	padding: 0.5rem 1.25rem;
+}
+
+.nota-meta {
+	margin-bottom: 0.25rem;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+	color: var(--cinza-400);
+}
+
+.nota-corpo {
+	display: flex;
+	flex-direction: column;
+	gap: 0.875rem;
+	max-width: 75ch;
+	margin: 0.25rem 0 1.25rem;
+}
+
+.nota-corpo[hidden] {
+	display: none;
+}
+
+.nota-paragrafo {
+	font-size: 1.0625rem;
+	line-height: 1.75rem;
+	color: var(--cinza-300);
+}
+
+.nota-codigo {
+	overflow-x: auto;
+	padding: 0.875rem 1rem;
+	border: 1px solid var(--borda);
+	border-radius: 0.375rem;
+	background: var(--terminal);
+	color: var(--cinza-200);
+	font-family: var(--fonte-mono);
+	font-size: 0.875rem;
+	line-height: 1.375rem;
+	white-space: pre;
+	transition: background-color 0.3s;
+}
+
+.nota-codigo:focus-visible {
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
+}
+
+.nota-projeto {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	transition: border-color 0.15s, color 0.15s;
+}
+
+a.nota-projeto:hover,
+a.nota-projeto:focus-visible {
+	border-color: var(--cinza-400);
+	color: var(--destaque);
+}
+
 /* ---------- Aba Atividade ---------- */
 
 .cartao-estatico:hover {
@@ -1067,6 +1150,28 @@ svg {
 	.saudacao {
 		font-size: 2.25rem;
 		line-height: 2.5rem;
+	}
+}
+
+/* Escala fixa equivalente ao zoom de 75% do Chrome, no computador.
+   O zoom fica na .pagina (e não no html) para a dica do gráfico, que é filha do body,
+   continuar sendo posicionada pelas coordenadas reais da tela; por isso ela e o
+   quadriculado do tema claro recebem os tamanhos já reduzidos à mão. */
+@media (min-width: 769px) {
+	.pagina {
+		zoom: 0.75;
+	}
+
+	.dica {
+		max-width: calc(100vw - 0.75rem);
+		padding: 0.28rem 0.47rem;
+		border-radius: 0.1875rem;
+		font-size: 0.61rem;
+		line-height: 0.94rem;
+	}
+
+	:root[data-tema="claro"] body {
+		background-size: 1.125rem 1.125rem;
 	}
 }
 
