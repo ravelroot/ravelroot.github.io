@@ -9,3 +9,4 @@
 2026-10-21 registro 17:21 (Brasília)
 2026-10-22 turno-1 21:40 (Brasília)
 2026-10-22 turno-2 21:40 (Brasília)
+2026-10-22 turno-3 21:40 (Brasília)
