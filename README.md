@@ -16,13 +16,13 @@ HTML5 · CSS3 · JavaScript (ES6+) · Responsivo · Zero dependências
 ---
 
 <p align="center">
-  <img src="assets/preview-portfolio.png?v=9" alt="Prévia do portfólio">
+  <img src="assets/preview-portfolio.png?v=10" alt="Prévia do portfólio">
 </p>
 
-<p align="center"><b>Tema claro</b></p>
+<p align="center"><b>Tema claro, na aba Habilidades</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-claro.png?v=8" alt="Prévia do portfólio no tema claro">
+  <img src="assets/preview-portfolio-claro.png?v=9" alt="Prévia do portfólio no tema claro, na aba Habilidades">
 </p>
 
 ## O que tem na página
