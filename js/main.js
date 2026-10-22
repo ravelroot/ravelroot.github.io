@@ -56,6 +56,77 @@ function montarHabilidades() {
 	});
 }
 
+function criarLinkPdf(texto, url, classe) {
+	const link = criar("a", classe);
+	link.href = url;
+	link.target = "_blank";
+	link.rel = "noopener noreferrer";
+	link.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>';
+	link.append(texto);
+	return link;
+}
+
+function montarDocumentacao() {
+	const grade = document.getElementById("documentacao");
+	const projetoPorTitulo = {};
+	PROJETOS.forEach((projeto) => {
+		projetoPorTitulo[projeto.titulo] = projeto;
+	});
+	DOCUMENTACAO.forEach((doc) => {
+		const projeto = projetoPorTitulo[doc.titulo] || {};
+		const cartao = criar("article", "cartao cartao-doc");
+
+		const miniatura = criar("a", "doc-miniatura");
+		miniatura.href = doc.banco || doc.manual;
+		miniatura.target = "_blank";
+		miniatura.rel = "noopener noreferrer";
+		miniatura.setAttribute("aria-label", `Abrir ${doc.banco ? "a arquitetura do banco" : "o manual técnico"} do ${doc.titulo} (PDF)`);
+		const imagem = criar("img");
+		imagem.src = doc.miniatura;
+		imagem.alt = doc.miniaturaDescricao;
+		imagem.loading = "lazy";
+		imagem.decoding = "async";
+		miniatura.append(imagem);
+		cartao.append(miniatura);
+
+		const conteudo = criar("div", "cartao-conteudo");
+		const titulo = criar("h3", "cartao-titulo");
+		if (projeto.icone) {
+			const icone = criar("img", "cartao-icone");
+			icone.src = projeto.icone;
+			icone.alt = "";
+			icone.setAttribute("aria-hidden", "true");
+			titulo.append(icone);
+		}
+		titulo.append(doc.titulo);
+		conteudo.append(titulo);
+		conteudo.append(criar("p", "grupo-rotulo", "Decisão de arquitetura"));
+		conteudo.append(criar("p", "doc-decisao", doc.decisao));
+		conteudo.append(criar("p", "cartao-descricao", doc.texto));
+
+		const destaques = criar("div", "habilidades");
+		doc.destaques.forEach((nome) => destaques.append(criar("span", "habilidade", nome)));
+		conteudo.append(destaques);
+
+		const botoes = criar("div", "doc-botoes");
+		botoes.append(criarLinkPdf("Manual técnico", doc.manual, "cartao-botao"));
+		if (doc.banco) botoes.append(criarLinkPdf("Arquitetura do BD", doc.banco, "cartao-botao cartao-botao-secundario"));
+		conteudo.append(botoes);
+
+		cartao.append(conteudo);
+		grade.append(cartao);
+	});
+}
+
+// No celular as abas rolam na horizontal: garante que a aba ativa fique à vista.
+function mostrarAbaNaLista(aba) {
+	const lista = aba.parentElement;
+	const inicio = aba.offsetLeft - lista.offsetLeft;
+	const fim = inicio + aba.offsetWidth;
+	if (inicio < lista.scrollLeft) lista.scrollLeft = inicio;
+	else if (fim > lista.scrollLeft + lista.clientWidth) lista.scrollLeft = fim - lista.clientWidth;
+}
+
 function alternarAbas() {
 	const abas = Array.from(document.querySelectorAll(".aba"));
 	const ativar = (aba, focar) => {
@@ -66,6 +137,8 @@ function alternarAbas() {
 			document.getElementById(item.getAttribute("aria-controls")).hidden = !ativa;
 		});
 		if (focar) aba.focus();
+		mostrarAbaNaLista(aba);
+		document.dispatchEvent(new CustomEvent("aba-ativada", { detail: aba.id }));
 		try {
 			localStorage.setItem("aba", aba.id);
 		} catch (erro) {}
@@ -88,7 +161,7 @@ function alternarAbas() {
 	try {
 		salva = document.getElementById(localStorage.getItem("aba"));
 	} catch (erro) {}
-	if (salva && abas.includes(salva)) ativar(salva, false);
+	ativar(salva && abas.includes(salva) ? salva : abas[0], false);
 }
 
 function digitarTitulo() {
@@ -143,6 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	alternarTema();
 	montarProjetos();
 	montarHabilidades();
+	montarDocumentacao();
 	alternarAbas();
 	acompanharRolagem();
 	digitarTitulo();

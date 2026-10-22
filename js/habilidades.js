@@ -23,8 +23,8 @@ const HABILIDADES = [
 	{
 		titulo: "Inteligência Artificial & LLMs",
 		grupos: [
-			{ nome: "Arquitetura RAG", itens: ["Chunking", "Embeddings", "Reranking", "Qdrant"] },
-			{ nome: "Modelos e protocolos", itens: ["OpenAI API", "Anthropic Claude", "Protocolo MCP"] }
+			{ nome: "Arquitetura RAG", itens: ["Chunking", "Embeddings", "Reranking", "Qdrant", "LlamaIndex"] },
+			{ nome: "Modelos e protocolos", itens: ["OpenAI API", "Anthropic Claude", "Protocolo MCP", "Ollama"] }
 		]
 	},
 	{
@@ -32,9 +32,9 @@ const HABILIDADES = [
 		largo: true,
 		grupos: [
 			{ nome: "DevOps e infraestrutura", itens: ["Docker", "Kubernetes", "Jenkins", "GitHub Actions", "GitLab CI/CD", "Terraform", "Ansible", "Prometheus", "Datadog", "AWS SQS"] },
-			{ nome: "APIs", itens: ["Postman", "Swagger", "Insomnia", "Thunder Client", "GraphQL", "REST", "gRPC", "OpenAPI", "WebSocket"] },
-			{ nome: "Desenvolvimento", itens: ["Git", "Visual Studio", "VS Code", "IntelliJ IDEA", "GitHub", "PyCharm", "DBeaver", "Maven", "WSL"] },
-			{ nome: "Produtividade", itens: ["Office 365 (avançado)", "Google Workspace", "Notion", "Jira", "Trello", "Confluence", "Slack", "Microsoft Teams"] }
+			{ nome: "APIs", itens: ["Postman", "Swagger", "Insomnia", "Thunder Client", "GraphQL", "REST", "gRPC", "OpenAPI", "WebSocket", "Server-Sent Events", "JWT"] },
+			{ nome: "Desenvolvimento", itens: ["Git", "Visual Studio", "VS Code", "IntelliJ IDEA", "GitHub", "PyCharm", "DBeaver", "Maven", "WSL", "JetBrains Rider", "Vite", "Pytest"] },
+			{ nome: "Produtividade", itens: ["Office 365 (avançado)", "Google Workspace", "Notion", "Jira", "Trello", "Confluence", "Slack", "Microsoft Teams", "Figma", "Miro"] }
 		]
 	}
 ];

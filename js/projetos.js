@@ -8,7 +8,7 @@ const PROJETOS = [
 	},
 	{
 		titulo: "Pyhoma",
-		icone: "assets/projetos/pyhoma.png",
+		icone: "assets/projetos/pyhoma.png?v=2",
 		descricao: "Sistema desktop de ITSM, helpdesk e inventário de ativos inspirado no GLPI: chamados, problemas, mudanças, SLA, regras de negócio, Kanban e Gantt. Arquitetura hexagonal, banco de dados à escolha e instalador para Windows.",
 		link: "https://github.com/ravelroot/Information-Technology-Service-Management",
 		tecnologias: ["Java", "Spring Boot", "JavaFX", "JPA", "Flyway", "PostgreSQL"]

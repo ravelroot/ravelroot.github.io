@@ -17,7 +17,7 @@
 			if (localStorage.getItem("tema") === "claro") document.documentElement.dataset.tema = "claro";
 		} catch (erro) {}
 	</script>
-	<link rel="stylesheet" href="css/estilo.css?v=7">
+	<link rel="stylesheet" href="css/estilo.css?v=10">
 </head>
 <body>
 	<div id="pagina" class="pagina">
@@ -89,6 +89,8 @@
 				<div class="abas" role="tablist" aria-label="Seções do portfólio">
 					<button id="aba-projetos" class="aba" type="button" role="tab" aria-selected="true" aria-controls="painel-projetos">Projetos</button>
 					<button id="aba-habilidades" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-habilidades" tabindex="-1">Habilidades</button>
+					<button id="aba-documentacao" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-documentacao" tabindex="-1">Documentação</button>
+					<button id="aba-atividade" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-atividade" tabindex="-1">Atividade</button>
 				</div>
 
 				<div id="painel-projetos" class="painel" role="tabpanel" aria-labelledby="aba-projetos">
@@ -100,6 +102,22 @@
 					<p class="secao-descricao">Linguagens, frameworks e ferramentas com que trabalho no dia a dia.</p>
 					<div id="habilidades" class="grade"></div>
 				</div>
+
+				<div id="painel-documentacao" class="painel" role="tabpanel" aria-labelledby="aba-documentacao" hidden>
+					<p class="secao-descricao">Todo projeto tem manual técnico em PDF, e a maioria também traz a arquitetura do banco de dados. Abaixo, a decisão de arquitetura que mais pesou em cada um.</p>
+					<div id="documentacao" class="grade"></div>
+				</div>
+
+				<div id="painel-atividade" class="painel" role="tabpanel" aria-labelledby="aba-atividade" hidden>
+					<p class="secao-descricao">Dados ao vivo do meu GitHub: contribuições dos últimos 12 meses, linguagens mais usadas e os repositórios que receberam commits por último.</p>
+					<div id="atividade" class="grade" aria-live="polite" aria-busy="true">
+						<article class="cartao cartao-largo cartao-estatico">
+							<div class="cartao-conteudo">
+								<p class="atividade-carregando"><span class="caminho">$</span>gh api users/ravelroot<span class="cursor"></span></p>
+							</div>
+						</article>
+					</div>
+				</div>
 			</section>
 		</main>
 
@@ -109,7 +127,9 @@
 	</div>
 
 	<script src="js/projetos.js?v=11"></script>
-	<script src="js/habilidades.js?v=3"></script>
-	<script src="js/main.js?v=5"></script>
+	<script src="js/habilidades.js?v=4"></script>
+	<script src="js/documentacao.js?v=1"></script>
+	<script src="js/atividade.js?v=4"></script>
+	<script src="js/main.js?v=6"></script>
 </body>
 </html>
