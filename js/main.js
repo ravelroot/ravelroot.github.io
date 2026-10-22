@@ -81,12 +81,14 @@ function montarDocumentacao() {
 		miniatura.target = "_blank";
 		miniatura.rel = "noopener noreferrer";
 		miniatura.setAttribute("aria-label", `Abrir ${doc.banco ? "a arquitetura do banco" : "o manual técnico"} do ${doc.titulo} (PDF)`);
-		const imagem = criar("img");
-		imagem.src = doc.miniatura;
-		imagem.alt = doc.miniaturaDescricao;
-		imagem.loading = "lazy";
-		imagem.decoding = "async";
-		miniatura.append(imagem);
+		// O diagrama é um PNG/SVG branco; no tema claro, o filtro do tema o deixa em grafite.
+		// (Imagem comum de propósito: máscaras CSS com url() não carregam ao abrir o index.html direto do arquivo.)
+		const diagrama = criar("img", "doc-diagrama");
+		diagrama.src = doc.miniatura;
+		diagrama.alt = doc.miniaturaDescricao;
+		diagrama.loading = "lazy";
+		diagrama.decoding = "async";
+		miniatura.append(diagrama);
 		cartao.append(miniatura);
 
 		const conteudo = criar("div", "cartao-conteudo");

@@ -32,45 +32,59 @@
 	--fonte-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-/* Tema claro: ativado pelo botão no canto superior direito */
+/* Tema claro: ativado pelo botão no canto superior direito
+   Papel de desenho técnico: folha com quadriculado de engenharia, texto em grafite
+   e destaques no mesmo grafite, como nos diagramas dos PDFs.
+   Paleta: Papel #E8ECEA · Folha #F6F8F7 · Linha #B9C4C2 · Ardósia #46535A · Grafite #20282D */
 :root[data-tema="claro"] {
 	color-scheme: light;
-	/* Paleta: #FFFFFF · #BAB7B6 · #4D4B4B · #333232 · #000000 */
-	--fundo: #bab7b6;
-	--texto: #000000;
-	--destaque: #000000;
-	--cinza-100: #000000;
-	--cinza-200: #000000;
-	--cinza-300: #333232;
-	--cinza-400: #4d4b4b;
-	--verde-400: #4d4b4b;
-	--borda: rgba(77, 75, 75, 0.3);
-	--cartao: #ffffff;
-	--terminal: #bab7b6;
-	--topo-rolado: rgba(186, 183, 182, 0.8);
-	--etiqueta-fundo: #bab7b6;
-	--etiqueta-borda: #4d4b4b;
-	--botao-fundo: #333232;
-	--botao-texto: #ffffff;
-	--botao-hover: #4d4b4b;
-	--filtro-icone: invert(1);
-	--filtro-marca: drop-shadow(0 0 0.0625rem rgba(0, 0, 0, 0.35));
-	--nivel-0: rgba(186, 183, 182, 0.3);
-	--nivel-1: #bab7b6;
-	--nivel-2: #838181;
-	--nivel-3: #4d4b4b;
-	--nivel-4: #000000;
-	--barra: #333232;
-	--barra-outras: #bab7b6;
-	--dica-sombra: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+	--tinta: #20282d;
+	--fundo: #e8ecea;
+	--texto: #20282d;
+	--destaque: #20282d;
+	--cinza-100: #20282d;
+	--cinza-200: #20282d;
+	--cinza-300: #20282d;
+	--cinza-400: #46535a;
+	--verde-400: #20282d;
+	--borda: #b9c4c2;
+	--cartao: #f6f8f7;
+	--terminal: #e8ecea;
+	--topo-rolado: rgba(232, 236, 234, 0.85);
+	--etiqueta-fundo: #e8ecea;
+	--etiqueta-borda: #b9c4c2;
+	--botao-fundo: #20282d;
+	--botao-texto: #f6f8f7;
+	--botao-hover: #46535a;
+	--filtro-icone: brightness(0.16);
+	--filtro-marca: none;
+	/* Escala do gráfico: do papel ao grafite, passando por Linha e Ardósia */
+	--nivel-0: #dce3e1;
+	--nivel-1: #b9c4c2;
+	--nivel-2: #808c8e;
+	--nivel-3: #46535a;
+	--nivel-4: #20282d;
+	--barra: #20282d;
+	--barra-outras: #b9c4c2;
+	--dica-sombra: 0 0.5rem 1.5rem rgba(32, 40, 45, 0.12);
 }
 
-/* Textos secundários direto sobre o fundo #BAB7B6 usam #333232 para manter o contraste de leitura */
-:root[data-tema="claro"] .resumo,
-:root[data-tema="claro"] .secao-descricao,
-:root[data-tema="claro"] .atividade-rodape,
-:root[data-tema="claro"] .rodape p {
-	color: var(--cinza-300);
+/* Quadriculado de engenharia no fundo, em grafite bem fraco; os cartões ficam por cima */
+:root[data-tema="claro"] body {
+	background-image:
+		linear-gradient(rgba(32, 40, 45, 0.07) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(32, 40, 45, 0.07) 1px, transparent 1px);
+	background-size: 1.5rem 1.5rem;
+}
+
+/* O grafite marca o que está ativo: aba aberta e cursor do título */
+:root[data-tema="claro"] .aba::after,
+:root[data-tema="claro"] .cursor {
+	background: var(--tinta);
+}
+
+:root[data-tema="claro"] .doc-diagrama {
+	opacity: 0.85;
 }
 
 *,
@@ -599,7 +613,7 @@ svg {
 	transition: background-color 0.3s;
 }
 
-.doc-miniatura img {
+.doc-diagrama {
 	display: block;
 	width: 100%;
 	height: 100%;
@@ -611,8 +625,8 @@ svg {
 	transition: opacity 0.15s;
 }
 
-.doc-miniatura:hover img,
-.doc-miniatura:focus-visible img {
+.doc-miniatura:hover .doc-diagrama,
+.doc-miniatura:focus-visible .doc-diagrama {
 	opacity: 1;
 }
 
