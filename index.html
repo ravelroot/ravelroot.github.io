@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ravelroot</title>
+	<meta name="description" content="Portfólio de sistemas construídos do zero, com foco em arquitetura, escalabilidade e consistência de dados.">
+	<meta property="og:title" content="Erik Pimenta">
+	<meta property="og:description" content="Portfólio de sistemas construídos do zero, com foco em arquitetura, escalabilidade e consistência de dados.">
+	<meta property="og:type" content="website">
+	<link rel="icon" type="image/png" href="assets/favicon.png?v=2">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+	<script>
+		try {
+			if (localStorage.getItem("tema") === "claro") document.documentElement.dataset.tema = "claro";
+		} catch (erro) {}
+	</script>
+	<link rel="stylesheet" href="css/estilo.css?v=7">
+</head>
+<body>
+	<div id="pagina" class="pagina">
+		<header id="topo" class="topo">
+			<div class="container topo-conteudo">
+				<div class="marca">
+					<img class="icone-marca" src="assets/icone-computador.png" height="28" alt="" aria-hidden="true">
+					<h1 class="marca-titulo">
+						<span id="titulo-digitado" data-texto="ravel"></span>
+						<span class="cursor"></span>
+					</h1>
+				</div>
+				<button id="botao-tema" class="botao-tema" type="button" aria-label="Ativar tema claro" title="Ativar tema claro">
+					<svg class="icone-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<circle cx="12" cy="12" r="4"/>
+						<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+					</svg>
+					<svg class="icone-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+					</svg>
+				</button>
+			</div>
+		</header>
+
+		<main class="principal">
+			<div class="container boas-vindas">
+				<div>
+					<div class="local">
+						<svg class="local-icone" viewBox="0 0 384 512" width="16" height="16" aria-hidden="true">
+							<path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/>
+						</svg>
+						<p class="local-texto">Rio de Janeiro, Brasil</p>
+					</div>
+					<h2 class="saudacao">Olá, sou Erik Pimenta</h2>
+					<p class="resumo">Engenheiro de Software</p>
+					<div class="botoes">
+						<a class="botao-link" href="https://github.com/ravelroot" target="_blank" rel="noopener noreferrer">
+							<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+							Github
+						</a>
+					</div>
+				</div>
+
+				<div class="terminal">
+					<div class="terminal-barra">
+						<div class="terminal-pontos">
+							<span class="ponto" style="--cor:#eb695d;--cor-hover:#d45246"></span>
+							<span class="ponto" style="--cor:#ebd65d;--cor-hover:#d4b346"></span>
+							<span class="ponto" style="--cor:#5deb5d;--cor-hover:#3bb636"></span>
+						</div>
+						<p class="terminal-titulo">ravel@localhost~</p>
+					</div>
+					<div class="terminal-corpo">
+						<p class="linha">Ravel OS [Version 1.0]</p>
+						<p class="linha">(c) Erik Pimenta. All rights reserved.</p>
+						<p class="linha linha-comando"><span class="caminho">$</span>ravel --info</p>
+						<p class="linha">Confiabilidade, escalabilidade e qualidade de produção.</p>
+						<p class="linha">→ Sistemas distribuídos e motores de processamento de alta escala</p>
+						<p class="linha">→ Microsserviços e APIs para plataformas de e-commerce</p>
+						<p class="linha">→ Aplicações full-stack, do banco de dados à interface</p>
+						<p class="linha">→ Event Sourcing e CQRS em arquiteturas orientadas a eventos</p>
+						<p class="linha">→ IA aplicada com sistemas RAG para documentação técnica</p>
+						<p class="linha">→ Projetos documentados com manual técnico e arquitetura de banco</p>
+					</div>
+				</div>
+			</div>
+
+			<section class="container secao">
+				<div class="abas" role="tablist" aria-label="Seções do portfólio">
+					<button id="aba-projetos" class="aba" type="button" role="tab" aria-selected="true" aria-controls="painel-projetos">Projetos</button>
+					<button id="aba-habilidades" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-habilidades" tabindex="-1">Habilidades</button>
+				</div>
+
+				<div id="painel-projetos" class="painel" role="tabpanel" aria-labelledby="aba-projetos">
+					<p class="secao-descricao">Aqui estão alguns dos meus projetos em destaque. Cada um deles representa diferentes habilidades e tecnologias com as quais trabalhei.</p>
+					<div id="projetos" class="grade"></div>
+				</div>
+
+				<div id="painel-habilidades" class="painel" role="tabpanel" aria-labelledby="aba-habilidades" hidden>
+					<p class="secao-descricao">Linguagens, frameworks e ferramentas com que trabalho no dia a dia.</p>
+					<div id="habilidades" class="grade"></div>
+				</div>
+			</section>
+		</main>
+
+		<footer class="container rodape">
+			<p>Feito por Erik Pimenta. Todos os direitos reservados &copy; 2026</p>
+		</footer>
+	</div>
+
+	<script src="js/projetos.js?v=11"></script>
+	<script src="js/habilidades.js?v=3"></script>
+	<script src="js/main.js?v=5"></script>
+</body>
+</html>
