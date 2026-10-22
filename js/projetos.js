@@ -7,8 +7,8 @@ const PROJETOS = [
 		tecnologias: ["Java", "Spring Boot", "React", "Typescript", "Flyway", "PostgreSQL", "Stripe"]
 	},
 	{
-		titulo: "Pyhoma",
-		icone: "assets/projetos/pyhoma.png?v=2",
+		titulo: "Talos",
+		icone: "assets/projetos/talos.png",
 		descricao: "Sistema desktop de ITSM, helpdesk e inventário de ativos inspirado no GLPI: chamados, problemas, mudanças, SLA, regras de negócio, Kanban e Gantt. Arquitetura hexagonal, banco de dados à escolha e instalador para Windows.",
 		link: "https://github.com/ravelroot/Information-Technology-Service-Management",
 		tecnologias: ["Java", "Spring Boot", "JavaFX", "JPA", "Flyway", "PostgreSQL"]
@@ -68,5 +68,12 @@ const PROJETOS = [
 		descricao: "Biblioteca de PDFs e DOCX para Windows em um único executável: gera as capas, escreve a descrição de cada documento com IA, faz busca no texto inteiro e abre tudo num leitor próprio com destaques, notas e progresso salvo.",
 		link: "https://github.com/ravelroot/Document-Library-Desktop",
 		tecnologias: ["Java", "Spring Boot", "SQLite", "PDFBox", "pdf.js", "Javascript", "Playwright"]
+	},
+	{
+		titulo: "Bento",
+		icone: "assets/projetos/bento.png",
+		descricao: "Painel administrativo para SaaS em bento grid: receita, MRR, usuários e assinaturas em blocos, com modo escuro, gráficos interativos, tabelas com busca e paginação, notificações em tempo real e relatórios em CSV e PDF, sobre uma API com permissões por papel.",
+		link: "https://github.com/ravelroot/Data-Driven-Admin-Panel",
+		tecnologias: ["Typescript", "Tailwind CSS", "Node.js", "Fastify", "PostgreSQL", "ApexCharts", "Docker"]
 	}
 ];

@@ -20,7 +20,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 ---
 
 <p align="center">
-  <img src="assets/preview-portfolio.png?v=11" alt="Prévia do portfólio">
+  <img src="assets/preview-portfolio.png?v=13" alt="Prévia do portfólio">
 </p>
 
 <p align="center"><b>Tema claro, na aba Habilidades</b></p>
@@ -32,7 +32,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 <p align="center"><b>Aba Documentação</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-documentacao.png?v=1" alt="Prévia da aba Documentação, com o diagrama do banco e os PDFs de cada projeto">
+  <img src="assets/preview-portfolio-documentacao.png?v=3" alt="Prévia da aba Documentação, com o diagrama do banco e os PDFs de cada projeto">
 </p>
 
 <p align="center"><b>Aba Atividade</b></p>
@@ -50,7 +50,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 - **Quatro abas: Projetos, Habilidades, Documentação e Atividade**: as seções ficam em abas separadas na mesma página, com sublinhado animado na aba ativa. Dá para trocar com o mouse ou pelas setas do teclado, e a última aba aberta fica salva no navegador. No celular, a fileira de abas rola para o lado e a aba ativa sempre fica à vista.
   - **Projetos** em cartões com o ícone de cada projeto antes do nome, descrição, etiquetas de tecnologias e link para cada repositório.
   - **Habilidades** organizadas por área (Front-end, Back-end, Bancos de Dados, IA & LLMs e Ferramentas), em cartões com etiquetas agrupadas. IA & LLMs se divide em Arquitetura RAG e Modelos e protocolos; Ferramentas, em DevOps e infraestrutura, APIs, Desenvolvimento e Produtividade.
-  - **Documentação**: um cartão por projeto com a miniatura do diagrama do banco (tirada do próprio PDF, em traço branco no tema escuro e grafite no claro), a decisão de arquitetura que mais pesou, etiquetas com os números principais e botões que abrem o **Manual técnico** e a **Arquitetura do BD** em PDF no GitHub. A miniatura também abre o PDF. O Pyhoma, que ainda não tem o PDF do banco, mostra um esquema da arquitetura hexagonal.
+  - **Documentação**: um cartão por projeto com a miniatura do diagrama do banco (tirada do próprio PDF, em traço branco no tema escuro e grafite no claro), a decisão de arquitetura que mais pesou, etiquetas com os números principais e botões que abrem o **Manual técnico** e a **Arquitetura do BD** em PDF no GitHub. A miniatura também abre o PDF. O Talos, que ainda não tem o PDF do banco, mostra um esquema da arquitetura hexagonal.
   - **Atividade**: dados ao vivo do GitHub, buscados só quando a aba é aberta. Mostra as contribuições dos últimos 12 meses, sequência atual e maior sequência de dias com commits, número de repositórios públicos, o **gráfico de contribuições** dos últimos 12 meses (o mesmo calendário do perfil, em tons neutros que acompanham o tema). A janela anda junto com o tempo e atravessa a virada de ano: por isso o primeiro mês e cada janeiro mostram o ano, e a nota abaixo do gráfico diz o período exato. A partir de **1º de janeiro de 2027**, o cartão ganha sozinho os botões **12 meses · 2027 · 2026** para ver cada ano inteiro (um botão novo aparece a cada virada de ano); no ano em andamento, os dias que ainda não chegaram aparecem vazados, as **linguagens mais usadas** pela soma do código de todos os repositórios e os **repositórios que receberam commits por último**, com o ícone do projeto quando ele está no portfólio. Passar o mouse sobre um dia ou uma linguagem mostra os detalhes.
 - **Layout responsivo**: duas colunas no computador, uma no celular, sem rolagem lateral.
 - **Acessível a quem prefere menos movimento**: com `prefers-reduced-motion`, as animações são desligadas.
@@ -73,7 +73,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 | Projeto | O que é | Tecnologias |
 | --- | --- | --- |
 | [**Velo**](https://github.com/ravelroot/Payment-and-Checkout-System) | Loja virtual completa com catálogo, carrinho, cupons, pedidos e pagamentos por cartão, PIX e boleto (simulados ou Stripe), com painel administrativo. | Java 21 · Spring Boot 4 · React 19 · TypeScript · Flyway · 6 bancos de dados |
-| [**Pyhoma**](https://github.com/ravelroot/Information-Technology-Service-Management) | Sistema desktop de ITSM, helpdesk e inventário de ativos inspirado no GLPI: chamados, problemas, mudanças, SLA, Kanban e Gantt. | Java 21 · Spring Boot · JPA · Flyway · JavaFX · Arquitetura hexagonal |
+| [**Talos**](https://github.com/ravelroot/Information-Technology-Service-Management) | Sistema desktop de ITSM, helpdesk e inventário de ativos inspirado no GLPI: chamados, problemas, mudanças, SLA, Kanban e Gantt. | Java 21 · Spring Boot · JPA · Flyway · JavaFX · Arquitetura hexagonal |
 | [**Doca**](https://github.com/ravelroot/Order-and-Inventory-System) | Gestão de pedidos, compras e estoque multi-depósito com reserva transacional sem venda dupla, custo médio ponderado e curva ABC. | Python · FastAPI · SQLAlchemy 2 · PostgreSQL · Docker · GitHub Actions |
 | [**Nexo**](https://github.com/ravelroot/Retrieval-Augmented-QA-System) | Chatbot RAG para manuais técnicos e livros em PDF que responde só com base nos documentos, citando trecho e página. | Python · FastAPI · LlamaIndex · ChromaDB/Qdrant · Ollama/OpenAI · React |
 | [**Turno**](https://github.com/ravelroot/Distributed-Task-Processing-Engine) | Motor de agendamento e processamento de tarefas distribuídas no estilo Hangfire, com execução única garantida, retentativas, fila de erros, cron e painel em tempo real. | C# · .NET 10 · MassTransit · RabbitMQ · Redis (Redlock) · PostgreSQL · Blazor · Docker |
@@ -82,6 +82,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 | [**Delco**](https://github.com/ravelroot/Workflow-Orchestration-Engine) | Motor de orquestração de workflows no estilo Airflow e Temporal, feito em Django: pipelines em Python, pool de workers em fila e retomada do passo exato após uma queda, com painel em tempo real. | Python 3.13 · Django 6 · Django REST Framework · Channels · MySQL · Redis Streams · Docker |
 | [**Crivo**](https://github.com/ravelroot/Pixel-Art-Matrix-Editor) | Editor de pixel art no navegador que trata a imagem como uma matriz de pixels RGBA, com camadas, animação, paletas e exportação da matriz em JSON, CSV, Python, C e Java. | JavaScript · Canvas 2D · Python 3.13 · Django 6.1 · PostgreSQL 17 · Java 21 · Docker |
 | [**Lume**](https://github.com/ravelroot/Document-Library-Desktop) | Biblioteca de PDFs e DOCX para Windows em um único executável, com capas automáticas, descrição por IA, busca no texto inteiro e leitor próprio. | Java 21 · Spring Boot 4 · SQLite + FTS5 · Apache PDFBox · pdf.js · Playwright |
+| [**Bento**](https://github.com/ravelroot/Data-Driven-Admin-Panel) | Painel administrativo para SaaS em bento grid, com modo escuro, gráficos, tabelas, notificações em tempo real e relatórios em CSV e PDF, sobre uma API com permissões por papel. | TypeScript · Tailwind CSS 4 · Node.js 22 · Fastify 5 · PostgreSQL 18 ou PGlite · ApexCharts · Docker |
 
 ## Como rodar
 

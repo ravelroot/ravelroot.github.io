@@ -13,13 +13,13 @@ const DOCUMENTACAO = [
 		banco: "https://github.com/ravelroot/Payment-and-Checkout-System/blob/main/Banco-de-Dados-Velo.pdf"
 	},
 	{
-		titulo: "Pyhoma",
-		miniatura: "assets/documentacao/pyhoma.svg",
-		miniaturaDescricao: "Esquema da arquitetura hexagonal do Pyhoma: desktop e infraestrutura apontam para o domínio",
+		titulo: "Talos",
+		miniatura: "assets/documentacao/talos.svg",
+		miniaturaDescricao: "Esquema da arquitetura hexagonal do Talos: desktop e infraestrutura apontam para o domínio",
 		decisao: "Domínio sem framework",
 		texto: "Arquitetura hexagonal em três módulos Maven. O domínio não depende de framework e a infraestrutura entra pelo ServiceLoader, o que permite rodar a interface com um banco em memória para demonstração e testes.",
 		destaques: ["Hexagonal", "3 módulos Maven", "Flyway"],
-		manual: "https://github.com/ravelroot/Information-Technology-Service-Management/blob/main/Manual-Pyhoma-Vers%C3%A3o%201.0.0.pdf"
+		manual: "https://github.com/ravelroot/Information-Technology-Service-Management/blob/main/Manual-Talos-Vers%C3%A3o%201.0.0.pdf"
 	},
 	{
 		titulo: "Doca",
@@ -98,5 +98,15 @@ const DOCUMENTACAO = [
 		destaques: ["SQLite", "FTS5 + BM25", "WAL"],
 		manual: "https://github.com/ravelroot/Document-Library-Desktop/blob/main/Manual-Lume-Desktop.pdf",
 		banco: "https://github.com/ravelroot/Document-Library-Desktop/blob/main/Banco-de-Dados-Lume-Desktop.pdf"
+	},
+	{
+		titulo: "Bento",
+		miniatura: "assets/documentacao/bento.png",
+		miniaturaDescricao: "Diagrama de relacionamentos do Bento, com a tabela de usuários no centro",
+		decisao: "Tempo real pelo próprio banco",
+		texto: "Os eventos saem do PostgreSQL por LISTEN/NOTIFY e cada instância da API repassa aos navegadores por Server-Sent Events, sem Redis nem fila externa. Sem servidor configurado, o PGlite roda o mesmo SQL embutido.",
+		destaques: ["PostgreSQL 18 ou PGlite", "22 tabelas", "LISTEN/NOTIFY"],
+		manual: "https://github.com/ravelroot/Data-Driven-Admin-Panel/blob/main/Manual-Bento.pdf",
+		banco: "https://github.com/ravelroot/Data-Driven-Admin-Panel/blob/main/Banco-de-Dados-Bento.pdf"
 	}
 ];
