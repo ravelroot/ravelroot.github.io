@@ -20,7 +20,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 ---
 
 <p align="center">
-  <img src="assets/preview-portfolio.png?v=13" alt="Prévia do portfólio">
+  <img src="assets/preview-portfolio.png?v=14" alt="Prévia do portfólio">
 </p>
 
 <p align="center"><b>Tema claro, na aba Habilidades</b></p>
@@ -32,7 +32,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 <p align="center"><b>Aba Documentação</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-documentacao.png?v=3" alt="Prévia da aba Documentação, com o diagrama do banco e os PDFs de cada projeto">
+  <img src="assets/preview-portfolio-documentacao.png?v=4" alt="Prévia da aba Documentação, com o diagrama do banco e os PDFs de cada projeto">
 </p>
 
 <p align="center"><b>Aba Atividade</b></p>
@@ -80,17 +80,17 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 
 | Projeto | O que é | Tecnologias |
 | --- | --- | --- |
-| [**Velo**](https://github.com/ravelroot/Payment-and-Checkout-System) | Loja virtual completa com catálogo, carrinho, cupons, pedidos e pagamentos por cartão, PIX e boleto (simulados ou Stripe), com painel administrativo. | Java 21 · Spring Boot 4 · React 19 · TypeScript · Flyway · 6 bancos de dados |
-| [**Talos**](https://github.com/ravelroot/Information-Technology-Service-Management) | Sistema desktop de ITSM, helpdesk e inventário de ativos inspirado no GLPI: chamados, problemas, mudanças, SLA, Kanban e Gantt. | Java 21 · Spring Boot · JPA · Flyway · JavaFX · Arquitetura hexagonal |
-| [**Doca**](https://github.com/ravelroot/Order-and-Inventory-System) | Gestão de pedidos, compras e estoque multi-depósito com reserva transacional sem venda dupla, custo médio ponderado e curva ABC. | Python · FastAPI · SQLAlchemy 2 · PostgreSQL · Docker · GitHub Actions |
-| [**Nexo**](https://github.com/ravelroot/Retrieval-Augmented-QA-System) | Chatbot RAG para manuais técnicos e livros em PDF que responde só com base nos documentos, citando trecho e página. | Python · FastAPI · LlamaIndex · ChromaDB/Qdrant · Ollama/OpenAI · React |
-| [**Turno**](https://github.com/ravelroot/Distributed-Task-Processing-Engine) | Motor de agendamento e processamento de tarefas distribuídas no estilo Hangfire, com execução única garantida, retentativas, fila de erros, cron e painel em tempo real. | C# · .NET 10 · MassTransit · RabbitMQ · Redis (Redlock) · PostgreSQL · Blazor · Docker |
-| [**Sonda**](https://github.com/ravelroot/Inverted-Index-Search-Engine) | Motor de busca de texto completo escrito do zero, no estilo Lucene, com índice invertido em disco e ranking por BM25 ou TF-IDF. | C# · .NET 10 · ASP.NET Core · Task Parallel Library · Brotli · xUnit · Docker |
-| [**Argo**](https://github.com/ravelroot/E-commerce-Microservices-Platform) | Plataforma de microserviços para vendas com vários vendedores, feita em Django: estoque em tempo real, checkout assíncrono por fila e notas fiscais emitidas por um serviço em Java. | Python 3.13 · Django 6 · Django REST Framework · Celery · Redis · MySQL · Java 21 · Spring Boot 4 · Nginx · Docker |
-| [**Delco**](https://github.com/ravelroot/Workflow-Orchestration-Engine) | Motor de orquestração de workflows no estilo Airflow e Temporal, feito em Django: pipelines em Python, pool de workers em fila e retomada do passo exato após uma queda, com painel em tempo real. | Python 3.13 · Django 6 · Django REST Framework · Channels · MySQL · Redis Streams · Docker |
-| [**Crivo**](https://github.com/ravelroot/Pixel-Art-Matrix-Editor) | Editor de pixel art no navegador que trata a imagem como uma matriz de pixels RGBA, com camadas, animação, paletas e exportação da matriz em JSON, CSV, Python, C e Java. | JavaScript · Canvas 2D · Python 3.13 · Django 6.1 · PostgreSQL 17 · Java 21 · Docker |
-| [**Lume**](https://github.com/ravelroot/Document-Library-Desktop) | Biblioteca de PDFs e DOCX para Windows em um único executável, com capas automáticas, descrição por IA, busca no texto inteiro e leitor próprio. | Java 21 · Spring Boot 4 · SQLite + FTS5 · Apache PDFBox · pdf.js · Playwright |
-| [**Bento**](https://github.com/ravelroot/Data-Driven-Admin-Panel) | Painel administrativo para SaaS em bento grid, com modo escuro, gráficos, tabelas, notificações em tempo real e relatórios em CSV e PDF, sobre uma API com permissões por papel. | TypeScript · Tailwind CSS 4 · Node.js 22 · Fastify 5 · PostgreSQL 18 ou PGlite · ApexCharts · Docker |
+| [**Velo**](https://github.com/ravelroot/Payment-and-Checkout-System) | Loja virtual completa e de código aberto: catálogo, carrinho com cupons, checkout com cartão, PIX ou boleto (simulados ou Stripe), acompanhamento do pedido e painel com faturamento, estoque e três perfis de acesso. | Java 21 · Spring Boot 4 · React 19 · TypeScript · Flyway · 6 bancos de dados |
+| [**Talos**](https://github.com/ravelroot/Information-Technology-Service-Management) | Aplicativo desktop para Windows de gestão de serviços de TI, central de suporte e inventário de ativos, inspirado no GLPI: chamados com SLA, problemas e mudanças (ITIL), Kanban, Gantt e base de conhecimento. | Java 21 · Spring Boot 4 · JavaFX 21 · JPA · Flyway · Arquitetura hexagonal · 6 bancos de dados |
+| [**Doca**](https://github.com/ravelroot/Order-and-Inventory-System) | Pedidos de venda, compras e estoque multi-depósito com API REST e painel web: reserva na confirmação sem venda dupla, mesmo com acessos simultâneos, custo médio ponderado e curva ABC. | Python · FastAPI · SQLAlchemy 2 · Alembic · PostgreSQL ou SQLite · Docker · GitHub Actions |
+| [**Nexo**](https://github.com/ravelroot/Retrieval-Augmented-QA-System) | Chatbot RAG para manuais técnicos e livros em PDF que responde só com base nos documentos, citando trecho e página, e diz quando não encontrou a informação. | Python · FastAPI · LlamaIndex · ChromaDB/Qdrant · Ollama/OpenAI · React 19 · TypeScript |
+| [**Turno**](https://github.com/ravelroot/Distributed-Task-Processing-Engine) | Motor de tarefas distribuídas no estilo Hangfire: vários workers dividem a mesma fila e cada tarefa roda uma única vez por tentativa, com retentativas, fila de erros, cron e painel em tempo real. | C# · .NET 10 · MassTransit · RabbitMQ ou Azure Service Bus · Redis (Redlock) · PostgreSQL · Blazor · Docker |
+| [**Sonda**](https://github.com/ravelroot/Inverted-Index-Search-Engine) | Motor de busca de texto completo escrito do zero em C#, no estilo Lucene e Elasticsearch, com indexação paralela, índice invertido binário em disco e ranking por BM25 ou TF-IDF, sem banco SQL. | C# · .NET 10 · ASP.NET Core · Task Parallel Library · Brotli · xUnit · Docker |
+| [**Argo**](https://github.com/ravelroot/E-commerce-Microservices-Platform) | Plataforma de microserviços para vendas com vários vendedores, em Django: estoque em tempo real, pedidos confirmados por fila sem travar a compra e notas fiscais emitidas por um serviço em Java. | Python 3.13 · Django 6 · Django REST Framework · Celery · Redis · MySQL · Java 21 · Spring Boot 4 · Nginx · Docker |
+| [**Delco**](https://github.com/ravelroot/Workflow-Orchestration-Engine) | Motor de orquestração de workflows no estilo Airflow e Temporal, em Django: pipelines em Python, agenda cron, pool de workers em fila e retomada do passo exato após uma queda, com painel em tempo real. | Python 3.13 · Django 6 · Django REST Framework · Channels · MySQL · Redis Streams · Docker |
+| [**Crivo**](https://github.com/ravelroot/Pixel-Art-Matrix-Editor) | Editor de pixel art no navegador que trata a imagem como uma matriz de pixels RGBA, com camadas, animação, paletas e exportação da matriz em JSON, CSV, JavaScript, Python, C e Java. | JavaScript · Canvas 2D · Python 3.13 · Django 6.1 · PostgreSQL 17 · Java 21 · Docker |
+| [**Lume**](https://github.com/ravelroot/Document-Library-Desktop) | Biblioteca de PDFs e DOCX que roda inteira no computador, num único Lume.exe sem instalador, servidor ou conta, com capas automáticas, descrição por IA, busca no texto inteiro e leitor próprio. | Java 21 · Spring Boot 4 · SQLite + FTS5 · Apache PDFBox · pdf.js · Playwright |
+| [**Bento**](https://github.com/ravelroot/Data-Driven-Admin-Panel) | Painel administrativo para SaaS em bento grid, com modo escuro nativo, gráficos interativos, tabelas, gavetas laterais, notificações em tempo real e relatórios em CSV e PDF, sobre uma API com permissões por papel. | TypeScript · Tailwind CSS 4 · Node.js 22 · Fastify 5 · PostgreSQL 18 ou PGlite · ApexCharts · Docker |
 
 ## Como rodar
 
