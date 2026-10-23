@@ -596,8 +596,22 @@ function montarRodapeAtividade(dados) {
 	return rodape;
 }
 
+// "Membro desde 21 de outubro de 2026", pela data de criação da conta no GitHub.
+function montarMembroDesde(perfil) {
+	if (!perfil || !perfil.criadoEm) return null;
+	const data = new Date(perfil.criadoEm);
+	if (Number.isNaN(data.getTime())) return null;
+	const formato = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long", year: "numeric" });
+	const membro = criar("p", "atividade-membro");
+	membro.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
+	membro.append("Membro desde ", criar("strong", "", formato.format(data)));
+	return membro;
+}
+
 function montarAtividade(dados) {
 	const grade = document.getElementById("atividade");
+	const membro = montarMembroDesde(dados.perfil);
+	if (membro) grade.before(membro);
 	grade.replaceChildren();
 	grade.setAttribute("aria-busy", "false");
 	grade.append(montarCartaoContribuicoes(dados));

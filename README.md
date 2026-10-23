@@ -20,19 +20,19 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 ---
 
 <p align="center">
-  <img src="assets/preview-portfolio.png?v=16" alt="Prévia do portfólio">
+  <img src="assets/preview-portfolio.png?v=18" alt="Prévia do portfólio">
 </p>
 
 <p align="center"><b>Tema claro, na aba Habilidades</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-claro.png?v=20" alt="Prévia do portfólio no tema claro, na aba Habilidades">
+  <img src="assets/preview-portfolio-claro.png?v=23" alt="Prévia do portfólio no tema claro, na aba Habilidades">
 </p>
 
 <p align="center"><b>Aba Documentação</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-documentacao.png?v=4" alt="Prévia da aba Documentação, com o diagrama do banco e os PDFs de cada projeto">
+  <img src="assets/preview-portfolio-documentacao.png?v=6" alt="Prévia da aba Documentação, com o diagrama do banco e os PDFs de cada projeto">
 </p>
 
 <p align="center"><b>Aba Atividade</b></p>
@@ -44,21 +44,21 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 <p align="center"><b>Aba Notas</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-notas.png?v=3" alt="Prévia da aba Notas, com as notas em duas colunas e a vitrine de código de cada uma">
+  <img src="assets/preview-portfolio-notas.png?v=5" alt="Prévia da aba Notas, com as notas em duas colunas e a vitrine de código de cada uma">
 </p>
 
 ## O que tem na página
 
 - **Topo fixo** com o ícone de computador e o nome **ravel** digitado letra por letra e cursor piscando, que ganha fundo desfocado ao rolar a página.
-- **Tema claro e escuro**: o botão redondo no canto superior direito (☀ sol / ☾ lua) troca a página entre o tema escuro (padrão) e o claro, inspirado em **desenho técnico de engenharia**: fundo de papel com quadriculado bem fraco, texto e destaques em grafite, a mesma linguagem dos diagramas dos PDFs. A paleta é Papel `#E8ECEA` (fundo, etiquetas e barra do terminal), Folha `#F6F8F7` (cartões e corpo do terminal), Linha `#B9C4C2` (bordas), Ardósia `#46535A` (textos de apoio, abas fechadas e botões ao passar o mouse) e Grafite `#20282D` (títulos, textos, botões, aba aberta, cursor do título, prompt do terminal, quadriculado, traço dos diagramas na aba Documentação e barras de linguagens). O gráfico de contribuições vai do papel ao grafite, passando por Linha e Ardósia. Os três botões coloridos do terminal continuam como no tema escuro. A escolha fica salva no navegador e volta na próxima visita, sem piscar o tema errado ao carregar.
+- **Tema claro e escuro**: o botão redondo no canto superior direito (☀ sol / ☾ lua) troca a página entre o tema escuro (padrão) e o claro, inspirado em **desenho técnico de engenharia**: fundo de papel com quadriculado bem fraco, texto e destaques em grafite, a mesma linguagem dos diagramas dos PDFs. A paleta é Papel `#E8ECEA` (fundo, etiquetas e barra do terminal), Folha `#F6F8F7` (cartões e corpo do terminal), Linha `#B9C4C2` (bordas), Ardósia `#46535A` (textos de apoio, abas fechadas e botões ao passar o mouse) e Grafite `#20282D` (títulos, textos, botões, aba aberta, cursor do título, prompt do terminal, quadriculado, traço dos diagramas na aba Documentação e barras de linguagens). O gráfico de contribuições vai do papel ao grafite, passando por Linha e Ardósia. Os três botões coloridos do terminal continuam como no tema escuro. O tema escuro usa o mesmo quadriculado de engenharia no fundo, em linhas brancas bem fracas. A escolha fica salva no navegador e volta na próxima visita, sem piscar o tema errado ao carregar.
 - **Apresentação** com localização, resumo e link discreto para o GitHub, alinhada ao topo do terminal.
 - **Terminal `ravel@localhost~`** com o `ravel --info` do Ravel OS: o que priorizo e as áreas em que atuo, com base nos meus projetos.
 - **Cinco abas: Projetos, Habilidades, Documentação, Atividade e Notas**: as seções ficam em abas separadas na mesma página, com sublinhado animado na aba ativa. Dá para trocar com o mouse ou pelas setas do teclado, e a última aba aberta fica salva no navegador. No celular, a fileira de abas rola para o lado e a aba ativa sempre fica à vista.
-  - **Projetos** em cartões com o ícone de cada projeto antes do nome, descrição, etiquetas de tecnologias e link para cada repositório.
-  - **Habilidades** organizadas por área (Front-end, Back-end, Bancos de Dados, IA & LLMs e Ferramentas), em cartões com etiquetas agrupadas. IA & LLMs se divide em Arquitetura RAG e Modelos e protocolos; Ferramentas, em DevOps e infraestrutura, APIs, Desenvolvimento e Produtividade.
-  - **Documentação**: um cartão por projeto com a miniatura do diagrama do banco (tirada do próprio PDF, em traço branco no tema escuro e grafite no claro), a decisão de arquitetura que mais pesou, etiquetas com os números principais e botões que abrem o **Manual técnico** e a **Arquitetura do BD** em PDF no GitHub. A miniatura também abre o PDF. O Talos, que ainda não tem o PDF do banco, mostra um esquema da arquitetura hexagonal.
-  - **Atividade**: dados ao vivo do GitHub, buscados só quando a aba é aberta. Mostra as contribuições dos últimos 12 meses, sequência atual e maior sequência de dias com commits, número de repositórios públicos, o **gráfico de contribuições** dos últimos 12 meses (o mesmo calendário do perfil, em tons neutros que acompanham o tema). A janela anda junto com o tempo e atravessa a virada de ano: por isso o primeiro mês e cada janeiro mostram o ano, e a nota abaixo do gráfico diz o período exato. A partir de **1º de janeiro de 2027**, o cartão ganha sozinho os botões **12 meses · 2027 · 2026** para ver cada ano inteiro (um botão novo aparece a cada virada de ano); no ano em andamento, os dias que ainda não chegaram aparecem vazados, as **linguagens mais usadas** pela soma do código de todos os repositórios e os **repositórios que receberam commits por último**, com o ícone do projeto quando ele está no portfólio. Passar o mouse sobre um dia ou uma linguagem mostra os detalhes.
-  - **Notas**: textos curtos sobre as decisões técnicas por trás dos projetos (o problema, a escolha feita e o que ela custa), em **duas colunas** no computador e uma no celular. Cada cartão abre com uma vitrine no estilo do terminal, com o número da nota em contorno e o bloco de código da própria nota (ou uma frase dela, quando a nota não tem código), seguida do tema em destaque, do tempo de leitura (calculado pelo número de palavras), do título, de um resumo e das etiquetas dos projetos citados, com ícone e link para o repositório. Ao passar o mouse, uma luz suave acompanha o cursor, o código sobe um pouco e a seta do botão avança. Quando o número de notas é ímpar, a última ocupa a fileira inteira, com a vitrine ao lado do texto. O botão **Ler nota** (ou um clique na vitrine) abre a nota inteira num painel por cima da página, com blocos de código quando ajudam a explicar e os botões **Anterior** e **Próxima** para seguir lendo. O painel fecha no X, com Esc ou com um clique fora dele, e o foco volta ao cartão da última nota lida. As notas atuais: *Fila não é banco de dados* (Turno e Delco), *Dinheiro é inteiro* (Doca), *Concorrência otimista com número de revisão* (Crivo), *Índice invertido: buscar sem LIKE* (Sonda), *RAG: a resposta depende da busca* (Nexo), *Um banco por serviço* (Argo) e *Boundary tags: liberar memória em O(1)* (Favo).
+  - **Projetos** em cartões com **vitrine no estilo do terminal**: o caminho do repositório no GitHub, a linguagem principal e o ícone do projeto em tamanho grande sobre um pontilhado. Abaixo vêm a categoria em destaque (por exemplo, *Pagamentos e checkout*), o nome, a descrição, as etiquetas de tecnologias e dois botões: **Ver projeto** (repositório) e **Manual técnico** (PDF). Acima da grade ficam os **filtros por linguagem** (Todos, Python, Java, TypeScript, JavaScript, C# e C, com o número de projetos em cada um), montados sozinhos a partir das tecnologias; ao filtrar, a etiqueta da linguagem escolhida fica realçada em cada cartão e o contador mostra quantos projetos aparecem. Os cartões **entram um a um** quando surgem na tela (e de novo a cada filtro). Ao passar o mouse, uma luz suave acompanha o cursor, o pontilhado se acende em volta dele, o ícone ganha um leve brilho, um cursor pisca ao lado do repositório e a seta do botão avança. Tudo respeita `prefers-reduced-motion`.
+  - **Habilidades** organizadas por área (Front-end, Back-end, Bancos de Dados, IA & LLMs e Ferramentas), em cartões com um ícone para cada área, o número de itens e etiquetas agrupadas. IA & LLMs se divide em Arquitetura RAG e Modelos e protocolos; Ferramentas, em DevOps e infraestrutura, APIs, Desenvolvimento e Produtividade. As tecnologias que aparecem nos projetos podem ser clicadas: o clique abre a aba Projetos já filtrada por ela (o filtro aparece como um botão a mais, com um X para remover). Acima dos cartões, os botões **Todas** e **Usadas nos projetos** deixam as demais etiquetas apagadas. Os cartões entram um a um ao aparecer na tela, as etiquetas acendem em cascata e uma luz suave acompanha o mouse.
+  - **Documentação**: um cartão por projeto com a miniatura do diagrama do banco (tirada do próprio PDF, em traço branco no tema escuro e grafite no claro), a decisão de arquitetura que mais pesou, etiquetas com os números principais e botões que abrem o **Manual técnico** e a **Arquitetura do BD** em PDF no GitHub. A miniatura também abre o PDF. O Talos, que ainda não tem o PDF do banco, mostra o diagrama de relacionamentos da área de atendimento (as tabelas em volta de `pyh_ticket`), desenhado a partir do diagrama Mermaid de `docs/banco-de-dados.md` do próprio repositório.
+  - **Atividade**: dados ao vivo do GitHub, buscados só quando a aba é aberta. No topo, um selo com a data de criação da conta (**Membro desde 21 de outubro de 2026**, tirada da API do GitHub). Mostra as contribuições dos últimos 12 meses, sequência atual e maior sequência de dias com commits, número de repositórios públicos, o **gráfico de contribuições** dos últimos 12 meses (o mesmo calendário do perfil, em tons neutros que acompanham o tema). A janela anda junto com o tempo e atravessa a virada de ano: por isso o primeiro mês e cada janeiro mostram o ano, e a nota abaixo do gráfico diz o período exato. A partir de **1º de janeiro de 2027**, o cartão ganha sozinho os botões **12 meses · 2027 · 2026** para ver cada ano inteiro (um botão novo aparece a cada virada de ano); no ano em andamento, os dias que ainda não chegaram aparecem vazados, as **linguagens mais usadas** pela soma do código de todos os repositórios e os **repositórios que receberam commits por último**, com o ícone do projeto quando ele está no portfólio. Passar o mouse sobre um dia ou uma linguagem mostra os detalhes.
+  - **Notas**: textos curtos sobre as decisões técnicas por trás dos projetos (o problema, a escolha feita e o que ela custa), em **duas colunas** no computador e uma no celular. Cada cartão abre com uma vitrine no estilo do terminal, com o bloco de código da própria nota (ou uma frase dela, quando a nota não tem código), seguida do tema em destaque, do tempo de leitura (calculado pelo número de palavras), do título, de um resumo e das etiquetas dos projetos citados, com ícone e link para o repositório. Ao passar o mouse, uma luz suave acompanha o cursor, o código sobe um pouco e a seta do botão avança. Quando o número de notas é ímpar, a última ocupa a fileira inteira, com a vitrine ao lado do texto. O botão **Ler nota** (ou um clique na vitrine) abre a nota inteira num painel por cima da página, com a posição dela no topo (por exemplo, 07 / 08), com blocos de código quando ajudam a explicar e os botões **Anterior** e **Próxima** para seguir lendo. O painel fecha no X, com Esc ou com um clique fora dele, e o foco volta ao cartão da última nota lida. As notas atuais: *Fila não é banco de dados* (Turno e Delco), *Dinheiro é inteiro* (Doca), *Concorrência otimista com número de revisão* (Crivo), *Índice invertido: buscar sem LIKE* (Sonda), *RAG: a resposta depende da busca* (Nexo), *Um banco por serviço* (Argo), *Embaralhar sem viés* (Grimório dos Videntes, sem etiqueta de projeto, já que ele não está na aba Projetos) e *Boundary tags: liberar memória em O(1)* (Favo).
 - **Escala fixa de 75% no computador**: a página já abre do tamanho que teria com o zoom do Chrome em 75%, sem o visitante precisar ajustar nada. No celular (até 768 px de largura) ela fica em 100%, para o texto continuar legível.
 - **Layout responsivo**: duas colunas no computador, uma no celular, sem rolagem lateral.
 - **Acessível a quem prefere menos movimento**: com `prefers-reduced-motion`, as animações são desligadas.
@@ -117,12 +117,14 @@ Depois acesse **<http://localhost:8080>**.
 | --- | --- |
 | Nome, apresentação, terminal e rodapé | `index.html` |
 | Descrição que aparece ao compartilhar o link (WhatsApp, LinkedIn, Discord etc.) | `index.html`, nas tags `<meta name="description">` e `<meta property="og:description">` |
-| Tamanho geral da página (escala) | `css/estilo.css`: o zoom de 75% fica em `zoom: 0.75;` na `.pagina`, dentro do `@media (min-width: 769px)` (a dica do gráfico e o quadriculado do tema claro têm os tamanhos reduzidos no mesmo bloco); o tamanho base do texto fica em `font-size: 80%;` no `html` |
-| Lista de projetos | `js/projetos.js`, no vetor `PROJETOS` |
-| Habilidades e tecnologias | `js/habilidades.js`, no vetor `HABILIDADES` |
+| Tamanho geral da página (escala) | `css/estilo.css`: o zoom de 75% fica em `zoom: 0.75;` na `.pagina`, dentro do `@media (min-width: 769px)` (a dica do gráfico e o quadriculado do fundo têm os tamanhos reduzidos no mesmo bloco); o tamanho base do texto fica em `font-size: 80%;` no `html` |
+| Lista de projetos e categoria de cada um | `js/projetos.js`, no vetor `PROJETOS` |
+| Linguagens que viram filtro na aba Projetos | `js/main.js`, na lista `LINGUAGENS` (só aparecem as que algum projeto usa, em ordem de quantidade) |
+| Habilidades e tecnologias | `js/habilidades.js`, no vetor `HABILIDADES` (o campo `icone` escolhe o desenho do cartão entre `tela`, `servidor`, `banco`, `ia` e `ferramentas`, definidos em `ICONES_AREAS`, em `js/main.js`); uma etiqueta fica marcada como usada quando tem o mesmo nome de uma tecnologia em `js/projetos.js` |
+| Quadriculado do fundo | `css/estilo.css`, na variável `--grade` (uma vez em cada tema) |
 | Decisão de arquitetura, etiquetas e links dos PDFs de cada projeto | `js/documentacao.js`, no vetor `DOCUMENTACAO` |
 | Notas (tema, título, resumo, texto, frase da vitrine e projetos citados) | `js/notas.js`, no vetor `NOTAS` |
-| Luz que segue o mouse nos cartões de nota e fundo escurecido atrás do leitor | `css/estilo.css`, nas variáveis `--luz` e `--fundo-leitor` (uma vez em cada tema) |
+| Luz que segue o mouse nos cartões de projeto e de nota, brilho do ícone grande e fundo escurecido atrás do leitor | `css/estilo.css`, nas variáveis `--luz`, `--brilho-icone` e `--fundo-leitor` (uma vez em cada tema) |
 | Miniaturas dos diagramas | `assets/documentacao/` (PNG branco com fundo transparente, 1100 × 420) |
 | Usuário do GitHub, tempos de cache, quantos repositórios e linguagens mostrar e ano inicial dos botões de ano | `js/atividade.js`, no objeto `ATIVIDADE` (o ano inicial vem da data de criação da conta; `anoInicial` só é usado se a API não responder) |
 | Tons do gráfico de contribuições e das barras de linguagens | `css/estilo.css`, nas variáveis `--nivel-0` a `--nivel-4`, `--barra` e `--barra-outras` (uma vez em cada tema) |
@@ -139,6 +141,7 @@ Para incluir um projeto novo, basta acrescentar um item:
 ```js
 {
 	titulo: "Meu Projeto",
+	categoria: "O que ele é, em duas ou três palavras",
 	icone: "assets/projetos/meu-projeto.png",
 	descricao: "O que ele faz, em uma ou duas frases.",
 	link: "https://github.com/ravelroot/Meu-Projeto",
@@ -146,7 +149,7 @@ Para incluir um projeto novo, basta acrescentar um item:
 }
 ```
 
-O `icone` é opcional: use um PNG quadrado, branco e com fundo transparente em `assets/projetos/`.
+O `icone` é opcional: use um PNG quadrado, branco e com fundo transparente em `assets/projetos/` (ele aparece pequeno nas outras abas e grande na vitrine do cartão). A primeira tecnologia da lista é tratada como a linguagem principal e aparece na vitrine. O botão **Manual técnico** usa o `manual` do item de mesmo `titulo` em `js/documentacao.js`; sem ele, o cartão mostra só **Ver projeto**.
 
 Para o projeto aparecer também na aba Documentação, acrescente um item com o **mesmo `titulo`** em `js/documentacao.js` (o ícone vem de `js/projetos.js`):
 
@@ -165,7 +168,7 @@ Para o projeto aparecer também na aba Documentação, acrescente um item com o 
 
 O `banco` é opcional: sem ele, o cartão mostra só o botão do manual.
 
-Para escrever uma nota nova, acrescente um item em `js/notas.js`. Em `corpo`, cada texto vira um parágrafo e cada `{ codigo: "..." }` vira um bloco de código; os nomes em `projetos` precisam ser iguais aos `titulo` de `js/projetos.js`. O número da nota vem da posição dela no vetor. A vitrine do cartão mostra o primeiro bloco de código; `citacao` é opcional e põe uma frase no lugar do código (sem código e sem `citacao`, entra a primeira frase do texto):
+Para escrever uma nota nova, acrescente um item em `js/notas.js`. Em `corpo`, cada texto vira um parágrafo e cada `{ codigo: "..." }` vira um bloco de código; os nomes em `projetos` precisam ser iguais aos `titulo` de `js/projetos.js`. Com `projetos: []`, a nota aparece sem etiquetas (útil para projetos que não estão na aba Projetos). A posição no vetor define a ordem das notas e o contador do leitor. A vitrine do cartão mostra o primeiro bloco de código; `citacao` é opcional e põe uma frase no lugar do código (sem código e sem `citacao`, entra a primeira frase do texto):
 
 ```js
 {
@@ -195,12 +198,12 @@ Portfolio/
 │   ├── documentacao.js decisão de arquitetura e PDFs de cada projeto
 │   ├── atividade.js    busca os dados do GitHub e monta a aba Atividade
 │   ├── notas.js        textos da aba Notas
-│   └── main.js         monta os cartões e o leitor das notas, digita o título, controla o topo, as abas e o tema
+│   └── main.js         monta os cartões, os filtros dos projetos e o leitor das notas, digita o título, controla o topo, as abas e o tema
 ├── assets/
 │   ├── logo-ravel.png  logo
 │   ├── icone-computador.png  ícone do topo, ao lado do nome
 │   ├── projetos/       ícones dos projetos (brancos, fundo transparente)
-│   ├── documentacao/   miniaturas dos diagramas de banco, tiradas dos PDFs
+│   ├── documentacao/   miniaturas dos diagramas de banco, tiradas dos PDFs (a do Talos vem do diagrama Mermaid de docs/banco-de-dados.md)
 │   ├── favicon.png     ícone da aba
 │   ├── preview-portfolio.png        prévia do tema escuro usada neste README
 │   ├── preview-portfolio-claro.png  prévia do tema claro usada neste README

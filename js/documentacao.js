@@ -14,8 +14,8 @@ const DOCUMENTACAO = [
 	},
 	{
 		titulo: "Talos",
-		miniatura: "assets/documentacao/talos.svg",
-		miniaturaDescricao: "Esquema da arquitetura hexagonal do Talos: desktop e infraestrutura apontam para o domínio",
+		miniatura: "assets/documentacao/talos.png",
+		miniaturaDescricao: "Diagrama de relacionamentos das tabelas de atendimento do Talos, em volta de pyh_ticket",
 		decisao: "Domínio sem framework",
 		texto: "Arquitetura hexagonal em três módulos Maven. O domínio não depende de framework e a infraestrutura entra pelo ServiceLoader, o que permite rodar a interface com um banco em memória para demonstração e testes.",
 		destaques: ["Hexagonal", "3 módulos Maven", "Flyway"],

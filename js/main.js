@@ -5,55 +5,330 @@ function criar(tag, classe, texto) {
 	return elemento;
 }
 
+// Linguagens que viram filtro na aba Projetos (só aparecem as que algum projeto usa).
+const LINGUAGENS = ["Python", "Java", "TypeScript", "JavaScript", "C#", "C", "C++", "Go", "Rust", "Kotlin", "PHP", "Ruby"];
+
+const ICONE_GITHUB = '<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>';
+
+// Posição do mouse em % do elemento (em %, para não depender da escala da página).
+function marcarPonteiro(elemento, evento, nomeX, nomeY) {
+	const area = elemento.getBoundingClientRect();
+	elemento.style.setProperty(nomeX, `${((evento.clientX - area.left) / area.width) * 100}%`);
+	elemento.style.setProperty(nomeY, `${((evento.clientY - area.top) / area.height) * 100}%`);
+}
+
+// Os cartões entram um a um quando aparecem na tela (ao abrir a aba ou ao rolar a página).
+function revelarAoAparecer(cartoes) {
+	const inicio = performance.now();
+	const mostrar = (lista) => {
+		// Na primeira carga, espera a página terminar de surgir (ver .pagina no CSS).
+		const espera = Math.max(0, 1000 - (performance.now() - inicio));
+		lista.forEach((cartao, ordem) => {
+			cartao.style.setProperty("--atraso", `${Math.round(espera + ordem * 70)}ms`);
+			cartao.classList.add("visivel");
+		});
+	};
+	if (!("IntersectionObserver" in window)) return { repetir: () => {} };
+
+	const observador = new IntersectionObserver((entradas) => {
+		const novos = entradas.filter((entrada) => entrada.isIntersecting).map((entrada) => entrada.target);
+		novos.forEach((cartao) => observador.unobserve(cartao));
+		mostrar(novos);
+	}, { rootMargin: "0px 0px -6% 0px" });
+	cartoes.forEach((cartao) => {
+		cartao.classList.add("revelar");
+		observador.observe(cartao);
+	});
+
+	return {
+		// Depois de um filtro, os cartões que ficaram à vista entram de novo, em sequência.
+		repetir(lista) {
+			lista.forEach((cartao) => {
+				observador.unobserve(cartao);
+				cartao.classList.remove("visivel");
+			});
+			void document.body.offsetWidth;
+			mostrar(lista);
+		}
+	};
+}
+
+function montarFiltros(painel, grade, cartoes, revelacao) {
+	const linguagens = LINGUAGENS
+		.map((nome) => ({
+			nome,
+			chave: nome.toLowerCase(),
+			total: cartoes.filter((item) => item.tecnologias.includes(nome.toLowerCase())).length
+		}))
+		.filter((linguagem) => linguagem.total > 0)
+		.sort((a, b) => b.total - a.total);
+
+	const barra = criar("div", "filtros");
+	const grupo = criar("div", "filtros-botoes");
+	grupo.setAttribute("role", "group");
+	grupo.setAttribute("aria-label", "Filtrar projetos por linguagem");
+	const resultado = criar("p", "filtros-resultado");
+	resultado.setAttribute("aria-live", "polite");
+	const botoes = [];
+
+	// Filtro por uma tecnologia que não é linguagem (vem da aba Habilidades): aparece como
+	// um botão a mais, já marcado, e um clique nele volta para "Todos".
+	const extra = criar("button", "filtro filtro-extra");
+	extra.type = "button";
+	extra.hidden = true;
+	extra.setAttribute("aria-pressed", "true");
+	extra.addEventListener("click", () => aplicar(null, botoes[0]));
+
+	const aplicar = (chave, escolhido) => {
+		botoes.forEach((botao) => botao.setAttribute("aria-pressed", botao === escolhido ? "true" : "false"));
+		if (escolhido !== extra) extra.hidden = true;
+		const visiveis = [];
+		cartoes.forEach((item) => {
+			const mostra = chave === null || item.tecnologias.includes(chave);
+			item.cartao.hidden = !mostra;
+			item.etiquetas.forEach((etiqueta, indice) => {
+				etiqueta.classList.toggle("habilidade-realce", chave !== null && item.tecnologias[indice] === chave);
+			});
+			if (mostra) visiveis.push(item.cartao);
+		});
+		resultado.textContent = chave === null
+			? `${cartoes.length} projetos`
+			: `${visiveis.length} de ${cartoes.length} projetos`;
+		revelacao.repetir(visiveis);
+	};
+
+	const criarBotao = (rotulo, chave, total) => {
+		const botao = criar("button", "filtro", rotulo);
+		botao.type = "button";
+		botao.dataset.chave = chave === null ? "" : chave;
+		botao.setAttribute("aria-pressed", chave === null ? "true" : "false");
+		botao.append(criar("span", "filtro-total", String(total)));
+		botao.addEventListener("click", () => {
+			if (botao.getAttribute("aria-pressed") !== "true") aplicar(chave, botao);
+		});
+		botoes.push(botao);
+		grupo.append(botao);
+	};
+	criarBotao("Todos", null, cartoes.length);
+	linguagens.forEach((linguagem) => criarBotao(linguagem.nome, linguagem.chave, linguagem.total));
+	grupo.append(extra);
+
+	resultado.textContent = `${cartoes.length} projetos`;
+	barra.append(grupo, resultado);
+	painel.insertBefore(barra, grade);
+
+	return {
+		filtrar(nome) {
+			const chave = nome.toLowerCase();
+			const botao = botoes.find((item) => item.dataset.chave === chave);
+			if (botao) {
+				aplicar(chave, botao);
+				return;
+			}
+			const total = cartoes.filter((item) => item.tecnologias.includes(chave)).length;
+			extra.replaceChildren(nome, criar("span", "filtro-total", String(total)));
+			extra.insertAdjacentHTML("beforeend", ICONE_FECHAR);
+			extra.setAttribute("aria-label", `${nome}: ${total} projetos. Remover filtro`);
+			extra.title = "Remover filtro";
+			extra.hidden = false;
+			aplicar(chave, extra);
+		}
+	};
+}
+
 function montarProjetos() {
+	const painel = document.getElementById("painel-projetos");
 	const grade = document.getElementById("projetos");
-	PROJETOS.forEach((projeto) => {
-		const cartao = criar("article", "cartao");
-		const conteudo = criar("div", "cartao-conteudo");
-		const titulo = criar("h3", "cartao-titulo");
+	const manuais = {};
+	if (typeof DOCUMENTACAO !== "undefined") {
+		DOCUMENTACAO.forEach((doc) => {
+			manuais[doc.titulo] = doc.manual;
+		});
+	}
+
+	const cartoes = PROJETOS.map((projeto) => {
+		const cartao = criar("article", "cartao cartao-projeto");
+
+		// Vitrine: repositório, linguagem principal e o ícone grande sobre um pontilhado
+		const vitrine = criar("a", "projeto-vitrine");
+		vitrine.href = projeto.link;
+		vitrine.target = "_blank";
+		vitrine.rel = "noopener noreferrer";
+		vitrine.tabIndex = -1;
+		vitrine.setAttribute("aria-hidden", "true");
+		const topo = criar("div", "projeto-vitrine-topo");
+		const repo = criar("span", "projeto-repo");
+		repo.innerHTML = ICONE_GITHUB;
+		repo.append(criar("span", "projeto-repo-nome", projeto.link.replace("https://github.com/", "")));
+		repo.append(criar("span", "projeto-cursor"));
+		topo.append(repo, criar("span", "projeto-linguagem", projeto.tecnologias[0]));
+		vitrine.append(topo);
 		if (projeto.icone) {
-			const icone = criar("img", "cartao-icone");
+			const icone = criar("img", "projeto-icone");
 			icone.src = projeto.icone;
 			icone.alt = "";
-			icone.setAttribute("aria-hidden", "true");
-			titulo.append(icone);
+			vitrine.append(icone);
 		}
-		titulo.append(projeto.titulo);
-		conteudo.append(titulo);
+		cartao.append(vitrine);
+
+		const conteudo = criar("div", "cartao-conteudo");
+		if (projeto.categoria) {
+			const meta = criar("p", "nota-meta");
+			meta.append(criar("span", "nota-tema", projeto.categoria));
+			conteudo.append(meta);
+		}
+		conteudo.append(criar("h3", "cartao-titulo", projeto.titulo));
 		conteudo.append(criar("p", "cartao-descricao", projeto.descricao));
 
 		const habilidades = criar("div", "habilidades");
-		projeto.tecnologias.forEach((nome) => {
-			habilidades.append(criar("span", "habilidade", nome));
+		const etiquetas = projeto.tecnologias.map((nome) => {
+			const etiqueta = criar("span", "habilidade", nome);
+			habilidades.append(etiqueta);
+			return etiqueta;
 		});
 		conteudo.append(habilidades);
 
-		const botao = criar("a", "cartao-botao", "Ver projeto");
-		botao.href = projeto.link;
-		botao.target = "_blank";
-		botao.rel = "noopener noreferrer";
-		conteudo.append(botao);
-
+		const botoes = criar("div", "doc-botoes projeto-botoes");
+		const ver = criar("a", "cartao-botao projeto-ver", "Ver projeto");
+		ver.href = projeto.link;
+		ver.target = "_blank";
+		ver.rel = "noopener noreferrer";
+		ver.insertAdjacentHTML("beforeend", ICONE_SETA);
+		botoes.append(ver);
+		if (manuais[projeto.titulo]) {
+			botoes.append(criarLinkPdf("Manual técnico", manuais[projeto.titulo], "cartao-botao cartao-botao-secundario"));
+		}
+		conteudo.append(botoes);
 		cartao.append(conteudo);
+
+		// A luz do cartão e o pontilhado da vitrine seguem o mouse.
+		cartao.addEventListener("pointermove", (evento) => {
+			marcarPonteiro(cartao, evento, "--luz-x", "--luz-y");
+			marcarPonteiro(vitrine, evento, "--ponto-x", "--ponto-y");
+		});
+
 		grade.append(cartao);
+		return { cartao, etiquetas, tecnologias: projeto.tecnologias.map((nome) => nome.toLowerCase()) };
 	});
+
+	const revelacao = revelarAoAparecer(cartoes.map((item) => item.cartao));
+	return montarFiltros(painel, grade, cartoes, revelacao);
 }
 
-function montarHabilidades() {
+// Desenhos do topo de cada cartão de habilidades (campo "icone" em js/habilidades.js).
+const ICONES_AREAS = {
+	tela: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
+	servidor: '<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/>',
+	banco: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/>',
+	ia: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/>',
+	ferramentas: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>'
+};
+
+function juntarNomes(nomes) {
+	return nomes.length > 1 ? `${nomes.slice(0, -1).join(", ")} e ${nomes[nomes.length - 1]}` : nomes[0];
+}
+
+// Abre a aba Projetos já filtrada pela tecnologia escolhida.
+function verProjetosCom(nome, projetos) {
+	document.getElementById("aba-projetos").click();
+	projetos.filtrar(nome);
+	const abas = document.querySelector(".abas");
+	const altura = document.getElementById("topo").getBoundingClientRect().height;
+	const posicao = abas.getBoundingClientRect().top;
+	if (posicao < altura || posicao > window.innerHeight * 0.6) {
+		const reduzir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		window.scrollTo({ top: window.scrollY + posicao - altura - 16, behavior: reduzir ? "auto" : "smooth" });
+	}
+	document.getElementById("aba-projetos").focus({ preventScroll: true });
+}
+
+function montarHabilidades(projetos) {
+	const painel = document.getElementById("painel-habilidades");
 	const grade = document.getElementById("habilidades");
-	HABILIDADES.forEach((area) => {
-		const cartao = criar("article", area.largo ? "cartao cartao-largo" : "cartao");
+
+	// Em quais projetos cada tecnologia aparece (pelo nome exato, sem diferenciar maiúsculas).
+	const usos = {};
+	PROJETOS.forEach((projeto) => {
+		projeto.tecnologias.forEach((nome) => {
+			const chave = nome.toLowerCase();
+			(usos[chave] = usos[chave] || []).push(projeto.titulo);
+		});
+	});
+
+	const usadas = new Set();
+	let totalGeral = 0;
+	const cartoes = HABILIDADES.map((area) => {
+		const cartao = criar("article", area.largo ? "cartao cartao-largo cartao-area" : "cartao cartao-area");
 		const conteudo = criar("div", "cartao-conteudo");
-		conteudo.append(criar("h3", "cartao-titulo", area.titulo));
+
+		const topo = criar("div", "area-topo");
+		if (ICONES_AREAS[area.icone]) {
+			const icone = criar("span", "area-icone");
+			icone.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONES_AREAS[area.icone]}</svg>`;
+			topo.append(icone);
+		}
+		topo.append(criar("h3", "cartao-titulo", area.titulo));
+		const total = area.grupos.reduce((soma, grupo) => soma + grupo.itens.length, 0);
+		totalGeral += total;
+		topo.append(criar("span", "area-total", `${total} itens`));
+		conteudo.append(topo);
+
+		let ordem = 0;
 		area.grupos.forEach((grupo) => {
 			conteudo.append(criar("p", "grupo-rotulo", grupo.nome));
 			const lista = criar("div", "habilidades habilidades-grupo");
-			grupo.itens.forEach((nome) => lista.append(criar("span", "habilidade", nome)));
+			grupo.itens.forEach((nome) => {
+				const projetosDaTecnologia = usos[nome.toLowerCase()];
+				let etiqueta;
+				if (projetosDaTecnologia) {
+					usadas.add(nome.toLowerCase());
+					const quantidade = projetosDaTecnologia.length;
+					const resumo = `${quantidade} ${quantidade === 1 ? "projeto" : "projetos"}: ${juntarNomes(projetosDaTecnologia)}`;
+					etiqueta = criar("button", "habilidade habilidade-usada", nome);
+					etiqueta.type = "button";
+					etiqueta.setAttribute("aria-label", `${nome}, usada em ${resumo}. Ver na aba Projetos`);
+					etiqueta.addEventListener("click", () => verProjetosCom(nome, projetos));
+				} else {
+					etiqueta = criar("span", "habilidade", nome);
+				}
+				etiqueta.style.setProperty("--i", ordem);
+				ordem += 1;
+				lista.append(etiqueta);
+			});
 			conteudo.append(lista);
 		});
+
 		cartao.append(conteudo);
+		cartao.addEventListener("pointermove", (evento) => marcarPonteiro(cartao, evento, "--luz-x", "--luz-y"));
 		grade.append(cartao);
+		return cartao;
 	});
+
+	// Barra acima da grade: todas ou só as que aparecem nos projetos.
+	const barra = criar("div", "filtros");
+	const grupo = criar("div", "filtros-botoes");
+	grupo.setAttribute("role", "group");
+	grupo.setAttribute("aria-label", "Mostrar habilidades");
+	const opcoes = [
+		{ rotulo: "Todas", total: totalGeral, so: false },
+		{ rotulo: "Usadas nos projetos", total: usadas.size, so: true }
+	];
+	const botoes = opcoes.map((opcao) => {
+		const botao = criar("button", "filtro", opcao.rotulo);
+		botao.type = "button";
+		botao.setAttribute("aria-pressed", opcao.so ? "false" : "true");
+		botao.append(criar("span", "filtro-total", String(opcao.total)));
+		botao.addEventListener("click", () => {
+			botoes.forEach((outro) => outro.setAttribute("aria-pressed", outro === botao ? "true" : "false"));
+			grade.classList.toggle("so-usadas", opcao.so);
+		});
+		grupo.append(botao);
+		return botao;
+	});
+	barra.append(grupo);
+	painel.insertBefore(barra, grade);
+
+	revelarAoAparecer(cartoes);
 }
 
 function criarLinkPdf(texto, url, classe) {
@@ -173,10 +448,9 @@ function criarEtiquetasProjetos(nomes, projetoPorTitulo) {
 
 // Vitrine do cartão: a "citacao" da nota, se houver; senão o primeiro bloco de código;
 // senão a primeira frase do texto.
-function criarVitrine(nota, indice) {
+function criarVitrine(nota) {
 	const vitrine = criar("div", "nota-vitrine");
 	vitrine.setAttribute("aria-hidden", "true");
-	vitrine.append(criar("span", "nota-numero", numeroDaNota(indice)));
 	const codigo = nota.corpo.find((bloco) => typeof bloco !== "string");
 	if (!nota.citacao && codigo) {
 		const pre = criar("pre", "nota-vitrine-codigo");
@@ -254,7 +528,8 @@ function criarLeitor(projetoPorTitulo, botoes) {
 				corpo.append(pre);
 			}
 		});
-		projetos.replaceChildren(criarEtiquetasProjetos(nota.projetos, projetoPorTitulo));
+		projetos.replaceChildren();
+		if (nota.projetos.length) projetos.append(criarEtiquetasProjetos(nota.projetos, projetoPorTitulo));
 		prepararPasso(anterior, indice - 1);
 		prepararPasso(proxima, indice + 1);
 		dialogo.scrollTop = 0;
@@ -304,7 +579,7 @@ function montarNotas() {
 
 	NOTAS.forEach((nota, indice) => {
 		const cartao = criar("article", "cartao cartao-nota");
-		const vitrine = criarVitrine(nota, indice);
+		const vitrine = criarVitrine(nota);
 		vitrine.addEventListener("click", () => leitor.abrir(indice));
 		cartao.append(vitrine);
 
@@ -316,7 +591,7 @@ function montarNotas() {
 		conteudo.append(criar("p", "cartao-descricao", nota.resumo));
 
 		const rodape = criar("div", "nota-rodape");
-		rodape.append(criarEtiquetasProjetos(nota.projetos, projetoPorTitulo));
+		if (nota.projetos.length) rodape.append(criarEtiquetasProjetos(nota.projetos, projetoPorTitulo));
 		const botao = criar("button", "cartao-botao nota-ler", "Ler nota");
 		botao.type = "button";
 		botao.setAttribute("aria-haspopup", "dialog");
@@ -434,8 +709,8 @@ function alternarTema() {
 
 document.addEventListener("DOMContentLoaded", () => {
 	alternarTema();
-	montarProjetos();
-	montarHabilidades();
+	const projetos = montarProjetos();
+	montarHabilidades(projetos);
 	montarDocumentacao();
 	montarNotas();
 	alternarAbas();

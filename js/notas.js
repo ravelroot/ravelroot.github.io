@@ -1,5 +1,6 @@
 // Notas técnicas: textos curtos sobre as decisões por trás dos projetos.
 // "projetos" usa o mesmo "titulo" de js/projetos.js, de onde vêm o ícone e o link.
+// Com "projetos: []", a nota aparece sem etiquetas (para projetos que não estão na aba Projetos).
 // "corpo" é uma lista de blocos: texto vira parágrafo; { codigo: "..." } vira bloco de código.
 // O tempo de leitura é calculado sozinho pelo número de palavras.
 // No cartão, a vitrine mostra o primeiro bloco de código da nota. Com "citacao" (opcional), mostra essa
@@ -76,6 +77,18 @@ const NOTAS = [
 			"O custo é que não existe JOIN entre serviços: quando um precisa de dados de outro, pede pela API ou recebe por evento. Em troca, cada serviço evolui o próprio esquema sozinho, sem quebrar os outros."
 		],
 		projetos: ["Argo"]
+	},
+	{
+		titulo: "Embaralhar sem viés",
+		tema: "Aleatoriedade",
+		resumo: "Como o Grimório dos Videntes dá a mesma chance a cada um dos 22 arcanos, sem repetir carta na mesma leitura.",
+		corpo: [
+			"Ordenar a lista com sort(() => Math.random() - 0.5) parece embaralhar, mas o resultado depende do algoritmo de ordenação de cada navegador e não dá a mesma chance a todas as ordens. No Grimório, o baralho é embaralhado com Fisher–Yates: percorre as cartas de trás para frente e troca cada uma com uma posição sorteada entre as que ainda não foram fixadas. São 21 trocas, e cada uma das 22! ordens possíveis tem a mesma probabilidade.",
+			"O segundo cuidado está em cada sorteio. O crypto.getRandomValues entrega um inteiro de 32 bits, e reduzir esse número com % n favorece os primeiros restos quando 2³² não é múltiplo de n. A saída é descartar o trecho final que não completa um ciclo e sortear de novo. Em forma simplificada:",
+			{ codigo: "limite = floor(2^32 / n) * n\nx = getRandomValues()      // 0 a 2^32 - 1\n\nx <  limite → carta = x % n\nx >= limite → descarta e sorteia de novo" },
+			"Com 22 cartas, o descarte acontece no máximo uma vez a cada 268 milhões de sorteios, então o custo é nulo; em troca, a chance de cada carta passa a ser exatamente igual, e não só quase. E como o baralho inteiro é embaralhado no início e as cartas saem do topo, nenhuma se repete na mesma leitura sem que o código precise conferir o que já saiu."
+		],
+		projetos: []
 	},
 	{
 		titulo: "Boundary tags: liberar memória em O(1)",
