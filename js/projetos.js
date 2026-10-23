@@ -75,5 +75,12 @@ const PROJETOS = [
 		descricao: "Bento é um painel administrativo SaaS em bento grid feito com Tailwind CSS v4: modo claro/escuro salvo no localStorage, KPIs com tendência, gráficos ApexCharts, tabelas com ordenação, busca e paginação, e gavetas laterais. API em TypeScript (Fastify) com PostgreSQL, JWT, permissões por papel, alertas em tempo real (SSE) e relatórios em CSV e PDF.",
 		link: "https://github.com/ravelroot/Data-Driven-Admin-Panel",
 		tecnologias: ["Typescript", "Tailwind CSS", "Node.js", "Fastify", "PostgreSQL", "ApexCharts", "Docker"]
+	},
+	{
+		titulo: "Favo",
+		icone: "assets/projetos/favo.png",
+		descricao: "Favo é um alocador de memória escrito do zero em C11 que substitui o malloc e o free do sistema: pede memória ao kernel com sbrk e mmap (VirtualAlloc no Windows), alinha blocos a 16 bytes, aloca por First-Fit, Next-Fit ou Best-Fit em árvore rubro-negra e funde vizinhos livres. Funciona via LD_PRELOAD, com API em FastAPI e painel web do heap ao vivo.",
+		link: "https://github.com/ravelroot/Custom-Memory-Allocator",
+		tecnologias: ["C", "CMake", "LD_PRELOAD", "Python", "FastAPI", "SQLite", "Typescript", "Docker"]
 	}
 ];

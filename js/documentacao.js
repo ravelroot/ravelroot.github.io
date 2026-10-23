@@ -108,5 +108,15 @@ const DOCUMENTACAO = [
 		destaques: ["PostgreSQL 18 ou PGlite", "22 tabelas", "LISTEN/NOTIFY"],
 		manual: "https://github.com/ravelroot/Data-Driven-Admin-Panel/blob/main/Manual-Bento.pdf",
 		banco: "https://github.com/ravelroot/Data-Driven-Admin-Panel/blob/main/Banco-de-Dados-Bento.pdf"
+	},
+	{
+		titulo: "Favo",
+		miniatura: "assets/documentacao/favo.png",
+		miniaturaDescricao: "Diagrama de relacionamentos das sessões e operações do Favo",
+		decisao: "O heap não passa pelo banco",
+		texto: "Tudo o que o alocador gerencia vive na memória do processo. O SQLite, num arquivo só e em modo WAL, guarda apenas o histórico do painel: sessões, cada operação feita no heap, traces e benchmarks. Apagar uma sessão apaga as operações dela em cascata.",
+		destaques: ["SQLite + WAL", "6 tabelas", "Exclusão em cascata"],
+		manual: "https://github.com/ravelroot/Custom-Memory-Allocator/blob/main/Manual-Favo.pdf",
+		banco: "https://github.com/ravelroot/Custom-Memory-Allocator/blob/main/Banco-de-Dados-Favo.pdf"
 	}
 ];

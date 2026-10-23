@@ -72,5 +72,18 @@ const NOTAS = [
 			"O custo é que não existe JOIN entre serviços: quando um precisa de dados de outro, pede pela API ou recebe por evento. Em troca, cada serviço evolui o próprio esquema sozinho, sem quebrar os outros."
 		],
 		projetos: ["Argo"]
+	},
+	{
+		titulo: "Boundary tags: liberar memória em O(1)",
+		tema: "Gerenciamento de memória",
+		resumo: "Como o free do Favo descobre se os vizinhos estão livres sem percorrer o heap.",
+		corpo: [
+			"Depois de muitos malloc e free, o heap vira um mosaico de buracos: a soma do espaço livre é grande, mas nenhum pedaço serve para um pedido maior. É a fragmentação externa, e o remédio é fundir blocos livres vizinhos assim que um deles é liberado.",
+			"O difícil é achar os vizinhos. O da direita é fácil: basta somar o tamanho do bloco ao endereço dele. O da esquerda não dá para calcular, e percorrer o heap desde o início custaria O(n) a cada free. No Favo, todo bloco repete o tamanho no fim, num rodapé de 8 bytes (a boundary tag). Como os blocos são múltiplos de 16, os 4 bits mais baixos do tamanho ficam livres e guardam a marca de usado. Em forma simplificada:",
+			{ codigo: "[cabeçalho 16 B][ payload ......... ][rodapé 8 B]\n\ndireita  = bloco + tamanho(bloco)\nesquerda = bloco - tamanho(rodapé logo antes)\nusado    = tamanho & 1" },
+			"Assim o free lê só o rodapé do bloco anterior e o cabeçalho do seguinte, e resolve os quatro casos (nenhum vizinho livre, só a esquerda, só a direita ou os dois) em tempo constante. Para o primeiro e o último bloco não virarem exceção, cada arena começa com um rodapé falso e termina com um bloco de tamanho zero, os dois marcados como usados.",
+			"O custo são 24 bytes por bloco e um bloco mínimo de 64 bytes, para caber os ponteiros da lista e da árvore rubro-negra quando ele está livre. Em troca, o rodapé também vira verificação: se uma escrita passar do fim do payload, ele deixa de bater com o cabeçalho e o Favo acusa a corrupção quando o bloco é liberado."
+		],
+		projetos: ["Favo"]
 	}
 ];

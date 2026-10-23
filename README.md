@@ -20,7 +20,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 ---
 
 <p align="center">
-  <img src="assets/preview-portfolio.png?v=15" alt="Prévia do portfólio">
+  <img src="assets/preview-portfolio.png?v=16" alt="Prévia do portfólio">
 </p>
 
 <p align="center"><b>Tema claro, na aba Habilidades</b></p>
@@ -44,7 +44,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 <p align="center"><b>Aba Notas</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-notas.png?v=1" alt="Prévia da aba Notas, com uma nota aberta e o bloco de código">
+  <img src="assets/preview-portfolio-notas.png?v=2" alt="Prévia da aba Notas, com uma nota aberta e o bloco de código">
 </p>
 
 ## O que tem na página
@@ -58,7 +58,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
   - **Habilidades** organizadas por área (Front-end, Back-end, Bancos de Dados, IA & LLMs e Ferramentas), em cartões com etiquetas agrupadas. IA & LLMs se divide em Arquitetura RAG e Modelos e protocolos; Ferramentas, em DevOps e infraestrutura, APIs, Desenvolvimento e Produtividade.
   - **Documentação**: um cartão por projeto com a miniatura do diagrama do banco (tirada do próprio PDF, em traço branco no tema escuro e grafite no claro), a decisão de arquitetura que mais pesou, etiquetas com os números principais e botões que abrem o **Manual técnico** e a **Arquitetura do BD** em PDF no GitHub. A miniatura também abre o PDF. O Talos, que ainda não tem o PDF do banco, mostra um esquema da arquitetura hexagonal.
   - **Atividade**: dados ao vivo do GitHub, buscados só quando a aba é aberta. Mostra as contribuições dos últimos 12 meses, sequência atual e maior sequência de dias com commits, número de repositórios públicos, o **gráfico de contribuições** dos últimos 12 meses (o mesmo calendário do perfil, em tons neutros que acompanham o tema). A janela anda junto com o tempo e atravessa a virada de ano: por isso o primeiro mês e cada janeiro mostram o ano, e a nota abaixo do gráfico diz o período exato. A partir de **1º de janeiro de 2027**, o cartão ganha sozinho os botões **12 meses · 2027 · 2026** para ver cada ano inteiro (um botão novo aparece a cada virada de ano); no ano em andamento, os dias que ainda não chegaram aparecem vazados, as **linguagens mais usadas** pela soma do código de todos os repositórios e os **repositórios que receberam commits por último**, com o ícone do projeto quando ele está no portfólio. Passar o mouse sobre um dia ou uma linguagem mostra os detalhes.
-  - **Notas**: textos curtos sobre as decisões técnicas por trás dos projetos (o problema, a escolha feita e o que ela custa), em lista de uma coluna. Cada nota mostra o tema, o tempo de leitura (calculado pelo número de palavras), o título, um resumo e etiquetas dos projetos citados, com ícone e link para o repositório. O botão **Ler nota** abre o texto completo dentro do próprio cartão, com blocos de código quando ajudam a explicar. As notas atuais: *Fila não é banco de dados* (Turno e Delco), *Dinheiro é inteiro* (Doca), *Concorrência otimista com número de revisão* (Crivo), *Índice invertido: buscar sem LIKE* (Sonda), *RAG: a resposta depende da busca* (Nexo) e *Um banco por serviço* (Argo).
+  - **Notas**: textos curtos sobre as decisões técnicas por trás dos projetos (o problema, a escolha feita e o que ela custa), em lista de uma coluna. Cada nota mostra o tema, o tempo de leitura (calculado pelo número de palavras), o título, um resumo e etiquetas dos projetos citados, com ícone e link para o repositório. O botão **Ler nota** abre o texto completo dentro do próprio cartão, com blocos de código quando ajudam a explicar. As notas atuais: *Fila não é banco de dados* (Turno e Delco), *Dinheiro é inteiro* (Doca), *Concorrência otimista com número de revisão* (Crivo), *Índice invertido: buscar sem LIKE* (Sonda), *RAG: a resposta depende da busca* (Nexo), *Um banco por serviço* (Argo) e *Boundary tags: liberar memória em O(1)* (Favo).
 - **Escala fixa de 75% no computador**: a página já abre do tamanho que teria com o zoom do Chrome em 75%, sem o visitante precisar ajustar nada. No celular (até 768 px de largura) ela fica em 100%, para o texto continuar legível.
 - **Layout responsivo**: duas colunas no computador, uma no celular, sem rolagem lateral.
 - **Acessível a quem prefere menos movimento**: com `prefers-reduced-motion`, as animações são desligadas.
@@ -91,6 +91,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 | [**Crivo**](https://github.com/ravelroot/Pixel-Art-Matrix-Editor) | Crivo é um editor de pixel art no navegador em JavaScript puro: matriz RGBA via ImageData, balde por varredura, Bresenham e elipse de ponto médio, camadas, animação, simetria e histórico ilimitado com diffs e RLE. Paletas Game Boy, NES, Pico-8 e CGA, tons em OKLCH, PNG, sprite sheet e matrizes JSON/CSV/JS/Python. API Django e CLI Java. | JavaScript · Canvas 2D · Python 3.13 · Django 6.1 · PostgreSQL 17 · Java 21 · Docker |
 | [**Lume**](https://github.com/ravelroot/Document-Library-Desktop) | Lume é uma biblioteca de PDFs e DOCX em Java 21 + Spring Boot 4, com capas automáticas (PDFBox), descrição por IA, leitor próprio, estantes, coleções e busca em texto completo (SQLite FTS5). Um único Lume.exe portátil, com o Java embutido. | Java 21 · Spring Boot 4 · SQLite + FTS5 · Apache PDFBox · pdf.js · Playwright |
 | [**Bento**](https://github.com/ravelroot/Data-Driven-Admin-Panel) | Bento é um painel administrativo SaaS em bento grid feito com Tailwind CSS v4: modo claro/escuro salvo no localStorage, KPIs com tendência, gráficos ApexCharts, tabelas com ordenação, busca e paginação, e gavetas laterais. API em TypeScript (Fastify) com PostgreSQL, JWT, permissões por papel, alertas em tempo real (SSE) e relatórios em CSV e PDF. | TypeScript · Tailwind CSS 4 · Node.js 22 · Fastify 5 · PostgreSQL 18 ou PGlite · ApexCharts · Docker |
+| [**Favo**](https://github.com/ravelroot/Custom-Memory-Allocator) | Favo é um alocador de memória escrito do zero em C11 que substitui o malloc e o free do sistema: pede memória ao kernel com sbrk e mmap (VirtualAlloc no Windows), alinha blocos a 16 bytes, aloca por First-Fit, Next-Fit ou Best-Fit em árvore rubro-negra e funde vizinhos livres. Funciona via LD_PRELOAD, com API em FastAPI e painel web do heap ao vivo. | C11 · sbrk e mmap · CMake · LD_PRELOAD · Python 3.13 · FastAPI · WebSocket · SQLite · TypeScript · Vite · Docker |
 
 ## Como rodar
 
