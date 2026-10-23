@@ -20,7 +20,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 ---
 
 <p align="center">
-  <img src="assets/preview-portfolio.png?v=18" alt="Prévia do portfólio">
+  <img src="assets/preview-portfolio.png?v=19" alt="Prévia do portfólio">
 </p>
 
 <p align="center"><b>Tema claro, na aba Habilidades</b></p>
@@ -32,7 +32,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 <p align="center"><b>Aba Documentação</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-documentacao.png?v=6" alt="Prévia da aba Documentação, com o diagrama do banco e os PDFs de cada projeto">
+  <img src="assets/preview-portfolio-documentacao.png?v=7" alt="Prévia da aba Documentação, com o diagrama do banco e os PDFs de cada projeto">
 </p>
 
 <p align="center"><b>Aba Atividade</b></p>
@@ -44,7 +44,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 <p align="center"><b>Aba Notas</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-notas.png?v=5" alt="Prévia da aba Notas, com as notas em duas colunas e a vitrine de código de cada uma">
+  <img src="assets/preview-portfolio-notas.png?v=6" alt="Prévia da aba Notas, com as notas em duas colunas e a vitrine de código de cada uma">
 </p>
 
 ## O que tem na página

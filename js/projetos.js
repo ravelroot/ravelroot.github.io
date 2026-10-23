@@ -5,7 +5,7 @@ const PROJETOS = [
 	{
 		titulo: "Velo",
 		categoria: "Pagamentos e checkout",
-		icone: "assets/projetos/velo.png?v=3",
+		icone: "assets/projetos/velo.png?v=4",
 		descricao: "Velo é um sistema de pagamento desenvolvido em Java 21, Spring Boot 4 (REST, Security, JPA, Flyway) que integra catálogo, carrinho, cupons, pedidos e meios de pagamento (cartão, PIX e boleto simulados ou Stripe), com gestão de usuários e painel administrativo. Com suporte a H2, PostgreSQL, MySQL, MariaDB, SQL Server e Oracle.",
 		link: "https://github.com/ravelroot/Payment-and-Checkout-System",
 		tecnologias: ["Java", "Spring Boot", "React", "Typescript", "Flyway", "PostgreSQL", "Stripe"]
@@ -21,7 +21,7 @@ const PROJETOS = [
 	{
 		titulo: "Doca",
 		categoria: "Pedidos e estoque",
-		icone: "assets/projetos/doca.png",
+		icone: "assets/projetos/doca.png?v=2",
 		descricao: "Doca é uma plataforma de gestão de pedidos, compras e estoque multi-depósito, desenvolvida com Python e FastAPI. Oferece reserva transacional de estoque, custo médio ponderado, análises ABC, giro e reposição, além de painel web com controle de acesso, auditoria, PostgreSQL, Docker e integração contínua.",
 		link: "https://github.com/ravelroot/Order-and-Inventory-System",
 		tecnologias: ["Python", "FastAPI", "SQLAlchemy", "Alembic", "PostgreSQL", "Docker", "Javascript"]
@@ -29,7 +29,7 @@ const PROJETOS = [
 	{
 		titulo: "Nexo",
 		categoria: "IA e RAG",
-		icone: "assets/projetos/nexo.png",
+		icone: "assets/projetos/nexo.png?v=2",
 		descricao: "Nexo é um chatbot RAG para manuais técnicos e livros em PDF desenvolvido em Python com FastAPI, LlamaIndex e interface React + TypeScript. Responde com base estrita nos documentos, citando trecho e página, com reranking e cortes de relevância contra alucinações. Com suporte a ChromaDB, Qdrant, Ollama, OpenAI e Cohere.",
 		link: "https://github.com/ravelroot/Retrieval-Augmented-QA-System",
 		tecnologias: ["Python", "FastAPI", "LlamaIndex", "React", "Typescript", "ChromaDB", "Qdrant"]
