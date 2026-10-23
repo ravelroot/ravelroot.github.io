@@ -2,77 +2,77 @@ const PROJETOS = [
 	{
 		titulo: "Velo",
 		icone: "assets/projetos/velo.png?v=3",
-		descricao: "Loja virtual completa e de código aberto: catálogo, carrinho com cupons, checkout com cartão em até 10 vezes, PIX ou boleto (simulados ou Stripe), acompanhamento do pedido e painel com faturamento, estoque e três perfis de acesso. Um único esquema para H2, PostgreSQL, MySQL, MariaDB, SQL Server e Oracle.",
+		descricao: "Velo é um sistema de pagamento desenvolvido em Java 21, Spring Boot 4 (REST, Security, JPA, Flyway) que integra catálogo, carrinho, cupons, pedidos e meios de pagamento (cartão, PIX e boleto simulados ou Stripe), com gestão de usuários e painel administrativo. Com suporte a H2, PostgreSQL, MySQL, MariaDB, SQL Server e Oracle.",
 		link: "https://github.com/ravelroot/Payment-and-Checkout-System",
 		tecnologias: ["Java", "Spring Boot", "React", "Typescript", "Flyway", "PostgreSQL", "Stripe"]
 	},
 	{
 		titulo: "Talos",
 		icone: "assets/projetos/talos.png?v=2",
-		descricao: "Aplicativo desktop para Windows de gestão de serviços de TI, central de suporte e inventário de ativos, inspirado no GLPI: chamados com SLA, problemas e mudanças (ITIL), Kanban, Gantt e base de conhecimento. Instalador próprio e banco à escolha, do H2 local ao PostgreSQL ou Oracle.",
+		descricao: "Talos é um sistema desktop de ITSM, helpdesk e inventário de ativos em Java 21 com Spring Boot (JPA e Flyway) e interface JavaFX. Arquitetura hexagonal inspirada no GLPI: chamados, problemas, mudanças, SLA, regras de negócio, Kanban e Gantt. Banco à escolha (PostgreSQL, MySQL, MariaDB, SQL Server, Oracle ou H2) e instalador .msi via jpackage.",
 		link: "https://github.com/ravelroot/Information-Technology-Service-Management",
 		tecnologias: ["Java", "Spring Boot", "JavaFX", "JPA", "Flyway", "PostgreSQL"]
 	},
 	{
 		titulo: "Doca",
 		icone: "assets/projetos/doca.png",
-		descricao: "Pedidos de venda, compras e estoque multi-depósito com API REST e painel web com login. O estoque é reservado na confirmação e nenhum pedido vende acima do saldo, mesmo com acessos simultâneos. Custo médio ponderado, curva ABC, giro, sugestão de compra, quatro perfis de acesso e auditoria.",
+		descricao: "Doca é uma plataforma de gestão de pedidos, compras e estoque multi-depósito, desenvolvida com Python e FastAPI. Oferece reserva transacional de estoque, custo médio ponderado, análises ABC, giro e reposição, além de painel web com controle de acesso, auditoria, PostgreSQL, Docker e integração contínua.",
 		link: "https://github.com/ravelroot/Order-and-Inventory-System",
 		tecnologias: ["Python", "FastAPI", "SQLAlchemy", "Alembic", "PostgreSQL", "Docker", "Javascript"]
 	},
 	{
 		titulo: "Nexo",
 		icone: "assets/projetos/nexo.png",
-		descricao: "Chatbot RAG que responde dúvidas sobre manuais técnicos e livros em PDF usando só o conteúdo enviado. Cada resposta cita o trecho e a página e, se a informação não estiver nos documentos, ele diz que não encontrou, com reranking e dois cortes de relevância contra alucinações.",
+		descricao: "Nexo é um chatbot RAG para manuais técnicos e livros em PDF desenvolvido em Python com FastAPI, LlamaIndex e interface React + TypeScript. Responde com base estrita nos documentos, citando trecho e página, com reranking e cortes de relevância contra alucinações. Com suporte a ChromaDB, Qdrant, Ollama, OpenAI e Cohere.",
 		link: "https://github.com/ravelroot/Retrieval-Augmented-QA-System",
 		tecnologias: ["Python", "FastAPI", "LlamaIndex", "React", "Typescript", "ChromaDB", "Qdrant"]
 	},
 	{
 		titulo: "Turno",
 		icone: "assets/projetos/turno.png",
-		descricao: "Motor de tarefas distribuídas no estilo Hangfire: vários workers idênticos dividem a mesma fila e cada tarefa roda uma única vez por tentativa, mesmo com mensagens duplicadas ou workers que caem. Redlock e lease no PostgreSQL, Polly, fila de erros, cron e painel em tempo real.",
+		descricao: "Turno é um motor de agendamento e processamento de tarefas distribuídas em C# e .NET 10, no estilo Hangfire. Workers clonados consomem filas do RabbitMQ ou Azure Service Bus via MassTransit, com lock Redlock no Redis, Polly (retry, circuit breaker e fila de erros), PostgreSQL e painel em Blazor WebAssembly em tempo real.",
 		link: "https://github.com/ravelroot/Distributed-Task-Processing-Engine",
 		tecnologias: ["C#", ".NET 10", "MassTransit", "RabbitMQ", "Redis", "PostgreSQL", "Blazor", "Docker"]
 	},
 	{
 		titulo: "Sonda",
 		icone: "assets/projetos/sonda.png",
-		descricao: "Motor de busca de texto completo escrito do zero em C#, no estilo Lucene e Elasticsearch, que indexa pastas inteiras de .txt, .md e .html em paralelo: stemming em português e inglês, índice invertido binário em disco e ranking por BM25 ou TF-IDF, sem banco SQL. Painel web, API REST e linha de comando.",
+		descricao: "Sonda é um motor de busca de texto completo escrito do zero em C# e .NET 10, no estilo Lucene e Elasticsearch. Indexa pastas de .txt, .md e .html em paralelo com TPL e ConcurrentDictionary, aplica tokenização e stemming RSLP e Porter, grava um índice invertido binário via FileStream e ordena por BM25 ou TF-IDF, com painel web, API e CLI.",
 		link: "https://github.com/ravelroot/Inverted-Index-Search-Engine",
 		tecnologias: ["C#", ".NET 10", "ASP.NET Core", "TPL", "Brotli", "xUnit", "Docker"]
 	},
 	{
 		titulo: "Argo",
 		icone: "assets/projetos/argo.png?v=2",
-		descricao: "Plataforma de microserviços para vendas em Django: vários vendedores cadastram produtos, o estoque muda em tempo real por Redis e Server-Sent Events e cada pedido é confirmado por uma fila no Celery, sem travar a compra. As notas fiscais saem de um serviço em Java, tudo atrás de um gateway Nginx.",
+		descricao: "Argo é uma plataforma de microserviços para vendas com vários vendedores, feita em Django: estoque em tempo real (Redis + SSE), checkout assíncrono com Celery, notas fiscais por um serviço em Java (Spring Boot), banco MySQL, gateway Nginx e Docker Compose. Pronta para usar, com manual e PDF do banco de dados.",
 		link: "https://github.com/ravelroot/E-commerce-Microservices-Platform",
 		tecnologias: ["Python", "Django", "Celery", "Redis", "MySQL", "Java", "Spring Boot", "Docker"]
 	},
 	{
 		titulo: "Delco",
 		icone: "assets/projetos/delco.png",
-		descricao: "Motor de orquestração de workflows no estilo Airflow e Temporal, feito em Django: você escreve o pipeline em Python e o Delco agenda por cron, distribui as tarefas entre workers pela fila no Redis, repete o que falhar e, se um servidor cair no meio, continua do passo exato onde parou, com painel em tempo real.",
+		descricao: "Delco é um motor de orquestração de workflows em Python e Django, no estilo Airflow/Temporal: pipelines como código, agendamento cron, worker pool em Redis Streams, retentativas e retomada exata após quedas. API em Django REST Framework, painel em tempo real com Django Channels, MySQL, Docker e Pytest.",
 		link: "https://github.com/ravelroot/Workflow-Orchestration-Engine",
 		tecnologias: ["Python", "Django", "Django REST", "Channels", "MySQL", "Redis", "Docker"]
 	},
 	{
 		titulo: "Crivo",
 		icone: "assets/projetos/crivo.png",
-		descricao: "Editor de pixel art no navegador que trata a imagem como ela é, uma matriz de pixels RGBA: lápis, balde, linhas e formas, camadas, animação quadro a quadro, simetria e paletas clássicas, com exportação em PNG, sprite sheet ou a própria matriz em JSON, CSV, JavaScript, Python, C e Java.",
+		descricao: "Crivo é um editor de pixel art no navegador em JavaScript puro: matriz RGBA via ImageData, balde por varredura, Bresenham e elipse de ponto médio, camadas, animação, simetria e histórico ilimitado com diffs e RLE. Paletas Game Boy, NES, Pico-8 e CGA, tons em OKLCH, PNG, sprite sheet e matrizes JSON/CSV/JS/Python. API Django e CLI Java.",
 		link: "https://github.com/ravelroot/Pixel-Art-Matrix-Editor",
 		tecnologias: ["Javascript", "Canvas 2D", "Python", "Django", "PostgreSQL", "Java", "Docker"]
 	},
 	{
 		titulo: "Lume",
 		icone: "assets/projetos/lume.png",
-		descricao: "Biblioteca de PDFs e DOCX que roda inteira no computador, num único Lume.exe sem instalador, servidor ou conta: gera as capas, escreve a descrição de cada documento com IA, busca no texto inteiro e abre tudo num leitor próprio que lembra onde você parou, com destaques e notas.",
+		descricao: "Lume é uma biblioteca de PDFs e DOCX em Java 21 + Spring Boot 4, com capas automáticas (PDFBox), descrição por IA, leitor próprio, estantes, coleções e busca em texto completo (SQLite FTS5). Um único Lume.exe portátil, com o Java embutido.",
 		link: "https://github.com/ravelroot/Document-Library-Desktop",
 		tecnologias: ["Java", "Spring Boot", "SQLite", "PDFBox", "pdf.js", "Javascript", "Playwright"]
 	},
 	{
 		titulo: "Bento",
 		icone: "assets/projetos/bento.png?v=2",
-		descricao: "Painel administrativo para SaaS em bento grid: receita, MRR, usuários e assinaturas em blocos, com modo escuro nativo, gráficos interativos, tabelas com ordenação, busca e paginação, gavetas laterais, notificações em tempo real e relatórios em CSV e PDF, sobre uma API completa com permissões por papel.",
+		descricao: "Bento é um painel administrativo SaaS em bento grid feito com Tailwind CSS v4: modo claro/escuro salvo no localStorage, KPIs com tendência, gráficos ApexCharts, tabelas com ordenação, busca e paginação, e gavetas laterais. API em TypeScript (Fastify) com PostgreSQL, JWT, permissões por papel, alertas em tempo real (SSE) e relatórios em CSV e PDF.",
 		link: "https://github.com/ravelroot/Data-Driven-Admin-Panel",
 		tecnologias: ["Typescript", "Tailwind CSS", "Node.js", "Fastify", "PostgreSQL", "ApexCharts", "Docker"]
 	}
