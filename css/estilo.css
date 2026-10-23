@@ -28,6 +28,9 @@
 	--barra: #d4d4d8;
 	--barra-outras: #52525b;
 	--dica-sombra: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.5);
+	/* Luz dos cartões de nota e fundo atrás do leitor */
+	--luz: rgba(255, 255, 255, 0.07);
+	--fundo-leitor: rgba(0, 0, 0, 0.65);
 	--fonte: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 	--fonte-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
@@ -67,6 +70,8 @@
 	--barra: #20282d;
 	--barra-outras: #b9c4c2;
 	--dica-sombra: 0 0.5rem 1.5rem rgba(32, 40, 45, 0.12);
+	--luz: rgba(32, 40, 45, 0.06);
+	--fundo-leitor: rgba(232, 236, 234, 0.75);
 }
 
 /* Quadriculado de engenharia no fundo, em grafite bem fraco; os cartões ficam por cima */
@@ -97,6 +102,7 @@
 }
 
 html {
+	scrollbar-gutter: stable;
 	font-size: 80%;
 	line-height: 1.5;
 	-webkit-text-size-adjust: 100%;
@@ -683,61 +689,213 @@ button.cartao-botao {
 	outline-offset: 2px;
 }
 
-.cartao-nota.nota-aberta:hover {
-	transform: none;
+.cartao-nota {
+	position: relative;
+	overflow: hidden;
 }
 
-/* Na lista de notas, o botão não ocupa a largura toda do cartão */
-.cartao-nota .cartao-botao {
-	align-self: flex-start;
-	width: auto;
-	min-width: 10rem;
-	padding: 0.5rem 1.25rem;
+/* Luz que acompanha o mouse por cima do cartão (posição em % vinda de js/main.js) */
+.cartao-nota::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(26rem circle at var(--luz-x, 50%) var(--luz-y, 0%), var(--luz), transparent 70%);
+	opacity: 0;
+	transition: opacity 0.3s;
+	pointer-events: none;
+}
+
+.cartao-nota:hover::after {
+	opacity: 1;
+}
+
+.cartao-nota .cartao-conteudo {
+	flex: 1;
+	height: auto;
+	padding: 1.5rem;
+}
+
+/* Vitrine: o bloco de código da nota (ou uma frase dela) com o número em contorno */
+.nota-vitrine {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	height: 12.5rem;
+	padding: 1.5rem;
+	overflow: hidden;
+	background: var(--terminal);
+	border-bottom: 1px solid var(--borda);
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.nota-vitrine::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 4.5rem;
+	background: linear-gradient(to bottom, transparent, var(--terminal));
+	pointer-events: none;
+}
+
+/* A frase é curta e fica inteira: o degradê só serve para o código */
+.nota-vitrine:has(.nota-vitrine-citacao)::after {
+	display: none;
+}
+
+.nota-numero {
+	position: absolute;
+	top: 0.75rem;
+	right: 1.25rem;
+	font-family: var(--fonte-mono);
+	font-size: 5rem;
+	line-height: 1;
+	font-weight: 700;
+	letter-spacing: -0.04em;
+	color: transparent;
+	-webkit-text-stroke: 1px var(--etiqueta-borda);
+	transition: -webkit-text-stroke-color 0.3s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cartao-nota:hover .nota-numero {
+	-webkit-text-stroke-color: var(--cinza-400);
+	transform: translateY(-0.125rem);
+}
+
+.nota-vitrine-codigo,
+.nota-vitrine-citacao {
+	margin-block: auto;
+}
+
+/* Linhas mais longas que a vitrine somem aos poucos na borda direita */
+.nota-vitrine-codigo {
+	position: relative;
+	max-width: calc(100% - 6.5rem);
+	overflow: hidden;
+	-webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+	mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+	color: var(--cinza-300);
+	font-family: var(--fonte-mono);
+	font-size: 0.9375rem;
+	line-height: 1.5rem;
+	white-space: pre;
+	opacity: 0.8;
+	transition: opacity 0.3s, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nota-vitrine-citacao {
+	position: relative;
+	max-width: calc(100% - 6.5rem);
+	padding-left: 1rem;
+	border-left: 2px solid var(--etiqueta-borda);
+	color: var(--cinza-200);
+	font-size: 1.375rem;
+	line-height: 1.875rem;
+	font-weight: 600;
+	text-wrap: balance;
+	opacity: 0.85;
+	transition: opacity 0.3s, border-color 0.3s;
+}
+
+.cartao-nota:hover .nota-vitrine-codigo,
+.cartao-nota:hover .nota-vitrine-citacao {
+	opacity: 1;
+}
+
+.cartao-nota:hover .nota-vitrine-codigo {
+	transform: translateY(-0.375rem);
+}
+
+.cartao-nota:hover .nota-vitrine-citacao {
+	border-color: var(--cinza-400);
 }
 
 .nota-meta {
-	margin-bottom: 0.25rem;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.375rem 0.75rem;
 	font-size: 0.875rem;
 	line-height: 1.25rem;
 	font-weight: 500;
 	color: var(--cinza-400);
 }
 
-.nota-corpo {
-	display: flex;
-	flex-direction: column;
-	gap: 0.875rem;
-	max-width: 75ch;
-	margin: 0.25rem 0 1.25rem;
+.nota-tema {
+	padding: 0.125rem 0.625rem;
+	border: 1px solid var(--etiqueta-borda);
+	border-radius: 624.938rem;
+	background: var(--etiqueta-fundo);
+	color: var(--destaque);
+	font-size: 0.75rem;
+	line-height: 1.125rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
 }
 
-.nota-corpo[hidden] {
-	display: none;
+.nota-tempo {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3125rem;
 }
 
-.nota-paragrafo {
+.nota-tempo svg {
+	width: 0.875rem;
+	height: 0.875rem;
+}
+
+.cartao-nota .cartao-titulo {
+	margin: 0.75rem 0 0.375rem;
+	font-size: 1.625rem;
+	line-height: 2.125rem;
+	text-wrap: balance;
+}
+
+.cartao-nota .cartao-descricao {
+	margin-bottom: 0;
 	font-size: 1.0625rem;
-	line-height: 1.75rem;
-	color: var(--cinza-300);
+	line-height: 1.625rem;
 }
 
-.nota-codigo {
-	overflow-x: auto;
-	padding: 0.875rem 1rem;
-	border: 1px solid var(--borda);
-	border-radius: 0.375rem;
-	background: var(--terminal);
-	color: var(--cinza-200);
-	font-family: var(--fonte-mono);
-	font-size: 0.875rem;
-	line-height: 1.375rem;
-	white-space: pre;
-	transition: background-color 0.3s;
+.nota-rodape {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-top: auto;
+	padding-top: 1.5rem;
 }
 
-.nota-codigo:focus-visible {
-	outline: 2px solid var(--cinza-400);
-	outline-offset: 2px;
+.nota-rodape .habilidades {
+	width: auto;
+	margin-top: 0;
+}
+
+.nota-ler {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	width: auto;
+	min-width: 9rem;
+	margin-top: 0;
+	padding: 0.5rem 1.25rem;
+}
+
+.nota-ler svg,
+.leitor-passo svg {
+	width: 1rem;
+	height: 1rem;
+	transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cartao-nota:hover .nota-ler svg {
+	transform: translateX(0.25rem);
 }
 
 .nota-projeto {
@@ -751,6 +909,227 @@ a.nota-projeto:hover,
 a.nota-projeto:focus-visible {
 	border-color: var(--cinza-400);
 	color: var(--destaque);
+}
+
+/* Leitor: a nota inteira num painel por cima da página */
+.leitor {
+	width: min(60rem, calc(100% - 2rem));
+	max-width: none;
+	max-height: calc(100% - 4rem);
+	margin: auto;
+	padding: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--borda);
+	border-radius: 0.75rem;
+	background: var(--cartao);
+	color: var(--texto);
+	box-shadow: var(--dica-sombra);
+}
+
+.leitor[open] {
+	animation: leitor-abrir 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.leitor::backdrop {
+	background: var(--fundo-leitor);
+	-webkit-backdrop-filter: blur(0.375rem);
+	backdrop-filter: blur(0.375rem);
+	animation: leitor-fundo 0.3s ease;
+}
+
+@keyframes leitor-abrir {
+	from {
+		opacity: 0;
+		transform: translateY(1rem) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes leitor-fundo {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+:root:has(.leitor[open]) {
+	overflow: hidden;
+}
+
+.leitor-topo {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1rem 1.25rem 1rem 2.5rem;
+	border-bottom: 1px solid var(--borda);
+	background: var(--cartao);
+}
+
+.leitor-numero {
+	font-family: var(--fonte-mono);
+	font-variant-numeric: tabular-nums;
+}
+
+.leitor-fechar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	flex-shrink: 0;
+	border: 1px solid var(--borda);
+	border-radius: 624.938rem;
+	background: transparent;
+	color: var(--cinza-300);
+	cursor: pointer;
+	transition: color 0.15s, border-color 0.15s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.leitor-fechar:hover,
+.leitor-fechar:focus-visible {
+	color: var(--destaque);
+	border-color: var(--cinza-400);
+	transform: rotate(90deg);
+}
+
+.leitor-fechar:focus-visible {
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
+}
+
+.leitor-fechar svg {
+	width: 1.125rem;
+	height: 1.125rem;
+}
+
+.leitor-artigo {
+	padding: 2rem 2.5rem 2.5rem;
+}
+
+.leitor-titulo {
+	color: var(--destaque);
+	font-size: 2.25rem;
+	line-height: 2.75rem;
+	font-weight: 700;
+	text-wrap: balance;
+}
+
+.leitor-resumo {
+	margin: 0.75rem 0 1.75rem;
+	padding-bottom: 1.75rem;
+	border-bottom: 1px solid var(--borda);
+	color: var(--cinza-400);
+	font-size: 1.25rem;
+	line-height: 1.875rem;
+	font-weight: 500;
+}
+
+.nota-corpo {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	margin-bottom: 1.75rem;
+}
+
+.nota-paragrafo {
+	font-size: 1.125rem;
+	line-height: 1.875rem;
+	color: var(--cinza-300);
+}
+
+.nota-codigo {
+	overflow-x: auto;
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--borda);
+	border-radius: 0.375rem;
+	background: var(--terminal);
+	color: var(--cinza-200);
+	font-family: var(--fonte-mono);
+	font-size: 0.9375rem;
+	line-height: 1.5rem;
+	white-space: pre;
+	transition: background-color 0.3s;
+}
+
+.nota-codigo:focus-visible {
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
+}
+
+.leitor-navegacao {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+	margin-top: 2rem;
+	padding-top: 1.75rem;
+	border-top: 1px solid var(--borda);
+}
+
+.leitor-passo {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	padding: 0.875rem 1rem;
+	border: 1px solid var(--borda);
+	border-radius: 0.5rem;
+	background: transparent;
+	color: var(--cinza-400);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+	transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+}
+
+.leitor-passo[hidden] {
+	display: none;
+}
+
+.leitor-proxima {
+	grid-column: 2;
+	align-items: flex-end;
+	text-align: right;
+}
+
+.leitor-passo:hover,
+.leitor-passo:focus-visible {
+	border-color: var(--cinza-400);
+	background: var(--etiqueta-fundo);
+	color: var(--cinza-300);
+}
+
+.leitor-passo:focus-visible {
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
+}
+
+.leitor-passo-rotulo {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+}
+
+.leitor-passo-titulo {
+	color: var(--destaque);
+	font-size: 1.0625rem;
+	line-height: 1.5rem;
+	font-weight: 700;
+}
+
+.leitor-anterior:hover svg {
+	transform: translateX(-0.25rem);
+}
+
+.leitor-proxima:hover svg {
+	transform: translateX(0.25rem);
 }
 
 /* ---------- Aba Atividade ---------- */
@@ -1123,6 +1502,60 @@ a.nota-projeto:focus-visible {
 	color: var(--cinza-400);
 }
 
+@media (max-width: 768px) {
+	.nota-vitrine {
+		height: 10rem;
+		padding: 1.25rem;
+	}
+
+	.nota-numero {
+		top: 0.625rem;
+		right: 0.875rem;
+		font-size: 2.75rem;
+	}
+
+	.nota-vitrine-codigo,
+	.nota-vitrine-citacao {
+		max-width: calc(100% - 3.75rem);
+	}
+
+	.nota-vitrine-codigo {
+		font-size: 0.8125rem;
+		line-height: 1.375rem;
+	}
+
+	.nota-vitrine-citacao {
+		font-size: 1.1875rem;
+		line-height: 1.625rem;
+	}
+
+	.leitor {
+		width: calc(100% - 1rem);
+		max-height: calc(100% - 1rem);
+	}
+
+	.leitor-topo {
+		padding: 0.75rem 0.75rem 0.75rem 1.25rem;
+	}
+
+	.leitor-artigo {
+		padding: 1.5rem 1.25rem 1.75rem;
+	}
+
+	.leitor-titulo {
+		font-size: 1.75rem;
+		line-height: 2.25rem;
+	}
+
+	.leitor-navegacao {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.leitor-proxima {
+		grid-column: auto;
+	}
+}
+
 @media (max-width: 480px) {
 	.abas {
 		gap: 1.5rem;
@@ -1188,6 +1621,24 @@ a.nota-projeto:focus-visible {
 
 	.cartao-largo {
 		grid-column: 1 / -1;
+	}
+
+	/* Com número ímpar de notas, a última ocupa a fileira inteira, com a vitrine ao lado */
+	.cartao-nota:nth-child(odd):last-child {
+		grid-column: 1 / -1;
+		flex-direction: row;
+	}
+
+	.cartao-nota:nth-child(odd):last-child:hover {
+		transform: scale(1.01);
+	}
+
+	.cartao-nota:nth-child(odd):last-child .nota-vitrine {
+		flex: 0 0 calc(50% - 1.25rem);
+		height: auto;
+		min-height: 13rem;
+		border-bottom: 0;
+		border-right: 1px solid var(--borda);
 	}
 
 	.numeros {

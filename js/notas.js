@@ -2,6 +2,8 @@
 // "projetos" usa o mesmo "titulo" de js/projetos.js, de onde vêm o ícone e o link.
 // "corpo" é uma lista de blocos: texto vira parágrafo; { codigo: "..." } vira bloco de código.
 // O tempo de leitura é calculado sozinho pelo número de palavras.
+// No cartão, a vitrine mostra o primeiro bloco de código da nota. Com "citacao" (opcional), mostra essa
+// frase no lugar do código; se a nota não tem código nem citação, entra a primeira frase do texto.
 const NOTAS = [
 	{
 		titulo: "Fila não é banco de dados",
@@ -55,6 +57,7 @@ const NOTAS = [
 		titulo: "RAG: a resposta depende da busca",
 		tema: "IA",
 		resumo: "No Nexo, o modelo de linguagem é a peça mais fácil de trocar. O que decide a qualidade é o que chega até ele.",
+		citacao: "Se a recuperação traz o trecho errado, nenhum modelo salva a resposta.",
 		corpo: [
 			"Um sistema RAG tem duas etapas: recuperar os trechos certos dos documentos e pedir ao modelo que responda só com eles. Se a recuperação traz o trecho errado, nenhum modelo salva a resposta.",
 			"Por isso o Nexo busca mais candidatos do que precisa e passa todos por um reranker, que reordena os trechos pela relevância real para a pergunta. O que fica abaixo do corte de relevância é descartado antes de chegar ao modelo, o que ataca a principal fonte de alucinação: responder sem base.",
@@ -66,6 +69,7 @@ const NOTAS = [
 		titulo: "Um banco por serviço",
 		tema: "Arquitetura",
 		resumo: "No Argo, nenhum microsserviço lê o banco do outro. O que isso custa e o que isso compra.",
+		citacao: "Microsserviços que dividem o mesmo banco continuam acoplados.",
 		corpo: [
 			"Microsserviços que dividem o mesmo banco continuam acoplados: uma migração numa tabela pode quebrar outro serviço sem que nada no código dele mude.",
 			"No Argo são quatro bancos MySQL, um por serviço, e cada serviço recebe só a própria URL de conexão. Os bancos podem ficar no mesmo servidor ou em servidores diferentes, sem mudar o código.",

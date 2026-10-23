@@ -44,7 +44,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 <p align="center"><b>Aba Notas</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-notas.png?v=2" alt="Prévia da aba Notas, com uma nota aberta e o bloco de código">
+  <img src="assets/preview-portfolio-notas.png?v=3" alt="Prévia da aba Notas, com as notas em duas colunas e a vitrine de código de cada uma">
 </p>
 
 ## O que tem na página
@@ -58,7 +58,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
   - **Habilidades** organizadas por área (Front-end, Back-end, Bancos de Dados, IA & LLMs e Ferramentas), em cartões com etiquetas agrupadas. IA & LLMs se divide em Arquitetura RAG e Modelos e protocolos; Ferramentas, em DevOps e infraestrutura, APIs, Desenvolvimento e Produtividade.
   - **Documentação**: um cartão por projeto com a miniatura do diagrama do banco (tirada do próprio PDF, em traço branco no tema escuro e grafite no claro), a decisão de arquitetura que mais pesou, etiquetas com os números principais e botões que abrem o **Manual técnico** e a **Arquitetura do BD** em PDF no GitHub. A miniatura também abre o PDF. O Talos, que ainda não tem o PDF do banco, mostra um esquema da arquitetura hexagonal.
   - **Atividade**: dados ao vivo do GitHub, buscados só quando a aba é aberta. Mostra as contribuições dos últimos 12 meses, sequência atual e maior sequência de dias com commits, número de repositórios públicos, o **gráfico de contribuições** dos últimos 12 meses (o mesmo calendário do perfil, em tons neutros que acompanham o tema). A janela anda junto com o tempo e atravessa a virada de ano: por isso o primeiro mês e cada janeiro mostram o ano, e a nota abaixo do gráfico diz o período exato. A partir de **1º de janeiro de 2027**, o cartão ganha sozinho os botões **12 meses · 2027 · 2026** para ver cada ano inteiro (um botão novo aparece a cada virada de ano); no ano em andamento, os dias que ainda não chegaram aparecem vazados, as **linguagens mais usadas** pela soma do código de todos os repositórios e os **repositórios que receberam commits por último**, com o ícone do projeto quando ele está no portfólio. Passar o mouse sobre um dia ou uma linguagem mostra os detalhes.
-  - **Notas**: textos curtos sobre as decisões técnicas por trás dos projetos (o problema, a escolha feita e o que ela custa), em lista de uma coluna. Cada nota mostra o tema, o tempo de leitura (calculado pelo número de palavras), o título, um resumo e etiquetas dos projetos citados, com ícone e link para o repositório. O botão **Ler nota** abre o texto completo dentro do próprio cartão, com blocos de código quando ajudam a explicar. As notas atuais: *Fila não é banco de dados* (Turno e Delco), *Dinheiro é inteiro* (Doca), *Concorrência otimista com número de revisão* (Crivo), *Índice invertido: buscar sem LIKE* (Sonda), *RAG: a resposta depende da busca* (Nexo), *Um banco por serviço* (Argo) e *Boundary tags: liberar memória em O(1)* (Favo).
+  - **Notas**: textos curtos sobre as decisões técnicas por trás dos projetos (o problema, a escolha feita e o que ela custa), em **duas colunas** no computador e uma no celular. Cada cartão abre com uma vitrine no estilo do terminal, com o número da nota em contorno e o bloco de código da própria nota (ou uma frase dela, quando a nota não tem código), seguida do tema em destaque, do tempo de leitura (calculado pelo número de palavras), do título, de um resumo e das etiquetas dos projetos citados, com ícone e link para o repositório. Ao passar o mouse, uma luz suave acompanha o cursor, o código sobe um pouco e a seta do botão avança. Quando o número de notas é ímpar, a última ocupa a fileira inteira, com a vitrine ao lado do texto. O botão **Ler nota** (ou um clique na vitrine) abre a nota inteira num painel por cima da página, com blocos de código quando ajudam a explicar e os botões **Anterior** e **Próxima** para seguir lendo. O painel fecha no X, com Esc ou com um clique fora dele, e o foco volta ao cartão da última nota lida. As notas atuais: *Fila não é banco de dados* (Turno e Delco), *Dinheiro é inteiro* (Doca), *Concorrência otimista com número de revisão* (Crivo), *Índice invertido: buscar sem LIKE* (Sonda), *RAG: a resposta depende da busca* (Nexo), *Um banco por serviço* (Argo) e *Boundary tags: liberar memória em O(1)* (Favo).
 - **Escala fixa de 75% no computador**: a página já abre do tamanho que teria com o zoom do Chrome em 75%, sem o visitante precisar ajustar nada. No celular (até 768 px de largura) ela fica em 100%, para o texto continuar legível.
 - **Layout responsivo**: duas colunas no computador, uma no celular, sem rolagem lateral.
 - **Acessível a quem prefere menos movimento**: com `prefers-reduced-motion`, as animações são desligadas.
@@ -121,7 +121,8 @@ Depois acesse **<http://localhost:8080>**.
 | Lista de projetos | `js/projetos.js`, no vetor `PROJETOS` |
 | Habilidades e tecnologias | `js/habilidades.js`, no vetor `HABILIDADES` |
 | Decisão de arquitetura, etiquetas e links dos PDFs de cada projeto | `js/documentacao.js`, no vetor `DOCUMENTACAO` |
-| Notas (tema, título, resumo, texto e projetos citados) | `js/notas.js`, no vetor `NOTAS` |
+| Notas (tema, título, resumo, texto, frase da vitrine e projetos citados) | `js/notas.js`, no vetor `NOTAS` |
+| Luz que segue o mouse nos cartões de nota e fundo escurecido atrás do leitor | `css/estilo.css`, nas variáveis `--luz` e `--fundo-leitor` (uma vez em cada tema) |
 | Miniaturas dos diagramas | `assets/documentacao/` (PNG branco com fundo transparente, 1100 × 420) |
 | Usuário do GitHub, tempos de cache, quantos repositórios e linguagens mostrar e ano inicial dos botões de ano | `js/atividade.js`, no objeto `ATIVIDADE` (o ano inicial vem da data de criação da conta; `anoInicial` só é usado se a API não responder) |
 | Tons do gráfico de contribuições e das barras de linguagens | `css/estilo.css`, nas variáveis `--nivel-0` a `--nivel-4`, `--barra` e `--barra-outras` (uma vez em cada tema) |
@@ -164,7 +165,7 @@ Para o projeto aparecer também na aba Documentação, acrescente um item com o 
 
 O `banco` é opcional: sem ele, o cartão mostra só o botão do manual.
 
-Para escrever uma nota nova, acrescente um item em `js/notas.js`. Em `corpo`, cada texto vira um parágrafo e cada `{ codigo: "..." }` vira um bloco de código; os nomes em `projetos` precisam ser iguais aos `titulo` de `js/projetos.js`:
+Para escrever uma nota nova, acrescente um item em `js/notas.js`. Em `corpo`, cada texto vira um parágrafo e cada `{ codigo: "..." }` vira um bloco de código; os nomes em `projetos` precisam ser iguais aos `titulo` de `js/projetos.js`. O número da nota vem da posição dela no vetor. A vitrine do cartão mostra o primeiro bloco de código; `citacao` é opcional e põe uma frase no lugar do código (sem código e sem `citacao`, entra a primeira frase do texto):
 
 ```js
 {
@@ -176,6 +177,7 @@ Para escrever uma nota nova, acrescente um item em `js/notas.js`. Em `corpo`, ca
 		{ codigo: "SELECT 1;" },
 		"Último parágrafo."
 	],
+	citacao: "Uma frase curta da nota para a vitrine (opcional).",
 	projetos: ["Meu Projeto"]
 }
 ```
@@ -193,7 +195,7 @@ Portfolio/
 │   ├── documentacao.js decisão de arquitetura e PDFs de cada projeto
 │   ├── atividade.js    busca os dados do GitHub e monta a aba Atividade
 │   ├── notas.js        textos da aba Notas
-│   └── main.js         monta os cartões, digita o título, controla o topo, as abas e o tema
+│   └── main.js         monta os cartões e o leitor das notas, digita o título, controla o topo, as abas e o tema
 ├── assets/
 │   ├── logo-ravel.png  logo
 │   ├── icone-computador.png  ícone do topo, ao lado do nome
