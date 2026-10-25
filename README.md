@@ -20,37 +20,37 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 ---
 
 <p align="center">
-  <img src="assets/preview-portfolio.png?v=19" alt="Prévia do portfólio">
-</p>
-
-<p align="center"><b>Tema claro, na aba Habilidades</b></p>
-
-<p align="center">
-  <img src="assets/preview-portfolio-claro.png?v=23" alt="Prévia do portfólio no tema claro, na aba Habilidades">
-</p>
-
-<p align="center"><b>Aba Documentação</b></p>
-
-<p align="center">
-  <img src="assets/preview-portfolio-documentacao.png?v=8" alt="Prévia da aba Documentação, com o diagrama do banco e os PDFs de cada projeto">
-</p>
-
-<p align="center"><b>Aba Atividade</b></p>
-
-<p align="center">
-  <img src="assets/preview-portfolio-atividade.png?v=2" alt="Prévia da aba Atividade, com o gráfico de contribuições, as linguagens mais usadas e os repositórios recentes">
-</p>
-
-<p align="center"><b>Aba Notas</b></p>
-
-<p align="center">
-  <img src="assets/preview-portfolio-notas.png?v=6" alt="Prévia da aba Notas, com as notas em duas colunas e a vitrine de código de cada uma">
+  <img src="assets/preview-portfolio.png?v=20" alt="Prévia do portfólio na aba Projetos: apresentação, terminal, abas, filtros por linguagem e a primeira fileira de projetos">
 </p>
 
 <p align="center"><b>Aba Destaques</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-destaques.png?v=1" alt="Prévia da aba Destaques, com os atalhos do Crivo e do Grafo, o cabeçalho do Crivo, a tela principal numa janela e os números do projeto">
+  <img src="assets/preview-portfolio-destaques.png?v=2" alt="Prévia da aba Destaques: atalhos do Crivo e do Grafo, cabeçalho do Crivo e a tela principal numa janela">
+</p>
+
+<p align="center"><b>Tema claro, na aba Habilidades</b></p>
+
+<p align="center">
+  <img src="assets/preview-portfolio-claro.png?v=24" alt="Prévia do portfólio no tema claro, na aba Habilidades">
+</p>
+
+<p align="center"><b>Aba Documentação</b></p>
+
+<p align="center">
+  <img src="assets/preview-portfolio-documentacao.png?v=9" alt="Prévia da aba Documentação, com o diagrama do banco e a decisão de arquitetura dos primeiros projetos">
+</p>
+
+<p align="center"><b>Aba Atividade</b></p>
+
+<p align="center">
+  <img src="assets/preview-portfolio-atividade.png?v=3" alt="Prévia da aba Atividade, com o gráfico de contribuições, as linguagens mais usadas e os repositórios recentes">
+</p>
+
+<p align="center"><b>Aba Notas</b></p>
+
+<p align="center">
+  <img src="assets/preview-portfolio-notas.png?v=7" alt="Prévia da aba Notas, com as notas em duas colunas e a vitrine de código de cada uma">
 </p>
 
 ## O que tem na página
