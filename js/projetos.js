@@ -83,12 +83,12 @@ const PROJETOS = [
 		tecnologias: ["Java", "Spring Boot", "SQLite", "PDFBox", "pdf.js", "Javascript", "Playwright"]
 	},
 	{
-		titulo: "Bento",
-		categoria: "Painel administrativo",
-		icone: "assets/projetos/bento.png?v=2",
-		descricao: "Bento é um painel administrativo SaaS em bento grid feito com Tailwind CSS v4: modo claro/escuro salvo no localStorage, KPIs com tendência, gráficos ApexCharts, tabelas com ordenação, busca e paginação, e gavetas laterais. API em TypeScript (Fastify) com PostgreSQL, JWT, permissões por papel, alertas em tempo real (SSE) e relatórios em CSV e PDF.",
-		link: "https://github.com/ravelroot/Data-Driven-Admin-Panel",
-		tecnologias: ["Typescript", "Tailwind CSS", "Node.js", "Fastify", "PostgreSQL", "ApexCharts", "Docker"]
+		titulo: "Grafo",
+		categoria: "Design e diagramas",
+		icone: "assets/projetos/grafo.png",
+		descricao: "Grafo é um editor colaborativo de design e diagramas no navegador, em JavaScript com PixiJS (WebGL2 e WebGPU) e núcleo geométrico em C++ compilado para WebAssembly. Frames, auto layout, componentes, fluxogramas, UML, ER e BPMN, protótipo clicável e edição em tempo real com Yjs, servidor em Rust, PostgreSQL, Redis e NATS.",
+		link: "https://github.com/ravelroot/Collaborative-Design-and-Diagram-Editor",
+		tecnologias: ["Javascript", "PixiJS", "C++", "WebAssembly", "Rust", "Yjs", "PostgreSQL", "Docker"]
 	},
 	{
 		titulo: "Favo",

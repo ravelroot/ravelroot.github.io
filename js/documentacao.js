@@ -100,14 +100,14 @@ const DOCUMENTACAO = [
 		banco: "https://github.com/ravelroot/Document-Library-Desktop/blob/main/Banco-de-Dados-Lume-Desktop.pdf"
 	},
 	{
-		titulo: "Bento",
-		miniatura: "assets/documentacao/bento.png",
-		miniaturaDescricao: "Diagrama de relacionamentos do Bento, com a tabela de usuários no centro",
-		decisao: "Tempo real pelo próprio banco",
-		texto: "Os eventos saem do PostgreSQL por LISTEN/NOTIFY e cada instância da API repassa aos navegadores por Server-Sent Events, sem Redis nem fila externa. Sem servidor configurado, o PGlite roda o mesmo SQL embutido.",
-		destaques: ["PostgreSQL 18 ou PGlite", "22 tabelas", "LISTEN/NOTIFY"],
-		manual: "https://github.com/ravelroot/Data-Driven-Admin-Panel/blob/main/Manual-Bento.pdf",
-		banco: "https://github.com/ravelroot/Data-Driven-Admin-Panel/blob/main/Banco-de-Dados-Bento.pdf"
+		titulo: "Grafo",
+		miniatura: "assets/documentacao/grafo.png",
+		miniaturaDescricao: "Diagrama de relacionamentos do Grafo, das equipes e projetos até a tabela de arquivos",
+		decisao: "O documento é um CRDT",
+		texto: "Cada arquivo é um Y.Doc (CRDT). O PostgreSQL guarda o estado compactado e a fila de updates desde a última compactação; estado + updates na ordem de seq reconstroem o documento byte a byte. O Redis cuida da presença e o NATS JetStream replica os updates entre instâncias.",
+		destaques: ["PostgreSQL 17", "14 tabelas", "Yjs + Yrs"],
+		manual: "https://github.com/ravelroot/Collaborative-Design-and-Diagram-Editor/blob/main/Manual-Grafo.pdf",
+		banco: "https://github.com/ravelroot/Collaborative-Design-and-Diagram-Editor/blob/main/Banco-de-Dados-Grafo.pdf"
 	},
 	{
 		titulo: "Favo",
