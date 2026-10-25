@@ -221,7 +221,11 @@ const ICONES_AREAS = {
 	servidor: '<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/>',
 	banco: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/>',
 	ia: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/>',
-	ferramentas: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>'
+	ferramentas: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+	// Usados no fim da aba Destaques (DESTAQUES_EM_COMUM, em js/destaques.js)
+	build: '<path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 4v5h-5"/><path d="m8.5 12.5 2.5 2.5 5-5.5"/>',
+	escudo: '<path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/><path d="M9.5 12 11 13.5l3.5-3.5"/>',
+	livro: '<path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/>'
 };
 
 function juntarNomes(nomes) {
@@ -393,6 +397,421 @@ function montarDocumentacao() {
 		cartao.append(conteudo);
 		grade.append(cartao);
 	});
+}
+
+// ---------- Aba Destaques ----------
+
+const ICONE_AMPLIAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+const ICONE_EXTERNO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h7v7M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>';
+
+function doisDigitos(numero) {
+	return String(numero).padStart(2, "0");
+}
+
+function temaEscuro() {
+	return document.documentElement.dataset.tema !== "claro";
+}
+
+// Rola até um elemento, descontando o topo fixo (respeita prefers-reduced-motion).
+function rolarAte(elemento) {
+	const altura = document.getElementById("topo").getBoundingClientRect().height;
+	const posicao = elemento.getBoundingClientRect().top;
+	const reduzir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	window.scrollTo({ top: window.scrollY + posicao - altura - 16, behavior: reduzir ? "auto" : "smooth" });
+}
+
+// Visualizador de imagens da aba Destaques: um <dialog> só, reaproveitado pelas duas galerias,
+// com anterior/próxima (dá a volta no fim), setas do teclado e deslize no celular.
+function criarGaleria() {
+	const dialogo = criar("dialog", "galeria");
+	dialogo.setAttribute("aria-label", "Imagem ampliada");
+
+	const topo = criar("div", "galeria-topo");
+	const contador = criar("p", "nota-meta galeria-contador");
+	const fechar = criar("button", "leitor-fechar");
+	fechar.type = "button";
+	fechar.setAttribute("aria-label", "Fechar imagem");
+	fechar.title = "Fechar (Esc)";
+	fechar.innerHTML = ICONE_FECHAR;
+	topo.append(contador, fechar);
+
+	const palco = criar("div", "galeria-palco");
+	const imagem = criar("img", "galeria-imagem");
+	imagem.decoding = "async";
+	const criarPasso = (classe, rotulo, icone) => {
+		const botao = criar("button", `galeria-passo ${classe}`);
+		botao.type = "button";
+		botao.setAttribute("aria-label", rotulo);
+		botao.title = rotulo;
+		botao.innerHTML = icone;
+		return botao;
+	};
+	const anterior = criarPasso("galeria-anterior", "Imagem anterior", ICONE_SETA_VOLTAR);
+	const proxima = criarPasso("galeria-proxima", "Próxima imagem", ICONE_SETA);
+	palco.append(imagem, anterior, proxima);
+
+	const legenda = criar("p", "galeria-legenda");
+	legenda.setAttribute("aria-live", "polite");
+	dialogo.append(topo, palco, legenda);
+	document.getElementById("pagina").append(dialogo);
+
+	let lista = [];
+	let atual = 0;
+	let nome = "";
+	let origem = null;
+	// A capa tem uma imagem para cada tema; as fotos da galeria, uma só.
+	const fonte = (item) => (temaEscuro() && item.imagemEscura) || item.imagem;
+	const mostrar = (indice) => {
+		atual = (indice + lista.length) % lista.length;
+		const item = lista[atual];
+		imagem.classList.remove("carregada");
+		imagem.alt = item.legenda;
+		imagem.src = fonte(item);
+		if (imagem.complete) imagem.classList.add("carregada");
+		contador.replaceChildren(
+			criar("span", "leitor-numero", `${doisDigitos(atual + 1)} / ${doisDigitos(lista.length)}`),
+			criar("span", "nota-tema", nome)
+		);
+		legenda.textContent = item.legenda;
+		// As vizinhas já ficam carregadas para a troca não piscar.
+		[atual - 1, atual + 1].forEach((vizinha) => {
+			new Image().src = fonte(lista[(vizinha + lista.length) % lista.length]);
+		});
+	};
+	imagem.addEventListener("load", () => imagem.classList.add("carregada"));
+	anterior.addEventListener("click", () => mostrar(atual - 1));
+	proxima.addEventListener("click", () => mostrar(atual + 1));
+	fechar.addEventListener("click", () => dialogo.close());
+	dialogo.addEventListener("keydown", (evento) => {
+		if (evento.key === "ArrowLeft" || evento.key === "ArrowRight") {
+			evento.preventDefault();
+			mostrar(atual + (evento.key === "ArrowLeft" ? -1 : 1));
+		}
+	});
+	// Clique fora do painel (no fundo escurecido) fecha.
+	dialogo.addEventListener("click", (evento) => {
+		if (evento.target === dialogo) dialogo.close();
+	});
+	// No celular, deslizar o dedo para o lado troca de imagem.
+	let inicioX = null;
+	palco.addEventListener("pointerdown", (evento) => {
+		inicioX = evento.pointerType === "mouse" ? null : evento.clientX;
+	});
+	palco.addEventListener("pointerup", (evento) => {
+		if (inicioX === null) return;
+		const distancia = evento.clientX - inicioX;
+		inicioX = null;
+		if (Math.abs(distancia) > 40) mostrar(atual + (distancia < 0 ? 1 : -1));
+	});
+	palco.addEventListener("pointercancel", () => {
+		inicioX = null;
+	});
+	// Ao fechar, o foco volta para a foto que abriu o visualizador.
+	dialogo.addEventListener("close", () => {
+		if (origem) origem.focus({ preventScroll: true });
+	});
+
+	return {
+		abrir(itens, indice, titulo, botao) {
+			lista = itens;
+			nome = titulo;
+			origem = botao;
+			const varias = itens.length > 1;
+			anterior.hidden = !varias;
+			proxima.hidden = !varias;
+			mostrar(indice);
+			if (!dialogo.open) dialogo.showModal();
+		}
+	};
+}
+
+function criarRotulo(texto, extra) {
+	const rotulo = criar("h4", "destaque-rotulo");
+	rotulo.append(criar("span", "", texto));
+	if (extra) rotulo.append(criar("span", "destaque-rotulo-extra", extra));
+	return rotulo;
+}
+
+function criarLinkExterno(texto, url, classe, icone) {
+	const link = criar("a", classe);
+	link.href = url;
+	link.target = "_blank";
+	link.rel = "noopener noreferrer";
+	link.innerHTML = icone;
+	link.append(texto);
+	return link;
+}
+
+function montarDestaques() {
+	const area = document.getElementById("destaques");
+	const projetoPorTitulo = {};
+	PROJETOS.forEach((projeto) => {
+		projetoPorTitulo[projeto.titulo] = projeto;
+	});
+	const documentoPorTitulo = {};
+	if (typeof DOCUMENTACAO !== "undefined") {
+		DOCUMENTACAO.forEach((doc) => {
+			documentoPorTitulo[doc.titulo] = doc;
+		});
+	}
+	const galeria = criarGaleria();
+	const blocos = [];
+	const bloco = (tag, classe) => {
+		const elemento = criar(tag, `${classe} destaque-bloco`);
+		blocos.push(elemento);
+		return elemento;
+	};
+	const ancora = (titulo) => `destaque-${titulo.toLowerCase()}`;
+
+	// Sumário: um atalho para cada projeto, com ícone, categoria e versão.
+	const sumario = bloco("nav", "destaques-sumario");
+	sumario.setAttribute("aria-label", "Projetos em destaque");
+	DESTAQUES.forEach((destaque, indice) => {
+		const projeto = projetoPorTitulo[destaque.titulo] || {};
+		const atalho = criar("a", "destaques-atalho");
+		atalho.href = `#${ancora(destaque.titulo)}`;
+		atalho.append(criar("span", "destaques-atalho-numero", doisDigitos(indice + 1)));
+		if (projeto.icone) {
+			// A moldura fica num <span> à parte: o filtro do tema claro escurece só o ícone.
+			const moldura = criar("span", "destaques-atalho-moldura");
+			const icone = criar("img", "destaques-atalho-icone");
+			icone.src = projeto.icone;
+			icone.alt = "";
+			moldura.append(icone);
+			atalho.append(moldura);
+		}
+		const textos = criar("span", "destaques-atalho-textos");
+		textos.append(criar("span", "destaques-atalho-titulo", destaque.titulo));
+		textos.append(criar("span", "destaques-atalho-categoria", `${projeto.categoria || ""} · v${destaque.versao}`));
+		atalho.append(textos);
+		atalho.insertAdjacentHTML("beforeend", ICONE_SETA);
+		atalho.addEventListener("click", (evento) => {
+			evento.preventDefault();
+			rolarAte(document.getElementById(ancora(destaque.titulo)));
+		});
+		atalho.addEventListener("pointermove", (evento) => marcarPonteiro(atalho, evento, "--luz-x", "--luz-y"));
+		sumario.append(atalho);
+	});
+	area.append(sumario);
+
+	DESTAQUES.forEach((destaque, indice) => {
+		const projeto = projetoPorTitulo[destaque.titulo] || {};
+		const documento = documentoPorTitulo[destaque.titulo] || {};
+		const secao = criar("article", "destaque");
+		secao.id = ancora(destaque.titulo);
+		secao.setAttribute("aria-labelledby", `${secao.id}-titulo`);
+
+		// Cabeçalho: posição, categoria, versão, nome, frase e links
+		const cabecalho = bloco("header", "destaque-cabecalho");
+		const meta = criar("p", "nota-meta destaque-meta");
+		meta.append(criar("span", "leitor-numero", `Destaque ${doisDigitos(indice + 1)} / ${doisDigitos(DESTAQUES.length)}`));
+		if (projeto.categoria) meta.append(criar("span", "nota-tema", projeto.categoria));
+		meta.append(criar("span", "destaque-versao", `v${destaque.versao}`));
+		const titulo = criar("h3", "destaque-titulo");
+		titulo.id = `${secao.id}-titulo`;
+		if (projeto.icone) {
+			const icone = criar("img", "destaque-icone");
+			icone.src = projeto.icone;
+			icone.alt = "";
+			icone.setAttribute("aria-hidden", "true");
+			titulo.append(icone);
+		}
+		titulo.append(destaque.titulo);
+		const botoes = criar("div", "doc-botoes destaque-botoes");
+		if (destaque.online) botoes.append(criarLinkExterno("Abrir no navegador", destaque.online, "cartao-botao", ICONE_EXTERNO));
+		if (projeto.link) botoes.append(criarLinkExterno("Código no GitHub", projeto.link, "cartao-botao cartao-botao-secundario", ICONE_GITHUB));
+		if (documento.manual) botoes.append(criarLinkPdf("Manual técnico", documento.manual, "cartao-botao cartao-botao-secundario"));
+		if (documento.banco) botoes.append(criarLinkPdf("Arquitetura do BD", documento.banco, "cartao-botao cartao-botao-secundario"));
+		cabecalho.append(meta, titulo, criar("p", "destaque-frase", destaque.frase), botoes);
+		secao.append(cabecalho);
+
+		// Capa: a tela principal numa janela, com uma imagem para cada tema da página
+		const itensDaGaleria = [
+			{ imagem: destaque.capa.claro, imagemEscura: destaque.capa.escuro, legenda: destaque.capa.legenda },
+			...destaque.galeria
+		];
+		const capa = bloco("figure", "destaque-capa");
+		const janela = criar("div", "destaque-janela");
+		const barra = criar("div", "destaque-janela-barra");
+		const pontos = criar("span", "terminal-pontos destaque-janela-pontos");
+		[["#eb695d", "#d45246"], ["#ebd65d", "#d4b346"], ["#5deb5d", "#3bb636"]].forEach(([cor, hover]) => {
+			const ponto = criar("span", "ponto");
+			ponto.style.setProperty("--cor", cor);
+			ponto.style.setProperty("--cor-hover", hover);
+			pontos.append(ponto);
+		});
+		barra.append(pontos, criar("span", "destaque-janela-endereco", destaque.endereco || ""));
+		const tela = criar("button", "destaque-janela-tela");
+		tela.type = "button";
+		tela.setAttribute("aria-label", `Ampliar a tela principal do ${destaque.titulo}`);
+		[["destaque-capa-escura", destaque.capa.escuro], ["destaque-capa-clara", destaque.capa.claro]].forEach(([classe, src]) => {
+			const imagem = criar("img", classe);
+			imagem.src = src;
+			imagem.alt = destaque.capa.legenda;
+			imagem.loading = "lazy";
+			imagem.decoding = "async";
+			imagem.width = 1600;
+			imagem.height = 1000;
+			tela.append(imagem);
+		});
+		const ampliar = criar("span", "destaque-ampliar");
+		ampliar.innerHTML = ICONE_AMPLIAR;
+		ampliar.append("Ampliar");
+		tela.append(ampliar);
+		tela.addEventListener("click", () => galeria.abrir(itensDaGaleria, 0, destaque.titulo, tela));
+		janela.append(barra, tela);
+		capa.append(janela, criar("figcaption", "destaque-legenda", destaque.capa.legenda));
+		secao.append(capa);
+
+		// Números
+		const numeros = bloco("dl", "destaque-numeros");
+		destaque.numeros.forEach((numero) => {
+			const item = criar("div", "destaque-numero");
+			// Na página o valor vem em cima (column-reverse), mas para o leitor de tela o rótulo vem antes.
+			item.append(criar("dt", "destaque-numero-rotulo", numero.rotulo), criar("dd", "destaque-numero-valor", numero.valor));
+			numeros.append(item);
+		});
+		secao.append(numeros);
+
+		// A ideia (texto) e as tecnologias, lado a lado no computador
+		const colunas = bloco("div", "destaque-colunas");
+		const ideia = criar("div", "destaque-ideia");
+		ideia.append(criarRotulo("A ideia"));
+		destaque.historia.forEach((paragrafo) => ideia.append(criar("p", "nota-paragrafo", paragrafo)));
+		const pilha = criar("aside", "destaque-pilha");
+		pilha.setAttribute("aria-label", `Tecnologias do ${destaque.titulo}`);
+		pilha.append(criarRotulo("Tecnologias"));
+		destaque.pilha.forEach((grupo) => {
+			pilha.append(criar("p", "grupo-rotulo", grupo.nome));
+			const etiquetas = criar("div", "habilidades habilidades-grupo");
+			grupo.itens.forEach((nome) => etiquetas.append(criar("span", "habilidade", nome)));
+			pilha.append(etiquetas);
+		});
+		colunas.append(ideia, pilha);
+		secao.append(colunas);
+
+		// Galeria: as fotos abrem no visualizador (a capa é a primeira da sequência)
+		const blocoGaleria = bloco("section", "destaque-secao");
+		blocoGaleria.append(criarRotulo("Galeria", `${destaque.galeria.length} telas · clique para ampliar`));
+		const grade = criar("div", "destaque-galeria");
+		destaque.galeria.forEach((foto, posicao) => {
+			const figura = criar("figure", "destaque-foto");
+			const botao = criar("button", "destaque-foto-botao");
+			botao.type = "button";
+			botao.setAttribute("aria-label", `Ampliar: ${foto.legenda}`);
+			const imagem = criar("img", "destaque-foto-imagem");
+			imagem.src = foto.miniatura || foto.imagem;
+			imagem.alt = "";
+			imagem.loading = "lazy";
+			imagem.decoding = "async";
+			imagem.width = 800;
+			imagem.height = 500;
+			const lupa = criar("span", "destaque-foto-lupa");
+			lupa.innerHTML = ICONE_AMPLIAR;
+			botao.append(imagem, lupa);
+			botao.addEventListener("click", () => galeria.abrir(itensDaGaleria, posicao + 1, destaque.titulo, botao));
+			figura.append(botao, criar("figcaption", "destaque-foto-legenda", foto.legenda));
+			grade.append(figura);
+		});
+		blocoGaleria.append(grade);
+		secao.append(blocoGaleria);
+
+		// Por dentro: as decisões de engenharia, numeradas
+		const blocoDetalhes = bloco("section", "destaque-secao");
+		blocoDetalhes.append(criarRotulo("Por dentro", `${destaque.porDentro.length} decisões de engenharia`));
+		const detalhes = criar("div", "destaque-detalhes");
+		destaque.porDentro.forEach((detalhe, posicao) => {
+			const cartao = criar("article", "destaque-detalhe");
+			cartao.append(criar("span", "destaque-detalhe-numero", doisDigitos(posicao + 1)));
+			cartao.append(criar("h5", "destaque-detalhe-titulo", detalhe.titulo));
+			cartao.append(criar("p", "destaque-detalhe-texto", detalhe.texto));
+			if (detalhe.codigo) {
+				const pre = criar("pre", "nota-codigo destaque-detalhe-codigo");
+				pre.append(criar("code", "", detalhe.codigo));
+				pre.tabIndex = 0;
+				cartao.append(pre);
+			}
+			cartao.addEventListener("pointermove", (evento) => marcarPonteiro(cartao, evento, "--luz-x", "--luz-y"));
+			detalhes.append(cartao);
+		});
+		blocoDetalhes.append(detalhes);
+		secao.append(blocoDetalhes);
+
+		// Arquitetura (no estilo do terminal) e os resultados dos testes
+		const tecnico = bloco("div", "destaque-colunas destaque-tecnico");
+		const arquitetura = criar("div", "destaque-arquitetura");
+		arquitetura.append(criarRotulo("Arquitetura"));
+		const terminal = criar("div", "terminal");
+		const terminalBarra = criar("div", "terminal-barra");
+		const terminalPontos = pontos.cloneNode(true);
+		terminalPontos.className = "terminal-pontos";
+		terminalBarra.append(terminalPontos, criar("p", "terminal-titulo", `${destaque.titulo.toLowerCase()} --arquitetura`));
+		const desenho = criar("pre", "destaque-arquitetura-desenho");
+		desenho.append(criar("code", "", destaque.arquitetura));
+		desenho.tabIndex = 0;
+		desenho.setAttribute("aria-label", `Diagrama da arquitetura do ${destaque.titulo}`);
+		terminal.append(terminalBarra, desenho);
+		arquitetura.append(terminal);
+
+		const testes = criar("div", "destaque-testes");
+		testes.append(criarRotulo("Testes e verificações"));
+		const tabela = criar("table", "destaque-tabela");
+		const legendaTabela = criar("caption", "", `Resultados da rodada de testes da versão ${destaque.versao} do ${destaque.titulo}`);
+		const corpo = criar("tbody");
+		destaque.testes.forEach((teste) => {
+			const linha = criar("tr");
+			const suite = criar("th", "destaque-tabela-suite");
+			suite.scope = "row";
+			suite.append(criar("span", "destaque-tabela-nome", teste.suite), criar("span", "destaque-tabela-detalhe", teste.detalhe));
+			linha.append(suite, criar("td", "destaque-tabela-resultado", teste.resultado));
+			corpo.append(linha);
+		});
+		tabela.append(legendaTabela, corpo);
+		testes.append(tabela);
+		tecnico.append(arquitetura, testes);
+		secao.append(tecnico);
+
+		area.append(secao);
+	});
+
+	// O que os dois têm em comum, e o caminho de volta para os outros projetos
+	const comum = bloco("section", "destaques-comum");
+	comum.setAttribute("aria-labelledby", "destaques-comum-titulo");
+	const tituloComum = criar("h3", "destaques-comum-titulo", DESTAQUES_EM_COMUM.titulo);
+	tituloComum.id = "destaques-comum-titulo";
+	comum.append(tituloComum, criar("p", "destaques-comum-texto", DESTAQUES_EM_COMUM.texto));
+	const itens = criar("div", "destaques-comum-itens");
+	DESTAQUES_EM_COMUM.itens.forEach((item) => {
+		const cartao = criar("article", "destaques-comum-item");
+		const topo = criar("div", "area-topo");
+		if (ICONES_AREAS[item.icone]) {
+			const icone = criar("span", "area-icone");
+			icone.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONES_AREAS[item.icone]}</svg>`;
+			topo.append(icone);
+		}
+		topo.append(criar("h4", "destaques-comum-item-titulo", item.titulo));
+		cartao.append(topo, criar("p", "cartao-descricao", item.texto));
+		itens.append(cartao);
+	});
+	comum.append(itens);
+
+	const outros = PROJETOS.length - DESTAQUES.length;
+	const rodape = criar("div", "destaques-comum-rodape");
+	rodape.append(criar("p", "", `Os outros ${outros} projetos, de sistemas distribuídos a um alocador de memória em C, estão na aba Projetos.`));
+	const voltar = criar("button", "cartao-botao destaques-ver-todos", "Ver todos os projetos");
+	voltar.type = "button";
+	voltar.insertAdjacentHTML("beforeend", ICONE_SETA);
+	voltar.addEventListener("click", () => {
+		const aba = document.getElementById("aba-projetos");
+		aba.click();
+		aba.focus({ preventScroll: true });
+		rolarAte(document.querySelector(".abas"));
+	});
+	rodape.append(voltar);
+	comum.append(rodape);
+	area.append(comum);
+
+	revelarAoAparecer(blocos);
 }
 
 function contarMinutos(nota) {
@@ -712,6 +1131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const projetos = montarProjetos();
 	montarHabilidades(projetos);
 	montarDocumentacao();
+	if (typeof DESTAQUES !== "undefined") montarDestaques();
 	montarNotas();
 	alternarAbas();
 	acompanharRolagem();

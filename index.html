@@ -17,7 +17,7 @@
 			if (localStorage.getItem("tema") === "claro") document.documentElement.dataset.tema = "claro";
 		} catch (erro) {}
 	</script>
-	<link rel="stylesheet" href="css/estilo.css?v=29">
+	<link rel="stylesheet" href="css/estilo.css?v=30">
 </head>
 <body>
 	<div id="pagina" class="pagina">
@@ -88,6 +88,7 @@
 			<section class="container secao">
 				<div class="abas" role="tablist" aria-label="Seções do portfólio">
 					<button id="aba-projetos" class="aba" type="button" role="tab" aria-selected="true" aria-controls="painel-projetos">Projetos</button>
+					<button id="aba-destaques" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-destaques" tabindex="-1">Destaques</button>
 					<button id="aba-habilidades" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-habilidades" tabindex="-1">Habilidades</button>
 					<button id="aba-documentacao" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-documentacao" tabindex="-1">Documentação</button>
 					<button id="aba-atividade" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-atividade" tabindex="-1">Atividade</button>
@@ -97,6 +98,11 @@
 				<div id="painel-projetos" class="painel" role="tabpanel" aria-labelledby="aba-projetos">
 					<p class="secao-descricao">Aqui estão alguns dos meus projetos em destaque, todos com código aberto e manual técnico. Filtre pela linguagem ou abra o repositório de cada um.</p>
 					<div id="projetos" class="grade"></div>
+				</div>
+
+				<div id="painel-destaques" class="painel" role="tabpanel" aria-labelledby="aba-destaques" hidden>
+					<p class="secao-descricao">Os dois projetos mais completos do portfólio, em detalhe: editores visuais inteiros, escritos do zero, que rodam no navegador, no Windows e em servidor. O Crivo é para pixel art; o Grafo, para design de interfaces e diagramas feitos a várias mãos. Abaixo, as telas, as decisões de engenharia e os números dos testes de cada um.</p>
+					<div id="destaques" class="destaques"></div>
 				</div>
 
 				<div id="painel-habilidades" class="painel" role="tabpanel" aria-labelledby="aba-habilidades" hidden>
@@ -137,6 +143,7 @@
 	<script src="js/documentacao.js?v=7"></script>
 	<script src="js/atividade.js?v=5"></script>
 	<script src="js/notas.js?v=4"></script>
-	<script src="js/main.js?v=15"></script>
+	<script src="js/destaques.js?v=1"></script>
+	<script src="js/main.js?v=16"></script>
 </body>
 </html>

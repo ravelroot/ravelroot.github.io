@@ -47,14 +47,21 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
   <img src="assets/preview-portfolio-notas.png?v=6" alt="Prévia da aba Notas, com as notas em duas colunas e a vitrine de código de cada uma">
 </p>
 
+<p align="center"><b>Aba Destaques</b></p>
+
+<p align="center">
+  <img src="assets/preview-portfolio-destaques.png?v=1" alt="Prévia da aba Destaques, com os atalhos do Crivo e do Grafo, o cabeçalho do Crivo, a tela principal numa janela e os números do projeto">
+</p>
+
 ## O que tem na página
 
 - **Topo fixo** com o ícone de computador e o nome **ravel** digitado letra por letra e cursor piscando, que ganha fundo desfocado ao rolar a página.
 - **Tema claro e escuro**: o botão redondo no canto superior direito (☀ sol / ☾ lua) troca a página entre o tema escuro (padrão) e o claro, inspirado em **desenho técnico de engenharia**: fundo de papel com quadriculado bem fraco, texto e destaques em grafite, a mesma linguagem dos diagramas dos PDFs. A paleta é Papel `#E8ECEA` (fundo, etiquetas e barra do terminal), Folha `#F6F8F7` (cartões e corpo do terminal), Linha `#B9C4C2` (bordas), Ardósia `#46535A` (textos de apoio, abas fechadas e botões ao passar o mouse) e Grafite `#20282D` (títulos, textos, botões, aba aberta, cursor do título, prompt do terminal, quadriculado, traço dos diagramas na aba Documentação e barras de linguagens). O gráfico de contribuições vai do papel ao grafite, passando por Linha e Ardósia. Os três botões coloridos do terminal continuam como no tema escuro. O tema escuro usa o mesmo quadriculado de engenharia no fundo, em linhas brancas bem fracas. A escolha fica salva no navegador e volta na próxima visita, sem piscar o tema errado ao carregar.
 - **Apresentação** com localização, resumo e link discreto para o GitHub, alinhada ao topo do terminal.
 - **Terminal `ravel@localhost~`** com o `ravel --info` do Ravel OS: o que priorizo e as áreas em que atuo, com base nos meus projetos.
-- **Cinco abas: Projetos, Habilidades, Documentação, Atividade e Notas**: as seções ficam em abas separadas na mesma página, com sublinhado animado na aba ativa. Dá para trocar com o mouse ou pelas setas do teclado, e a última aba aberta fica salva no navegador. No celular, a fileira de abas rola para o lado e a aba ativa sempre fica à vista.
+- **Seis abas: Projetos, Destaques, Habilidades, Documentação, Atividade e Notas**: as seções ficam em abas separadas na mesma página, com sublinhado animado na aba ativa. Dá para trocar com o mouse ou pelas setas do teclado, e a última aba aberta fica salva no navegador. No celular, a fileira de abas rola para o lado e a aba ativa sempre fica à vista.
   - **Projetos** em cartões com **vitrine no estilo do terminal**: o caminho do repositório no GitHub, a linguagem principal e o ícone do projeto em tamanho grande sobre um pontilhado. Abaixo vêm a categoria em destaque (por exemplo, *Pagamentos e checkout*), o nome, a descrição, as etiquetas de tecnologias e dois botões: **Ver projeto** (repositório) e **Manual técnico** (PDF). Acima da grade ficam os **filtros por linguagem** (Todos, Python, Java, JavaScript, TypeScript, C#, C, C++ e Rust, com o número de projetos em cada um), montados sozinhos a partir das tecnologias; ao filtrar, a etiqueta da linguagem escolhida fica realçada em cada cartão e o contador mostra quantos projetos aparecem. Os cartões **entram um a um** quando surgem na tela (e de novo a cada filtro). Ao passar o mouse, uma luz suave acompanha o cursor, o pontilhado se acende em volta dele, o ícone ganha um leve brilho, um cursor pisca ao lado do repositório e a seta do botão avança. Tudo respeita `prefers-reduced-motion`.
+  - **Destaques**: o **Crivo** e o **Grafo** apresentados em detalhe, um depois do outro. No topo, um atalho para cada um (ícone, categoria e versão) rola até ele. Cada projeto abre com a posição (*Destaque 01 / 02*), a categoria, a versão, o nome em tamanho grande, uma frase que resume o projeto e os botões **Abrir no navegador** (versão no GitHub Pages), **Código no GitHub**, **Manual técnico** e **Arquitetura do BD**. Depois vêm: a **tela principal numa janela** com a barra do terminal e o endereço da versão online, que **acompanha o tema da página** (editor escuro no tema escuro, claro no claro); **quatro números** (por exemplo, *263 testes, todos passando* e *37 KB de núcleo em WebAssembly*); **A ideia**, em três parágrafos, ao lado das **tecnologias** agrupadas; uma **galeria de nove telas** com legenda; **Por dentro**, com seis decisões de engenharia numeradas (algumas com um trecho no estilo do terminal, como o RLE do Crivo e as tabelas do documento do Grafo); a **arquitetura** desenhada num terminal; e a tabela de **testes e verificações** com os resultados. Um clique na tela principal ou em qualquer foto abre o **visualizador**: a imagem quase em tela cheia, com legenda, posição (*04 / 10*), botões e setas do teclado para passar (ele dá a volta no fim), deslize no celular, Esc ou clique fora para fechar e o foco de volta na foto. A aba termina com **Dois editores, as mesmas regras** (três maneiras de rodar, builds reproduzíveis, segurança por padrão e documentação para quem chega) e um botão que volta para a aba Projetos. Os blocos sobem e aparecem conforme a página rola, e tudo respeita `prefers-reduced-motion`.
   - **Habilidades** organizadas por área (Front-end, Back-end, Bancos de Dados, IA & LLMs e Ferramentas), em cartões com um ícone para cada área, o número de itens e etiquetas agrupadas. IA & LLMs se divide em Arquitetura RAG e Modelos e protocolos; Ferramentas, em DevOps e infraestrutura, APIs, Desenvolvimento e Produtividade. As tecnologias que aparecem nos projetos podem ser clicadas: o clique abre a aba Projetos já filtrada por ela (o filtro aparece como um botão a mais, com um X para remover). Acima dos cartões, os botões **Todas** e **Usadas nos projetos** deixam as demais etiquetas apagadas. Os cartões entram um a um ao aparecer na tela, as etiquetas acendem em cascata e uma luz suave acompanha o mouse.
   - **Documentação**: um cartão por projeto com a miniatura do diagrama do banco (tirada do próprio PDF, em traço branco no tema escuro e grafite no claro), a decisão de arquitetura que mais pesou, etiquetas com os números principais e botões que abrem o **Manual técnico** e a **Arquitetura do BD** em PDF no GitHub. A miniatura também abre o PDF. O Talos, que ainda não tem o PDF do banco, mostra o diagrama de relacionamentos da área de atendimento (as tabelas em volta de `pyh_ticket`), desenhado a partir do diagrama Mermaid de `docs/banco-de-dados.md` do próprio repositório.
   - **Atividade**: dados ao vivo do GitHub, buscados só quando a aba é aberta. No topo, um selo com a data de criação da conta (**Membro desde 21 de outubro de 2026**, tirada da API do GitHub). Mostra as contribuições dos últimos 12 meses, sequência atual e maior sequência de dias com commits, número de repositórios públicos, o **gráfico de contribuições** dos últimos 12 meses (o mesmo calendário do perfil, em tons neutros que acompanham o tema). A janela anda junto com o tempo e atravessa a virada de ano: por isso o primeiro mês e cada janeiro mostram o ano, e a nota abaixo do gráfico diz o período exato. A partir de **1º de janeiro de 2027**, o cartão ganha sozinho os botões **12 meses · 2027 · 2026** para ver cada ano inteiro (um botão novo aparece a cada virada de ano); no ano em andamento, os dias que ainda não chegaram aparecem vazados, as **linguagens mais usadas** pela soma do código de todos os repositórios e os **repositórios que receberam commits por último**, com o ícone do projeto quando ele está no portfólio. Passar o mouse sobre um dia ou uma linguagem mostra os detalhes.
@@ -124,6 +131,8 @@ Depois acesse **<http://localhost:8080>**.
 | Quadriculado do fundo | `css/estilo.css`, na variável `--grade` (uma vez em cada tema) |
 | Decisão de arquitetura, etiquetas e links dos PDFs de cada projeto | `js/documentacao.js`, no vetor `DOCUMENTACAO` |
 | Notas (tema, título, resumo, texto, frase da vitrine e projetos citados) | `js/notas.js`, no vetor `NOTAS` |
+| Aba Destaques (projetos, frase, números, textos, tecnologias, fotos e legendas, decisões de engenharia, arquitetura, testes e o bloco final) | `js/destaques.js`, nos vetores `DESTAQUES` e `DESTAQUES_EM_COMUM`; o `titulo` de cada destaque precisa ser igual ao de `js/projetos.js` e de `js/documentacao.js`, de onde vêm o ícone, a categoria, o repositório e os PDFs |
+| Fotos da aba Destaques | `assets/destaques/crivo/` e `assets/destaques/grafo/`: as telas em WebP no tamanho original (usadas na capa e no visualizador) e, em `mini/`, as miniaturas de 800 × 500 da galeria, todas convertidas das imagens de `docs/images/` de cada repositório |
 | Luz que segue o mouse nos cartões de projeto e de nota, brilho do ícone grande e fundo escurecido atrás do leitor | `css/estilo.css`, nas variáveis `--luz`, `--brilho-icone` e `--fundo-leitor` (uma vez em cada tema) |
 | Miniaturas dos diagramas | `assets/documentacao/` (PNG branco com fundo transparente, 1100 × 420) |
 | Usuário do GitHub, tempos de cache, quantos repositórios e linguagens mostrar e ano inicial dos botões de ano | `js/atividade.js`, no objeto `ATIVIDADE` (o ano inicial vem da data de criação da conta; `anoInicial` só é usado se a API não responder) |
@@ -132,7 +141,7 @@ Depois acesse **<http://localhost:8080>**.
 | Cores do tema claro | `css/estilo.css`, no bloco `:root[data-tema="claro"]` |
 | Botão de tema (ícones e textos) | `index.html`, no `#botao-tema`, e `js/main.js`, em `alternarTema()` |
 | Animação do título e do topo | `js/main.js` |
-| Abas (nomes e textos de cada seção) | `index.html`, nos botões `.aba` e nos painéis `#painel-projetos`, `#painel-habilidades`, `#painel-documentacao`, `#painel-atividade` e `#painel-notas`; o comportamento fica em `js/main.js`, em `alternarAbas()` |
+| Abas (nomes e textos de cada seção) | `index.html`, nos botões `.aba` e nos painéis `#painel-projetos`, `#painel-destaques`, `#painel-habilidades`, `#painel-documentacao`, `#painel-atividade` e `#painel-notas`; o comportamento fica em `js/main.js`, em `alternarAbas()` |
 
 Depois de alterar um arquivo CSS ou JS, aumente o número de `?v=` nos links do `index.html` (por exemplo, de `?v=2` para `?v=3`). Assim o navegador de quem visita baixa a versão nova em vez de usar a antiga guardada em cache.
 
@@ -198,16 +207,19 @@ Portfolio/
 │   ├── documentacao.js decisão de arquitetura e PDFs de cada projeto
 │   ├── atividade.js    busca os dados do GitHub e monta a aba Atividade
 │   ├── notas.js        textos da aba Notas
-│   └── main.js         monta os cartões, os filtros dos projetos e o leitor das notas, digita o título, controla o topo, as abas e o tema
+│   ├── destaques.js    Crivo e Grafo em detalhe: textos, números, fotos, arquitetura e testes da aba Destaques
+│   └── main.js         monta os cartões, os filtros dos projetos, a aba Destaques com o visualizador de imagens e o leitor das notas, digita o título, controla o topo, as abas e o tema
 ├── assets/
 │   ├── logo-ravel.png  logo
 │   ├── icone-computador.png  ícone do topo, ao lado do nome
 │   ├── projetos/       ícones dos projetos (brancos, fundo transparente)
+│   ├── destaques/      telas do Crivo e do Grafo em WebP (crivo/ e grafo/, com as miniaturas em mini/)
 │   ├── documentacao/   miniaturas dos diagramas de banco, tiradas dos PDFs (a do Talos vem do diagrama Mermaid de docs/banco-de-dados.md)
 │   ├── favicon.png     ícone da aba
 │   ├── preview-portfolio.png        prévia do tema escuro usada neste README
 │   ├── preview-portfolio-claro.png  prévia do tema claro usada neste README
 │   ├── preview-portfolio-documentacao.png  prévia da aba Documentação
+│   ├── preview-portfolio-destaques.png     prévia da aba Destaques
 │   ├── preview-portfolio-atividade.png     prévia da aba Atividade
 │   └── preview-portfolio-notas.png         prévia da aba Notas
 ├── .github/
