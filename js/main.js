@@ -1053,9 +1053,6 @@ function alternarAbas() {
 		if (focar) aba.focus();
 		mostrarAbaNaLista(aba);
 		document.dispatchEvent(new CustomEvent("aba-ativada", { detail: aba.id }));
-		try {
-			localStorage.setItem("aba", aba.id);
-		} catch (erro) {}
 	};
 	abas.forEach((aba, indice) => {
 		aba.addEventListener("click", () => ativar(aba, false));
@@ -1071,11 +1068,12 @@ function alternarAbas() {
 			}
 		});
 	});
-	let salva = null;
+	// A página sempre abre na primeira aba (Projetos). Apaga a aba que versões
+	// anteriores deixavam salva no navegador.
 	try {
-		salva = document.getElementById(localStorage.getItem("aba"));
+		localStorage.removeItem("aba");
 	} catch (erro) {}
-	ativar(salva && abas.includes(salva) ? salva : abas[0], false);
+	ativar(abas[0], false);
 }
 
 function digitarTitulo() {
