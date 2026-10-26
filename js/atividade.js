@@ -1,19 +1,19 @@
 // Aba Atividade: dados ao vivo do GitHub, buscados só quando a aba é aberta.
 // - Perfil e repositórios: API pública do GitHub (sem token, limite de 60 consultas por hora).
 // - Gráfico de contribuições: github-contributions-api.jogruber.de, que lê o mesmo calendário
-//   do perfil. Se ele não responder, o gráfico usa os eventos públicos dos últimos 90 dias.
+//   do perfil, um ano inteiro por vez. Se ele não responder, o gráfico usa os eventos públicos dos últimos 90 dias.
 // Tudo fica guardado no navegador por 30 minutos (as linguagens e os anos que já acabaram, por 24 horas)
 // para não gastar o limite da API.
-// A partir do ano seguinte ao da criação da conta, o gráfico ganha botões para ver cada ano inteiro.
+// O gráfico abre no ano atual e tem um botão para cada ano desde 2022; anos sem commits aparecem vazios.
 
 const ATIVIDADE = {
 	usuario: "ravelroot",
 	validade: 30 * 60 * 1000,
 	validadeLinguagens: 24 * 60 * 60 * 1000,
-	chaveCache: "atividade-github-v1",
-	chaveCacheAnos: "atividade-github-anos-v1",
-	// Ano em que a conta foi criada, usado se a API do GitHub não responder com a data de criação.
-	anoInicial: 2026,
+	chaveCache: "atividade-github-v2",
+	chaveCacheAnos: "atividade-github-anos-v2",
+	// Primeiro ano com botão no gráfico (o calendário começa em 1º de janeiro dele).
+	anoInicial: 2022,
 	reposRecentes: 5,
 	linguagensVisiveis: 8,
 	reposOcultos: ["ravelroot.github.io", "ravelroot"]
@@ -117,20 +117,25 @@ async function buscarLinguagens(repos) {
 	return { fonte: "bytes", itens: Object.entries(total).map(([nome, valor]) => ({ nome, valor, repos: presenca[nome] })) };
 }
 
+// O gráfico abre no ano atual, de 1º de janeiro até hoje.
 async function buscarContribuicoes() {
 	try {
-		const dados = await buscarJson(`${API_CONTRIBUICOES}${ATIVIDADE.usuario}?y=last`);
-		const hoje = textoData(new Date());
-		const dias = (dados.contributions || [])
-			.filter((dia) => dia.date <= hoje)
-			.map((dia) => ({ data: dia.date, total: dia.count, nivel: dia.level }));
-		if (!dias.length) throw new Error("Calendário vazio");
-		const soma = dias.reduce((acumulado, dia) => acumulado + dia.total, 0);
-		const total = dados.total && typeof dados.total.lastYear === "number" ? dados.total.lastYear : soma;
-		return { fonte: "calendario", dias, total };
+		return await buscarContribuicoesDoAno(new Date().getFullYear());
 	} catch (erro) {
 		return buscarContribuicoesPorEventos();
 	}
+}
+
+// O ano inteiro, de 1º de janeiro a 31 de dezembro. Dia sem dado (antes da conta existir ou sem commits) fica zerado.
+function anoCompleto(ano, porData = {}) {
+	const hoje = textoData(new Date());
+	const dias = [];
+	for (let data = new Date(ano, 0, 1, 12); data.getFullYear() === ano; data.setDate(data.getDate() + 1)) {
+		const chave = textoData(data);
+		const dia = porData[chave];
+		dias.push({ data: chave, total: dia ? dia.count : 0, nivel: dia ? dia.level : 0, futuro: chave > hoje });
+	}
+	return { fonte: "ano", ano, dias, total: dias.reduce((soma, dia) => soma + dia.total, 0) };
 }
 
 function lerCacheAnos() {
@@ -141,21 +146,21 @@ function lerCacheAnos() {
 	}
 }
 
-async function buscarContribuicoesDoAno(ano) {
+// Anos anteriores à criação da conta não têm o que buscar: o calendário vem vazio, sem gastar consulta.
+async function buscarContribuicoesDoAno(ano, anoCriacao) {
+	if (anoCriacao && ano < anoCriacao) return anoCompleto(ano);
 	const anoAtual = new Date().getFullYear();
 	const validade = ano < anoAtual ? ATIVIDADE.validadeLinguagens : ATIVIDADE.validade;
 	const anos = lerCacheAnos();
 	if (anos[ano] && Date.now() - anos[ano].quando < validade) return anos[ano].contribuicoes;
 
 	const dados = await buscarJson(`${API_CONTRIBUICOES}${ATIVIDADE.usuario}?y=${ano}`);
-	const hoje = textoData(new Date());
-	const dias = (dados.contributions || [])
-		.filter((dia) => dia.date.startsWith(`${ano}-`))
-		.map((dia) => ({ data: dia.date, total: dia.count, nivel: dia.level, futuro: dia.date > hoje }));
-	if (!dias.length) throw new Error("Ano vazio");
-	const soma = dias.reduce((acumulado, dia) => acumulado + dia.total, 0);
-	const total = dados.total && typeof dados.total[ano] === "number" ? dados.total[ano] : soma;
-	const contribuicoes = { fonte: "ano", ano, dias, total };
+	const porData = {};
+	(dados.contributions || []).forEach((dia) => {
+		if (dia.date && dia.date.startsWith(`${ano}-`)) porData[dia.date] = dia;
+	});
+	const contribuicoes = anoCompleto(ano, porData);
+	if (dados.total && typeof dados.total[ano] === "number") contribuicoes.total = dados.total[ano];
 	anos[ano] = { quando: Date.now(), contribuicoes };
 	try {
 		localStorage.setItem(ATIVIDADE.chaveCacheAnos, JSON.stringify(anos));
@@ -163,12 +168,11 @@ async function buscarContribuicoesDoAno(ano) {
 	return contribuicoes;
 }
 
-// Anos com botão no gráfico, do mais recente ao da criação da conta. Com um ano só, não há botões.
-function anosDisponiveis(perfil) {
+// Anos com botão no gráfico, do atual até 2022, mesmo os que não tiveram nenhum commit.
+function anosDisponiveis() {
 	const anoAtual = new Date().getFullYear();
-	const criacao = perfil && perfil.criadoEm ? Number(perfil.criadoEm.slice(0, 4)) : ATIVIDADE.anoInicial;
 	const anos = [];
-	for (let ano = anoAtual; ano >= Math.min(criacao, anoAtual); ano--) anos.push(ano);
+	for (let ano = anoAtual; ano >= Math.min(ATIVIDADE.anoInicial, anoAtual); ano--) anos.push(ano);
 	return anos;
 }
 
@@ -399,8 +403,7 @@ function preencherContribuicoes(corpo, dados, contribuicoes) {
 			numeros.append(criarNumero(`Contribuições em ${contribuicoes.ano}`, numeroBR.format(contribuicoes.total)));
 			numeros.append(criarNumero("Dias com contribuições", numeroBR.format(passados.filter((dia) => dia.total > 0).length)));
 		} else {
-			const rotuloTotal = contribuicoes.fonte === "calendario" ? "Contribuições nos últimos 12 meses" : "Atividades em 90 dias";
-			numeros.append(criarNumero(rotuloTotal, numeroBR.format(contribuicoes.total)));
+			numeros.append(criarNumero("Atividades em 90 dias", numeroBR.format(contribuicoes.total)));
 			numeros.append(criarNumero("Sequência atual", plural(atual, "dia", "dias")));
 		}
 		numeros.append(criarNumero("Maior sequência", plural(maior, "dia", "dias")));
@@ -420,9 +423,7 @@ function preencherContribuicoes(corpo, dados, contribuicoes) {
 	const inicio = formatoPeriodo.format(dataLocal(contribuicoes.dias[0].data));
 	const fim = formatoPeriodo.format(dataLocal(passados[passados.length - 1].data));
 	let nota;
-	if (contribuicoes.fonte === "calendario") {
-		nota = `Commits, pull requests e issues de ${inicio} a ${fim}. O período avança a cada dia, como no calendário do perfil.`;
-	} else if (contribuicoes.fonte === "ano" && passados.length < contribuicoes.dias.length) {
+	if (contribuicoes.fonte === "ano" && passados.length < contribuicoes.dias.length) {
 		nota = `Commits, pull requests e issues de ${inicio} até hoje. Os dias que ainda não chegaram aparecem vazados.`;
 	} else if (contribuicoes.fonte === "ano") {
 		nota = `Commits, pull requests e issues de ${inicio} a ${fim}.`;
@@ -436,37 +437,37 @@ function preencherContribuicoes(corpo, dados, contribuicoes) {
 }
 
 function montarSeletorDeAnos(dados, corpo) {
-	const anos = anosDisponiveis(dados.perfil);
+	const anos = anosDisponiveis();
 	if (anos.length < 2) return null;
+	const anoCriacao = dados.perfil && dados.perfil.criadoEm ? Number(dados.perfil.criadoEm.slice(0, 4)) : null;
 
 	const grupo = criar("div", "anos");
 	grupo.setAttribute("role", "group");
 	grupo.setAttribute("aria-label", "Período do gráfico de contribuições");
 	let pedido = 0;
 
-	const opcoes = [{ rotulo: "12 meses", ano: null }, ...anos.map((ano) => ({ rotulo: String(ano), ano }))];
-	opcoes.forEach((opcao, indice) => {
-		const botao = criar("button", "ano", opcao.rotulo);
+	// O ano atual já vem carregado com a aba; os outros são buscados no clique.
+	anos.forEach((ano, indice) => {
+		const botao = criar("button", "ano", String(ano));
 		botao.type = "button";
 		botao.setAttribute("aria-pressed", indice === 0 ? "true" : "false");
-		if (!opcao.ano) botao.setAttribute("aria-label", "Últimos 12 meses");
 		botao.addEventListener("click", () => {
 			if (botao.getAttribute("aria-pressed") === "true") return;
 			grupo.querySelectorAll(".ano").forEach((item) => item.setAttribute("aria-pressed", item === botao ? "true" : "false"));
 			const meu = ++pedido;
-			if (!opcao.ano) {
+			if (dados.contribuicoes && dados.contribuicoes.fonte === "ano" && dados.contribuicoes.ano === ano) {
 				preencherContribuicoes(corpo, dados, dados.contribuicoes);
 				return;
 			}
 			corpo.setAttribute("aria-busy", "true");
-			buscarContribuicoesDoAno(opcao.ano)
+			buscarContribuicoesDoAno(ano, anoCriacao)
 				.then((contribuicoes) => {
 					if (meu === pedido) preencherContribuicoes(corpo, dados, contribuicoes);
 				})
 				.catch(() => {
 					if (meu !== pedido) return;
 					corpo.removeAttribute("aria-busy");
-					corpo.replaceChildren(criar("p", "atividade-aviso", `Não deu para buscar ${opcao.ano} agora. Tente de novo em alguns minutos.`));
+					corpo.replaceChildren(criar("p", "atividade-aviso", `Não deu para buscar ${ano} agora. Tente de novo em alguns minutos.`));
 				});
 		});
 		grupo.append(botao);
@@ -596,22 +597,8 @@ function montarRodapeAtividade(dados) {
 	return rodape;
 }
 
-// "Membro desde 21 de outubro de 2026", pela data de criação da conta no GitHub.
-function montarMembroDesde(perfil) {
-	if (!perfil || !perfil.criadoEm) return null;
-	const data = new Date(perfil.criadoEm);
-	if (Number.isNaN(data.getTime())) return null;
-	const formato = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long", year: "numeric" });
-	const membro = criar("p", "atividade-membro");
-	membro.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
-	membro.append("Membro desde ", criar("strong", "", formato.format(data)));
-	return membro;
-}
-
 function montarAtividade(dados) {
 	const grade = document.getElementById("atividade");
-	const membro = montarMembroDesde(dados.perfil);
-	if (membro) grade.before(membro);
 	grade.replaceChildren();
 	grade.setAttribute("aria-busy", "false");
 	grade.append(montarCartaoContribuicoes(dados));

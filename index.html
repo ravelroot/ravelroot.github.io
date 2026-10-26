@@ -17,7 +17,7 @@
 			if (localStorage.getItem("tema") === "claro") document.documentElement.dataset.tema = "claro";
 		} catch (erro) {}
 	</script>
-	<link rel="stylesheet" href="css/estilo.css?v=30">
+	<link rel="stylesheet" href="css/estilo.css?v=31">
 </head>
 <body>
 	<div id="pagina" class="pagina">
@@ -93,6 +93,7 @@
 					<button id="aba-documentacao" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-documentacao" tabindex="-1">Documentação</button>
 					<button id="aba-atividade" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-atividade" tabindex="-1">Atividade</button>
 					<button id="aba-notas" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-notas" tabindex="-1">Notas</button>
+					<button id="aba-contato" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-contato" tabindex="-1">Contato</button>
 				</div>
 
 				<div id="painel-projetos" class="painel" role="tabpanel" aria-labelledby="aba-projetos">
@@ -116,7 +117,7 @@
 				</div>
 
 				<div id="painel-atividade" class="painel" role="tabpanel" aria-labelledby="aba-atividade" hidden>
-					<p class="secao-descricao">Dados ao vivo do meu GitHub: contribuições dos últimos 12 meses, linguagens mais usadas e os repositórios que receberam commits por último.</p>
+					<p class="secao-descricao">Dados ao vivo do meu GitHub: contribuições ano a ano desde 2022, linguagens mais usadas e os repositórios que receberam commits por último.</p>
 					<div id="atividade" class="grade" aria-live="polite" aria-busy="true">
 						<article class="cartao cartao-largo cartao-estatico">
 							<div class="cartao-conteudo">
@@ -130,6 +131,61 @@
 					<p class="secao-descricao">Textos curtos sobre as decisões técnicas por trás dos projetos: o problema, a escolha feita e o que ela custa.</p>
 					<div id="notas" class="grade"></div>
 				</div>
+
+				<div id="painel-contato" class="painel" role="tabpanel" aria-labelledby="aba-contato" hidden>
+					<p class="secao-descricao">Quer falar sobre uma vaga, um projeto ou uma ideia? Preencha o formulário: a mensagem chega direto no meu e-mail e respondo no endereço que você deixar.</p>
+					<div class="grade">
+						<article class="cartao cartao-largo cartao-estatico">
+							<div class="cartao-conteudo">
+								<h3 class="cartao-titulo">Enviar mensagem</h3>
+								<p class="grupo-rotulo">Todos os campos são obrigatórios.</p>
+								<form id="contato-form" class="contato-form" action="https://formsubmit.co/ravelroot@outlook.com" method="POST">
+									<div class="contato-linha">
+										<label class="campo">
+											<span class="campo-rotulo">Nome</span>
+											<input class="campo-entrada" type="text" name="nome" autocomplete="given-name" maxlength="60" placeholder="Seu nome" required>
+										</label>
+										<label class="campo">
+											<span class="campo-rotulo">Sobrenome</span>
+											<input class="campo-entrada" type="text" name="sobrenome" autocomplete="family-name" maxlength="80" placeholder="Seu sobrenome" required>
+										</label>
+									</div>
+									<div class="contato-linha">
+										<label class="campo">
+											<span class="campo-rotulo">E-mail para resposta</span>
+											<input class="campo-entrada" type="email" name="email" autocomplete="email" maxlength="120" placeholder="voce@exemplo.com" required>
+										</label>
+										<label class="campo">
+											<span class="campo-rotulo">Motivo do contato</span>
+											<span class="campo-select">
+												<select class="campo-entrada" name="motivo" required>
+													<option value="" disabled selected>Escolha um motivo</option>
+													<option>Proposta de trabalho</option>
+													<option>Projeto freelance</option>
+													<option>Dúvida sobre um projeto</option>
+													<option>Parceria ou colaboração</option>
+													<option>Outro assunto</option>
+												</select>
+											</span>
+										</label>
+									</div>
+									<label class="campo">
+										<span class="campo-rotulo">Mensagem</span>
+										<textarea class="campo-entrada" name="mensagem" rows="7" maxlength="3000" placeholder="Escreva sua mensagem" required></textarea>
+										<span id="contato-contador" class="campo-contador" aria-hidden="true"></span>
+									</label>
+									<input class="campo-armadilha" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+									<input type="hidden" name="_subject" value="Novo contato pelo portfólio">
+									<input type="hidden" name="_template" value="table">
+									<div class="contato-acoes">
+										<button class="cartao-botao contato-enviar" type="submit">Enviar mensagem</button>
+										<p id="contato-status" class="contato-status" role="status" aria-live="polite"></p>
+									</div>
+								</form>
+							</div>
+						</article>
+					</div>
+				</div>
 			</section>
 		</main>
 
@@ -141,9 +197,10 @@
 	<script src="js/projetos.js?v=19"></script>
 	<script src="js/habilidades.js?v=5"></script>
 	<script src="js/documentacao.js?v=7"></script>
-	<script src="js/atividade.js?v=5"></script>
+	<script src="js/atividade.js?v=6"></script>
 	<script src="js/notas.js?v=4"></script>
 	<script src="js/destaques.js?v=1"></script>
+	<script src="js/contato.js?v=1"></script>
 	<script src="js/main.js?v=16"></script>
 </body>
 </html>
