@@ -29,3 +29,4 @@
 2026-10-25 turno-5 16:54 (Brasília)
 2026-10-26 turno-1 10:33 (Brasília)
 2026-10-26 turno-2 12:19 (Brasília)
+2026-10-26 turno-3 13:19 (Brasília)
