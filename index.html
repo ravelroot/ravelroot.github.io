@@ -3,67 +3,120 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ravelroot</title>
-	<meta name="description" content="Portfólio de sistemas construídos do zero, com foco em arquitetura, escalabilidade e consistência de dados.">
-	<meta property="og:title" content="Erik Pimenta">
-	<meta property="og:description" content="Portfólio de sistemas construídos do zero, com foco em arquitetura, escalabilidade e consistência de dados.">
-	<meta property="og:type" content="website">
+	<title>Erik Pimenta | Engenheiro de Software</title>
+	<meta name="description" content="Erik Pimenta, Engenheiro de Software no Rio de Janeiro. Sistemas completos, do banco de dados à interface, sem me prender a uma linguagem ou stack, com testes, manual técnico e código aberto.">
+	<meta name="author" content="Erik Pimenta">
+	<meta name="theme-color" content="#0c0a09">
+	<link rel="canonical" href="https://ravelroot.github.io/">
+	<meta property="og:type" content="profile">
+	<meta property="og:locale" content="pt_BR">
+	<meta property="og:site_name" content="Erik Pimenta">
+	<meta property="og:url" content="https://ravelroot.github.io/">
+	<meta property="og:title" content="Erik Pimenta | Engenheiro de Software">
+	<meta property="og:description" content="Sistemas completos, do banco de dados à interface, sem me prender a uma linguagem ou stack, com testes, manual técnico e código aberto.">
+	<meta property="og:image" content="https://ravelroot.github.io/assets/compartilhar.png">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:image:alt" content="Erik Pimenta, Engenheiro de Software, com um terminal listando as áreas em que atua">
+	<meta property="profile:first_name" content="Erik">
+	<meta property="profile:last_name" content="Pimenta">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Erik Pimenta | Engenheiro de Software">
+	<meta name="twitter:description" content="Sistemas completos, do banco de dados à interface, com testes, manual técnico e código aberto.">
+	<meta name="twitter:image" content="https://ravelroot.github.io/assets/compartilhar.png">
 	<link rel="icon" type="image/png" href="assets/favicon.png?v=2">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 	<script>
+		document.documentElement.classList.add("js");
 		try {
 			if (localStorage.getItem("tema") === "claro") document.documentElement.dataset.tema = "claro";
 		} catch (erro) {}
 	</script>
-	<link rel="stylesheet" href="css/estilo.css?v=31">
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Person",
+		"name": "Erik Pimenta",
+		"alternateName": "ravelroot",
+		"jobTitle": "Engenheiro de Software",
+		"url": "https://ravelroot.github.io/",
+		"image": "https://ravelroot.github.io/assets/compartilhar.png",
+		"sameAs": ["https://github.com/ravelroot"],
+		"address": { "@type": "PostalAddress", "addressLocality": "Rio de Janeiro", "addressCountry": "BR" },
+		"knowsAbout": ["Java", "Spring Boot", "Python", "Django", "FastAPI", "C#", ".NET", "JavaScript", "TypeScript", "React", "PostgreSQL", "Docker", "Microsserviços", "Sistemas distribuídos", "RAG"]
+	}
+	</script>
+	<link rel="stylesheet" href="css/estilo.css?v=32">
 </head>
 <body>
+	<a class="pular" href="#conteudo">Pular para o conteúdo</a>
 	<div id="pagina" class="pagina">
 		<header id="topo" class="topo">
 			<div class="container topo-conteudo">
-				<div class="marca">
+				<a class="marca" href="#" aria-label="ravel, voltar ao início">
 					<img class="icone-marca" src="assets/icone-computador.png" height="28" alt="" aria-hidden="true">
-					<h1 class="marca-titulo">
+					<span class="marca-titulo" aria-hidden="true">
 						<span id="titulo-digitado" data-texto="ravel"></span>
 						<span class="cursor"></span>
-					</h1>
-				</div>
-				<button id="botao-tema" class="botao-tema" type="button" aria-label="Ativar tema claro" title="Ativar tema claro">
-					<svg class="icone-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<circle cx="12" cy="12" r="4"/>
-						<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-					</svg>
-					<svg class="icone-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-					</svg>
-				</button>
+					</span>
+				</a>
+				<nav class="topo-acoes" aria-label="Atalhos">
+					<a class="topo-icone" href="https://github.com/ravelroot" target="_blank" rel="noopener noreferrer" aria-label="GitHub (abre em nova aba)" title="GitHub">
+						<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+					</a>
+					<a class="topo-contato" href="#contato" data-aba="aba-contato">Contato</a>
+					<button id="botao-tema" class="botao-tema" type="button" aria-label="Ativar tema claro" title="Ativar tema claro">
+						<svg class="icone-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<circle cx="12" cy="12" r="4"/>
+							<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+						</svg>
+						<svg class="icone-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+						</svg>
+					</button>
+				</nav>
 			</div>
 		</header>
 
-		<main class="principal">
+		<main id="conteudo" class="principal" tabindex="-1">
 			<div class="container boas-vindas">
-				<div>
-					<div class="local">
-						<svg class="local-icone" viewBox="0 0 384 512" width="16" height="16" aria-hidden="true">
-							<path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/>
-						</svg>
-						<p class="local-texto">Rio de Janeiro, Brasil</p>
-					</div>
-					<h2 class="saudacao">Olá, sou Erik Pimenta</h2>
+				<div class="apresentacao">
+					<p class="disponivel"><span class="disponivel-ponto" aria-hidden="true"></span>Disponível para novas oportunidades</p>
+					<h1 class="saudacao">Erik Pimenta</h1>
 					<p class="resumo">Engenheiro de Software</p>
-					<div class="botoes">
-						<a class="botao-link" href="https://github.com/ravelroot" target="_blank" rel="noopener noreferrer">
-							<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-							Github
-						</a>
+					<p class="apresentacao-texto">Construo sistemas complexos e confiáveis, fáceis de manter e prontos para crescer. Já criei soluções para pagamentos, lojas virtuais, busca de documentos e assistentes com inteligência artificial, todas com cobertura de testes automatizados, manual técnico e documentação de arquitetura.</p>
+					<div class="apresentacao-acoes">
+						<a class="botao botao-primario" href="#projetos" data-aba="aba-projetos">Ver projetos</a>
+						<a class="botao botao-secundario" href="#contato" data-aba="aba-contato">Entrar em contato</a>
 					</div>
+					<ul class="apresentacao-links">
+						<li>
+							<a class="botao-link" href="https://github.com/ravelroot" target="_blank" rel="noopener noreferrer">
+								<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+								github.com/ravelroot
+							</a>
+						</li>
+						<li>
+							<button class="botao-link" type="button" data-copiar="ravelroot@outlook.com" title="Copiar e-mail">
+								<svg class="icone-copiar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+								<svg class="icone-copiado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+								<span class="copiar-rotulo">ravelroot@outlook.com</span>
+							</button>
+						</li>
+						<li class="local">
+							<svg class="local-icone" viewBox="0 0 384 512" aria-hidden="true">
+								<path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/>
+							</svg>
+							Rio de Janeiro, Brasil
+						</li>
+					</ul>
 				</div>
 
 				<div class="terminal">
 					<div class="terminal-barra">
-						<div class="terminal-pontos">
+						<div class="terminal-pontos" aria-hidden="true">
 							<span class="ponto" style="--cor:#eb695d;--cor-hover:#d45246"></span>
 							<span class="ponto" style="--cor:#ebd65d;--cor-hover:#d4b346"></span>
 							<span class="ponto" style="--cor:#5deb5d;--cor-hover:#3bb636"></span>
@@ -85,7 +138,7 @@
 				</div>
 			</div>
 
-			<section class="container secao">
+			<section id="secao" class="container secao" aria-label="Portfólio">
 				<div class="abas" role="tablist" aria-label="Seções do portfólio">
 					<button id="aba-projetos" class="aba" type="button" role="tab" aria-selected="true" aria-controls="painel-projetos">Projetos</button>
 					<button id="aba-destaques" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-destaques" tabindex="-1">Destaques</button>
@@ -133,9 +186,9 @@
 				</div>
 
 				<div id="painel-contato" class="painel" role="tabpanel" aria-labelledby="aba-contato" hidden>
-					<p class="secao-descricao">Quer falar sobre uma vaga, um projeto ou uma ideia? Preencha o formulário: a mensagem chega direto no meu e-mail e respondo no endereço que você deixar.</p>
-					<div class="grade">
-						<article class="cartao cartao-largo cartao-estatico">
+					<p class="secao-descricao">Quer falar sobre uma vaga, um projeto freelance ou uma ideia? Preencha o formulário ou escreva direto para o meu e-mail. Respondo no endereço que você deixar.</p>
+					<div class="contato-grade">
+						<article class="cartao cartao-estatico">
 							<div class="cartao-conteudo">
 								<h3 class="cartao-titulo">Enviar mensagem</h3>
 								<p class="grupo-rotulo">Todos os campos são obrigatórios.</p>
@@ -184,6 +237,33 @@
 								</form>
 							</div>
 						</article>
+						<aside class="cartao cartao-estatico contato-lado" aria-labelledby="contato-direto-titulo">
+							<div class="cartao-conteudo">
+								<h3 id="contato-direto-titulo" class="cartao-titulo">Contato direto</h3>
+								<p class="cartao-descricao">Prefere usar o seu próprio e-mail ou olhar o código antes? Os caminhos estão aqui.</p>
+								<ul class="contato-canais">
+									<li>
+										<span class="contato-canal-rotulo">E-mail</span>
+										<span class="contato-canal-linha">
+											<a class="contato-canal-valor" href="mailto:ravelroot@outlook.com">ravelroot@outlook.com</a>
+											<button class="botao-link contato-copiar" type="button" data-copiar="ravelroot@outlook.com" title="Copiar e-mail">
+												<svg class="icone-copiar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+												<svg class="icone-copiado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+												<span class="copiar-rotulo">Copiar</span>
+											</button>
+										</span>
+									</li>
+									<li>
+										<span class="contato-canal-rotulo">GitHub</span>
+										<a class="contato-canal-valor" href="https://github.com/ravelroot" target="_blank" rel="noopener noreferrer">github.com/ravelroot</a>
+									</li>
+									<li>
+										<span class="contato-canal-rotulo">Localização</span>
+										<span class="contato-canal-valor">Rio de Janeiro, Brasil (UTC−3)</span>
+									</li>
+								</ul>
+							</div>
+						</aside>
 					</div>
 				</div>
 			</section>
@@ -191,7 +271,13 @@
 
 		<footer class="container rodape">
 			<p>Feito por Erik Pimenta. Todos os direitos reservados &copy; 2026</p>
+			<ul class="rodape-links">
+				<li><a href="https://github.com/ravelroot" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+				<li><a href="mailto:ravelroot@outlook.com">E-mail</a></li>
+				<li><a href="#">Voltar ao topo</a></li>
+			</ul>
 		</footer>
+		<p id="aviso" class="so-leitor" role="status" aria-live="polite"></p>
 	</div>
 
 	<script src="js/projetos.js?v=19"></script>
@@ -201,6 +287,6 @@
 	<script src="js/notas.js?v=4"></script>
 	<script src="js/destaques.js?v=1"></script>
 	<script src="js/contato.js?v=1"></script>
-	<script src="js/main.js?v=16"></script>
+	<script src="js/main.js?v=17"></script>
 </body>
 </html>

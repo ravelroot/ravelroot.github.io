@@ -22,7 +22,7 @@ function revelarAoAparecer(cartoes) {
 	const inicio = performance.now();
 	const mostrar = (lista) => {
 		// Na primeira carga, espera a página terminar de surgir (ver .pagina no CSS).
-		const espera = Math.max(0, 1000 - (performance.now() - inicio));
+		const espera = Math.max(0, 250 - (performance.now() - inicio));
 		lista.forEach((cartao, ordem) => {
 			cartao.style.setProperty("--atraso", `${Math.round(espera + ordem * 70)}ms`);
 			cartao.classList.add("visivel");
@@ -146,8 +146,17 @@ function montarProjetos() {
 		});
 	}
 
+	// Projetos com estudo de caso na aba Destaques (e, alguns, com versão no navegador).
+	const destaquePorTitulo = {};
+	if (typeof DESTAQUES !== "undefined") {
+		DESTAQUES.forEach((destaque) => {
+			destaquePorTitulo[destaque.titulo] = destaque;
+		});
+	}
+
 	const cartoes = PROJETOS.map((projeto) => {
 		const cartao = criar("article", "cartao cartao-projeto");
+		const destaque = destaquePorTitulo[projeto.titulo];
 
 		// Vitrine: repositório, linguagem principal e o ícone grande sobre um pontilhado
 		const vitrine = criar("a", "projeto-vitrine");
@@ -172,9 +181,16 @@ function montarProjetos() {
 		cartao.append(vitrine);
 
 		const conteudo = criar("div", "cartao-conteudo");
-		if (projeto.categoria) {
-			const meta = criar("p", "nota-meta");
-			meta.append(criar("span", "nota-tema", projeto.categoria));
+		if (projeto.categoria || destaque) {
+			const meta = criar("div", "nota-meta");
+			if (projeto.categoria) meta.append(criar("span", "nota-tema", projeto.categoria));
+			if (destaque) {
+				const estudo = criar("button", "projeto-estudo", "Estudo de caso");
+				estudo.type = "button";
+				estudo.setAttribute("aria-label", `Ver o estudo de caso do ${projeto.titulo} na aba Destaques`);
+				estudo.addEventListener("click", () => abrirDestaque(projeto.titulo));
+				meta.append(estudo);
+			}
 			conteudo.append(meta);
 		}
 		conteudo.append(criar("h3", "cartao-titulo", projeto.titulo));
@@ -189,12 +205,12 @@ function montarProjetos() {
 		conteudo.append(habilidades);
 
 		const botoes = criar("div", "doc-botoes projeto-botoes");
-		const ver = criar("a", "cartao-botao projeto-ver", "Ver projeto");
-		ver.href = projeto.link;
-		ver.target = "_blank";
-		ver.rel = "noopener noreferrer";
-		ver.insertAdjacentHTML("beforeend", ICONE_SETA);
-		botoes.append(ver);
+		// Quem tem versão no navegador abre com a demo; o código passa a ser o botão contornado.
+		if (destaque && destaque.online) {
+			botoes.append(criarLinkExterno("Abrir demo", destaque.online, "cartao-botao", ICONE_EXTERNO));
+		}
+		const classeCodigo = destaque && destaque.online ? "cartao-botao cartao-botao-secundario" : "cartao-botao";
+		botoes.append(criarLinkExterno("Código no GitHub", projeto.link, `${classeCodigo} projeto-ver`, ICONE_GITHUB));
 		if (manuais[projeto.titulo]) {
 			botoes.append(criarLinkPdf("Manual técnico", manuais[projeto.titulo], "cartao-botao cartao-botao-secundario"));
 		}
@@ -232,21 +248,45 @@ function juntarNomes(nomes) {
 	return nomes.length > 1 ? `${nomes.slice(0, -1).join(", ")} e ${nomes[nomes.length - 1]}` : nomes[0];
 }
 
-// Abre a aba Projetos já filtrada pela tecnologia escolhida.
-function verProjetosCom(nome, projetos) {
-	document.getElementById("aba-projetos").click();
-	projetos.filtrar(nome);
-	const abas = document.querySelector(".abas");
-	const altura = document.getElementById("topo").getBoundingClientRect().height;
-	const posicao = abas.getBoundingClientRect().top;
-	if (posicao < altura || posicao > window.innerHeight * 0.6) {
-		const reduzir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-		window.scrollTo({ top: window.scrollY + posicao - altura - 16, behavior: reduzir ? "auto" : "smooth" });
-	}
-	document.getElementById("aba-projetos").focus({ preventScroll: true });
+function alturaDoTopo() {
+	return document.getElementById("topo").getBoundingClientRect().height;
 }
 
-function montarHabilidades(projetos) {
+function rolarPara(posicao) {
+	const reduzir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	window.scrollTo({ top: Math.max(0, posicao), behavior: reduzir ? "auto" : "smooth" });
+}
+
+// Leva a fileira de abas para logo abaixo do topo, se ela estiver fora de vista
+// (ou se a página já desceu para dentro de alguma aba).
+function mostrarSecao(sempre) {
+	const secao = document.getElementById("secao");
+	const altura = alturaDoTopo();
+	const posicao = secao.getBoundingClientRect().top;
+	if (sempre || posicao < altura || posicao > window.innerHeight * 0.6) {
+		rolarPara(window.scrollY + posicao - altura);
+	}
+}
+
+// Abre uma aba pelo id do botão dela e mostra o começo do painel.
+function irParaAba(idAba, sempre) {
+	const aba = document.getElementById(idAba);
+	if (!aba) return;
+	aba.click();
+	aba.focus({ preventScroll: true });
+	mostrarSecao(sempre);
+}
+
+// Abre a aba Destaques já no projeto escolhido.
+function abrirDestaque(titulo) {
+	const aba = document.getElementById("aba-destaques");
+	aba.click();
+	aba.focus({ preventScroll: true });
+	const alvo = document.getElementById(`destaque-${titulo.toLowerCase()}`);
+	requestAnimationFrame(() => (alvo ? rolarAte(alvo) : mostrarSecao(true)));
+}
+
+function montarHabilidades() {
 	const painel = document.getElementById("painel-habilidades");
 	const grade = document.getElementById("habilidades");
 
@@ -282,19 +322,11 @@ function montarHabilidades(projetos) {
 			conteudo.append(criar("p", "grupo-rotulo", grupo.nome));
 			const lista = criar("div", "habilidades habilidades-grupo");
 			grupo.itens.forEach((nome) => {
-				const projetosDaTecnologia = usos[nome.toLowerCase()];
-				let etiqueta;
-				if (projetosDaTecnologia) {
-					usadas.add(nome.toLowerCase());
-					const quantidade = projetosDaTecnologia.length;
-					const resumo = `${quantidade} ${quantidade === 1 ? "projeto" : "projetos"}: ${juntarNomes(projetosDaTecnologia)}`;
-					etiqueta = criar("button", "habilidade habilidade-usada", nome);
-					etiqueta.type = "button";
-					etiqueta.setAttribute("aria-label", `${nome}, usada em ${resumo}. Ver na aba Projetos`);
-					etiqueta.addEventListener("click", () => verProjetosCom(nome, projetos));
-				} else {
-					etiqueta = criar("span", "habilidade", nome);
-				}
+				// Todas as etiquetas só se destacam ao passar o mouse (não levam a lugar algum);
+				// as que aparecem nos projetos são marcadas para o botão "Usadas nos projetos".
+				const usada = Boolean(usos[nome.toLowerCase()]);
+				if (usada) usadas.add(nome.toLowerCase());
+				const etiqueta = criar("span", usada ? "habilidade habilidade-usada" : "habilidade", nome);
 				etiqueta.style.setProperty("--i", ordem);
 				ordem += 1;
 				lista.append(etiqueta);
@@ -412,12 +444,13 @@ function temaEscuro() {
 	return document.documentElement.dataset.tema !== "claro";
 }
 
-// Rola até um elemento, descontando o topo fixo (respeita prefers-reduced-motion).
+// Rola até um elemento, descontando o topo fixo e, dentro das abas, a fileira de abas
+// que fica presa logo abaixo dele (respeita prefers-reduced-motion).
 function rolarAte(elemento) {
-	const altura = document.getElementById("topo").getBoundingClientRect().height;
+	let altura = alturaDoTopo();
+	if (elemento.closest(".painel")) altura += document.querySelector(".abas").getBoundingClientRect().height;
 	const posicao = elemento.getBoundingClientRect().top;
-	const reduzir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-	window.scrollTo({ top: window.scrollY + posicao - altura - 16, behavior: reduzir ? "auto" : "smooth" });
+	rolarPara(window.scrollY + posicao - altura - 16);
 }
 
 // Visualizador de imagens da aba Destaques: um <dialog> só, reaproveitado pelas duas galerias,
@@ -801,12 +834,7 @@ function montarDestaques() {
 	const voltar = criar("button", "cartao-botao destaques-ver-todos", "Ver todos os projetos");
 	voltar.type = "button";
 	voltar.insertAdjacentHTML("beforeend", ICONE_SETA);
-	voltar.addEventListener("click", () => {
-		const aba = document.getElementById("aba-projetos");
-		aba.click();
-		aba.focus({ preventScroll: true });
-		rolarAte(document.querySelector(".abas"));
-	});
+	voltar.addEventListener("click", () => irParaAba("aba-projetos", true));
 	rodape.append(voltar);
 	comum.append(rodape);
 	area.append(comum);
@@ -1041,7 +1069,19 @@ function mostrarAbaNaLista(aba) {
 	else if (fim > lista.scrollLeft + lista.clientWidth) lista.scrollLeft = fim - lista.clientWidth;
 }
 
+// Indica, no celular, de que lado ainda há abas escondidas.
+function marcarBordasDasAbas(lista) {
+	const atualizar = () => {
+		lista.classList.toggle("mais-esquerda", lista.scrollLeft > 4);
+		lista.classList.toggle("mais-direita", lista.scrollLeft + lista.clientWidth < lista.scrollWidth - 4);
+	};
+	lista.addEventListener("scroll", atualizar, { passive: true });
+	window.addEventListener("resize", atualizar);
+	atualizar();
+}
+
 function alternarAbas() {
+	const lista = document.querySelector(".abas");
 	const abas = Array.from(document.querySelectorAll(".aba"));
 	const ativar = (aba, focar) => {
 		abas.forEach((item) => {
@@ -1055,7 +1095,12 @@ function alternarAbas() {
 		document.dispatchEvent(new CustomEvent("aba-ativada", { detail: aba.id }));
 	};
 	abas.forEach((aba, indice) => {
-		aba.addEventListener("click", () => ativar(aba, false));
+		aba.addEventListener("click", () => {
+			const jaDentro = document.getElementById("secao").getBoundingClientRect().top < alturaDoTopo() - 1;
+			ativar(aba, false);
+			// Com a página já dentro das abas, a nova aba começa do topo, e não do meio.
+			if (jaDentro) mostrarSecao(true);
+		});
 		aba.addEventListener("keydown", (evento) => {
 			let alvo = null;
 			if (evento.key === "ArrowRight") alvo = abas[(indice + 1) % abas.length];
@@ -1073,7 +1118,58 @@ function alternarAbas() {
 	try {
 		localStorage.removeItem("aba");
 	} catch (erro) {}
-	ativar(abas[0], false);
+	marcarBordasDasAbas(lista);
+
+	// Um link com o nome da aba (por exemplo, ravelroot.github.io/#contato) abre direto nela.
+	// O endereço volta ao normal em seguida, para a próxima visita abrir em Projetos.
+	const abrirPeloEndereco = () => {
+		const pedida = document.getElementById(`aba-${decodeURIComponent(location.hash.slice(1))}`);
+		if (!pedida || !pedida.classList.contains("aba")) return false;
+		ativar(pedida, false);
+		history.replaceState(null, "", location.pathname + location.search);
+		requestAnimationFrame(() => mostrarSecao(true));
+		return true;
+	};
+	if (!abrirPeloEndereco()) ativar(abas[0], false);
+	window.addEventListener("hashchange", abrirPeloEndereco);
+}
+
+// Links e botões com data-aba (topo e apresentação) abrem a aba sem recarregar.
+function ligarAtalhosDeAba() {
+	document.addEventListener("click", (evento) => {
+		const atalho = evento.target.closest("[data-aba]");
+		if (!atalho) return;
+		evento.preventDefault();
+		irParaAba(atalho.dataset.aba, true);
+	});
+}
+
+// Copia o e-mail com um clique; sem acesso à área de transferência, abre o programa de e-mail.
+function ligarCopiarEmail() {
+	const aviso = document.getElementById("aviso");
+	document.querySelectorAll("[data-copiar]").forEach((botao) => {
+		const rotulo = botao.querySelector(".copiar-rotulo");
+		const original = rotulo ? rotulo.textContent : "";
+		let relogio = null;
+		botao.addEventListener("click", async () => {
+			const texto = botao.dataset.copiar;
+			try {
+				await navigator.clipboard.writeText(texto);
+			} catch (erro) {
+				window.location.href = `mailto:${texto}`;
+				return;
+			}
+			botao.classList.add("copiado");
+			if (rotulo) rotulo.textContent = "E-mail copiado";
+			if (aviso) aviso.textContent = `E-mail ${texto} copiado.`;
+			clearTimeout(relogio);
+			relogio = setTimeout(() => {
+				botao.classList.remove("copiado");
+				if (rotulo) rotulo.textContent = original;
+				if (aviso) aviso.textContent = "";
+			}, 2200);
+		});
+	});
 }
 
 function digitarTitulo() {
@@ -1099,8 +1195,14 @@ function digitarTitulo() {
 
 function acompanharRolagem() {
 	const topo = document.getElementById("topo");
-	const atualizar = () => topo.classList.toggle("rolado", window.scrollY > 0);
+	const abas = document.querySelector(".abas");
+	const atualizar = () => {
+		topo.classList.toggle("rolado", window.scrollY > 0);
+		// A fileira de abas está presa quando encosta no topo: ganha o fundo desfocado.
+		abas.classList.toggle("presa", abas.getBoundingClientRect().top <= topo.getBoundingClientRect().bottom + 1);
+	};
 	window.addEventListener("scroll", atualizar, { passive: true });
+	window.addEventListener("resize", atualizar);
 	atualizar();
 }
 
@@ -1113,6 +1215,9 @@ function alternarTema() {
 		const proximo = tema === "claro" ? "Ativar tema escuro" : "Ativar tema claro";
 		botao.setAttribute("aria-label", proximo);
 		botao.title = proximo;
+		// A barra do navegador no celular acompanha o fundo da página.
+		const cor = document.querySelector('meta[name="theme-color"]');
+		if (cor) cor.content = tema === "claro" ? "#e8ecea" : "#0c0a09";
 	};
 	aplicar(raiz.dataset.tema === "claro" ? "claro" : "escuro");
 	botao.addEventListener("click", () => {
@@ -1126,12 +1231,14 @@ function alternarTema() {
 
 document.addEventListener("DOMContentLoaded", () => {
 	alternarTema();
-	const projetos = montarProjetos();
-	montarHabilidades(projetos);
+	montarProjetos();
+	montarHabilidades();
 	montarDocumentacao();
 	if (typeof DESTAQUES !== "undefined") montarDestaques();
 	montarNotas();
 	alternarAbas();
+	ligarAtalhosDeAba();
+	ligarCopiarEmail();
 	acompanharRolagem();
 	digitarTitulo();
 	requestAnimationFrame(() => document.getElementById("pagina").classList.add("visivel"));

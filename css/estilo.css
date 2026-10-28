@@ -39,6 +39,8 @@
 	/* Aba Destaques: sombra da janela da capa e fundo atrás do visualizador de imagens */
 	--sombra-janela: 0 2rem 4rem -2rem rgba(0, 0, 0, 0.85);
 	--fundo-galeria: rgba(0, 0, 0, 0.82);
+	/* Ponto de "disponível" no topo da página */
+	--disponivel: #05df72;
 	--fonte: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 	--fonte-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
@@ -85,6 +87,7 @@
 	--grade: rgba(32, 40, 45, 0.07);
 	--sombra-janela: 0 1.5rem 3rem -1.5rem rgba(32, 40, 45, 0.28);
 	--fundo-galeria: rgba(232, 236, 234, 0.9);
+	--disponivel: #1f7a4d;
 }
 
 /* Quadriculado de engenharia no fundo, nos dois temas (cor em --grade); os cartões ficam por cima */
@@ -147,12 +150,11 @@ svg {
 }
 
 .pagina {
-	opacity: 0;
-	transition: opacity 0.75s ease 1s;
+	transition: opacity 0.4s ease;
 }
 
-.pagina.visivel {
-	opacity: 1;
+.js .pagina:not(.visivel) {
+	opacity: 0;
 }
 
 .container {
@@ -280,83 +282,301 @@ svg {
 	margin-top: 1.25rem;
 }
 
+/* Link para pular direto ao conteúdo: aparece só ao navegar pelo teclado */
+.pular {
+	position: fixed;
+	top: 0.75rem;
+	left: 0.75rem;
+	z-index: 200;
+	padding: 0.625rem 1rem;
+	border-radius: 0.25rem;
+	background: var(--botao-fundo);
+	color: var(--botao-texto);
+	font-weight: 600;
+	translate: 0 -200%;
+	transition: translate 0.2s ease;
+}
+
+.pular:focus-visible {
+	translate: none;
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
+}
+
+.so-leitor {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/* Atalhos do topo: GitHub, Contato e tema */
+.topo-acoes {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.topo-icone {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 624.938rem;
+	color: var(--cinza-300);
+	transition: color 0.15s, background-color 0.15s;
+}
+
+.topo-icone:hover {
+	color: var(--destaque);
+	background: var(--etiqueta-fundo);
+}
+
+.topo-icone svg {
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+.topo-contato {
+	display: inline-flex;
+	align-items: center;
+	height: 2.5rem;
+	padding: 0 1.25rem;
+	border-radius: 624.938rem;
+	background: var(--botao-fundo);
+	color: var(--botao-texto);
+	font-size: 1.0625rem;
+	font-weight: 600;
+	transition: background-color 0.15s;
+}
+
+.topo-contato:hover {
+	background: var(--botao-hover);
+}
+
+.topo-icone:focus-visible,
+.topo-contato:focus-visible,
+.marca:focus-visible {
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
+}
+
+.marca {
+	border-radius: 0.25rem;
+}
+
+/* ---------- Apresentação ---------- */
+
 .boas-vindas {
 	display: flex;
 	flex-direction: column;
-	gap: 5rem;
+	gap: 3rem;
+}
+
+.apresentacao {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.disponivel {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.625rem;
+	margin-bottom: 1.75rem;
+	padding: 0.375rem 1rem 0.375rem 0.875rem;
+	border: 1px solid var(--borda);
+	border-radius: 624.938rem;
+	background: var(--cartao);
+	color: var(--cinza-300);
+	font-size: 1.0625rem;
+	line-height: 1.5rem;
+	font-weight: 500;
+}
+
+.disponivel-ponto {
+	position: relative;
+	width: 0.625rem;
+	height: 0.625rem;
+	border-radius: 50%;
+	background: var(--disponivel);
+}
+
+/* Um único pulso na entrada da página, para chamar a atenção uma vez */
+.disponivel-ponto::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	background: var(--disponivel);
+	animation: pulso 1.6s ease-out 0.6s 3 both;
+}
+
+@keyframes pulso {
+	from {
+		opacity: 0.7;
+		transform: scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: scale(3);
+	}
+}
+
+.saudacao {
+	color: var(--destaque);
+	font-size: 3.25rem;
+	line-height: 1;
+	font-weight: 700;
+	letter-spacing: -0.035em;
+}
+
+.resumo {
+	margin-top: 1rem;
+	color: var(--cinza-300);
+	font-weight: 500;
+	font-size: 1.5rem;
+	line-height: 2rem;
+	letter-spacing: -0.01em;
+}
+
+.apresentacao-texto {
+	max-width: 46rem;
+	margin-top: 1.25rem;
+	color: var(--cinza-400);
+	font-size: 1.125rem;
+	line-height: 1.75rem;
+}
+
+.apresentacao-acoes {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.875rem;
+	margin-top: 2.25rem;
+}
+
+@media (min-width: 769px) {
+	.saudacao {
+		font-size: 4.5rem;
+	}
+
+	.resumo {
+		font-size: 2rem;
+		line-height: 2.5rem;
+	}
+
+	.apresentacao-texto {
+		font-size: 1.3125rem;
+		line-height: 2.125rem;
+	}
+}
+
+/* Botões da apresentação: um principal e um contornado */
+.botao {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.625rem;
+	min-height: 3.5rem;
+	padding: 0 1.75rem;
+	border-radius: 0.25rem;
+	font-size: 1.125rem;
+	font-weight: 600;
+	transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.botao svg {
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+.botao-primario {
+	background: var(--botao-fundo);
+	color: var(--botao-texto);
+}
+
+.botao-primario:hover {
+	background: var(--botao-hover);
+}
+
+.botao-secundario {
+	color: var(--destaque);
+	box-shadow: inset 0 0 0 1px var(--etiqueta-borda);
+}
+
+.botao-secundario:hover {
+	background: var(--etiqueta-fundo);
+	box-shadow: inset 0 0 0 1px var(--cinza-400);
+}
+
+.botao:focus-visible,
+.botao-link:focus-visible {
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
+}
+
+.apresentacao-links {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.75rem 1.75rem;
+	margin-top: 2rem;
+	list-style: none;
+}
+
+.botao-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0;
+	background: none;
+	color: var(--cinza-300);
+	font: inherit;
+	font-size: 1.0625rem;
+	font-weight: 500;
+	cursor: pointer;
+	border-radius: 0.125rem;
+	transition: color 0.15s;
+}
+
+.botao-link svg {
+	width: 1.125rem;
+	height: 1.125rem;
+}
+
+.botao-link:hover {
+	color: var(--destaque);
+}
+
+/* Depois de copiar o e-mail, o ícone vira um "certo" por dois segundos */
+.botao-link .icone-copiado,
+.botao-link.copiado .icone-copiar {
+	display: none;
+}
+
+.botao-link.copiado .icone-copiado {
+	display: block;
+}
+
+.botao-link.copiado {
+	color: var(--destaque);
 }
 
 .local {
 	display: flex;
 	align-items: center;
-	gap: 0.25rem;
-	margin-bottom: 0.5rem;
-	width: fit-content;
+	gap: 0.375rem;
+	color: var(--cinza-400);
+	font-size: 1.0625rem;
+	font-weight: 500;
 }
 
 .local-icone {
-	color: var(--destaque);
-	animation: quicar 1s infinite;
-}
-
-@keyframes quicar {
-	0%, 100% {
-		transform: translateY(-25%);
-		animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-	}
-	50% {
-		transform: none;
-		animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-	}
-}
-
-.local-texto {
-	font-family: "Roboto", var(--fonte);
-	color: var(--cinza-300);
-	font-size: 0.875rem;
-	line-height: 1.25rem;
-}
-
-.saudacao {
-	color: var(--destaque);
-	font-size: 1.875rem;
-	line-height: 2.25rem;
-	font-weight: 700;
-	margin-bottom: 1rem;
-	width: fit-content;
-}
-
-.resumo {
-	color: var(--cinza-400);
-	font-weight: 500;
-	font-size: 1.5rem;
-	line-height: 2rem;
-	overflow-wrap: break-word;
-}
-
-.botoes {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem 1.5rem;
-	width: fit-content;
-	margin-top: 1.25rem;
-}
-
-.botao-link {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	margin-top: 0.5rem;
-	color: var(--cinza-300);
-	font-family: "Roboto", var(--fonte);
-	font-weight: 500;
-	transition: color 0.15s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.botao-link:hover,
-.botao-link:focus-visible {
-	color: var(--destaque);
-	transform: scale(1.05);
+	width: 1rem;
+	height: 1rem;
 }
 
 .terminal {
@@ -436,29 +656,60 @@ svg {
 }
 
 .abas {
+	position: sticky;
+	/* Altura do topo: 1,25rem + botão de 2,5rem + 1,25rem */
+	top: 5rem;
+	z-index: 40;
 	display: flex;
-	gap: 2rem;
-	margin-bottom: 1.25rem;
-	box-shadow: inset 0 -1px 0 var(--borda);
+	margin: 0 -0.75rem;
 	overflow-x: auto;
 	scrollbar-width: none;
+	/* Fio de baixo alinhado ao conteúdo (as abas avançam 0,75rem para os lados) */
+	background-image: linear-gradient(var(--borda), var(--borda));
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	background-size: calc(100% - 1.5rem) 1px;
+	transition: background-color 0.15s;
 }
 
 .abas::-webkit-scrollbar {
 	display: none;
 }
 
+/* Presa no topo: ganha o mesmo fundo desfocado do topo */
+.abas.presa {
+	background-color: var(--topo-rolado);
+	-webkit-backdrop-filter: blur(0.75rem);
+	backdrop-filter: blur(0.75rem);
+}
+
+/* No celular, a borda some aos poucos do lado em que ainda há abas escondidas */
+.abas.mais-direita {
+	-webkit-mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent);
+	mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent);
+}
+
+.abas.mais-esquerda {
+	-webkit-mask-image: linear-gradient(to left, #000 calc(100% - 3rem), transparent);
+	mask-image: linear-gradient(to left, #000 calc(100% - 3rem), transparent);
+}
+
+.abas.mais-esquerda.mais-direita {
+	-webkit-mask-image: linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+	mask-image: linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+}
+
 .aba {
 	position: relative;
 	flex-shrink: 0;
 	white-space: nowrap;
-	padding: 0 0 0.75rem;
+	padding: 1.125rem 0.75rem;
 	background: none;
 	color: var(--cinza-400);
 	font-family: inherit;
-	font-size: 2.25rem;
-	line-height: 2.5rem;
-	font-weight: 700;
+	font-size: 1.375rem;
+	line-height: 2rem;
+	font-weight: 600;
 	cursor: pointer;
 	transition: color 0.15s;
 }
@@ -466,8 +717,8 @@ svg {
 .aba::after {
 	content: "";
 	position: absolute;
-	left: 0;
-	right: 0;
+	left: 0.75rem;
+	right: 0.75rem;
 	bottom: 0;
 	height: 2px;
 	background: var(--destaque);
@@ -489,8 +740,8 @@ svg {
 
 .aba:focus-visible {
 	outline: 2px solid var(--cinza-400);
-	outline-offset: -2px;
-	border-radius: 0.125rem;
+	outline-offset: -4px;
+	border-radius: 0.25rem;
 }
 
 .painel:not([hidden]) {
@@ -509,10 +760,11 @@ svg {
 }
 
 .secao-descricao {
+	max-width: 64rem;
 	font-size: 1.25rem;
 	line-height: 1.75rem;
 	color: var(--cinza-400);
-	margin-bottom: 1.25rem;
+	margin: 1.75rem 0 1.5rem;
 }
 
 .grade {
@@ -532,7 +784,6 @@ svg {
 }
 
 .cartao:hover {
-	transform: scale(1.02);
 	border-color: var(--cinza-400);
 }
 
@@ -616,6 +867,11 @@ svg {
 
 .cartao-botao:hover {
 	background: var(--botao-hover);
+}
+
+.cartao-botao svg {
+	width: 1rem;
+	height: 1rem;
 }
 
 /* ---------- Aba Projetos ---------- */
@@ -891,14 +1147,33 @@ svg {
 	margin-top: 1.5rem;
 }
 
-.projeto-ver svg {
-	width: 1rem;
-	height: 1rem;
-	transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* Projetos com estudo de caso na aba Destaques */
+.projeto-estudo {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	padding: 0.125rem 0.625rem;
+	border: 1px dashed var(--cinza-400);
+	border-radius: 624.938rem;
+	background: none;
+	color: var(--cinza-200);
+	font: inherit;
+	font-size: 0.8125rem;
+	line-height: 1.125rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: color 0.15s, border-color 0.15s, background-color 0.15s;
 }
 
-.cartao-projeto:hover .projeto-ver svg {
-	transform: translateX(0.25rem);
+.projeto-estudo:hover {
+	border-style: solid;
+	border-color: var(--destaque);
+	color: var(--destaque);
+}
+
+.projeto-estudo:focus-visible {
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
 }
 
 /* ---------- Aba Habilidades ---------- */
@@ -953,32 +1228,16 @@ svg {
 	font-variant-numeric: tabular-nums;
 }
 
-/* Etiquetas que aparecem nos projetos: dica com os projetos e clique */
-button.habilidade {
-	font: inherit;
-	font-size: 0.875rem;
-	line-height: 1.25rem;
+/* Qualquer etiqueta da aba se destaca ao passar o mouse (sem clique) */
+.cartao-area .habilidade {
 	cursor: pointer;
+	transition: border-color 0.2s, color 0.2s, background-color 0.2s, filter 0.3s;
 }
 
-.habilidade-usada {
-	transition: border-color 0.2s, color 0.2s, background-color 0.2s, filter 0.3s, transform 0.15s;
-}
-
-.habilidade-usada:hover,
-.habilidade-usada:focus-visible {
+.cartao-area .habilidade:hover {
 	border-color: var(--cinza-300);
 	background: var(--terminal);
 	color: var(--destaque);
-}
-
-.habilidade-usada:focus-visible {
-	outline: 2px solid var(--cinza-400);
-	outline-offset: 2px;
-}
-
-.habilidade-usada:active {
-	transform: scale(0.95);
 }
 
 /* "Usadas nos projetos": as outras etiquetas ficam apagadas */
@@ -1061,6 +1320,7 @@ button.habilidade {
 	flex: 1 1 10rem;
 	width: auto;
 	margin-top: 0;
+	white-space: nowrap;
 }
 
 .cartao-botao-secundario {
@@ -1149,7 +1409,6 @@ button.habilidade {
 
 .destaques-atalho:hover {
 	border-color: var(--cinza-400);
-	transform: scale(1.015);
 }
 
 .destaques-atalho:focus-visible {
@@ -2502,6 +2761,77 @@ a.nota-projeto:focus-visible {
 
 /* ---------- Aba Contato ---------- */
 
+.contato-grade {
+	display: grid;
+	gap: 1.25rem;
+	align-items: start;
+}
+
+@media (min-width: 900px) {
+	.contato-grade {
+		grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+		gap: 1.5rem;
+	}
+}
+
+.contato-canais {
+	display: flex;
+	flex-direction: column;
+	gap: 1.125rem;
+	margin-top: 0.5rem;
+	list-style: none;
+}
+
+.contato-canais li {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	padding-top: 1.125rem;
+	border-top: 1px solid var(--borda);
+}
+
+.contato-canal-rotulo {
+	color: var(--cinza-400);
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+}
+
+.contato-canal-linha {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem 1rem;
+}
+
+.contato-canal-valor {
+	color: var(--destaque);
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+a.contato-canal-valor {
+	text-decoration: underline;
+	text-decoration-color: var(--etiqueta-borda);
+	text-underline-offset: 0.25em;
+	transition: text-decoration-color 0.15s;
+}
+
+a.contato-canal-valor:hover {
+	text-decoration-color: currentColor;
+}
+
+a.contato-canal-valor:focus-visible {
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
+	border-radius: 0.125rem;
+}
+
+.contato-copiar {
+	font-size: 0.875rem;
+}
+
 .contato-form[hidden],
 .contato-enviado[hidden] {
 	display: none;
@@ -2568,6 +2898,13 @@ a.nota-projeto:focus-visible {
 
 .campo-entrada:user-invalid {
 	border-color: var(--erro);
+}
+
+/* No celular, 16px nos campos: abaixo disso o Safari do iPhone amplia a página ao tocar */
+@media (max-width: 768px) {
+	.campo-entrada {
+		font-size: 1.25rem;
+	}
 }
 
 textarea.campo-entrada {
@@ -3053,13 +3390,41 @@ textarea.campo-entrada {
 	pointer-events: none;
 }
 
-.rodape p {
-	margin: 1.5rem 0 2.5rem;
-	padding: 0 1.25rem;
-	text-align: center;
-	font-size: 1.125rem;
-	line-height: 1.575rem;
+.rodape {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem 2rem;
+	width: calc(100% - 2.5rem);
+	margin-top: 4rem;
+	padding: 2rem 0 2.5rem;
+	border-top: 1px solid var(--borda);
 	color: var(--cinza-400);
+	font-size: 1.125rem;
+}
+
+.rodape-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1.5rem;
+	list-style: none;
+}
+
+.rodape-links a {
+	color: var(--cinza-300);
+	font-weight: 500;
+	border-radius: 0.125rem;
+	transition: color 0.15s;
+}
+
+.rodape-links a:hover {
+	color: var(--destaque);
+}
+
+.rodape-links a:focus-visible {
+	outline: 2px solid var(--cinza-400);
+	outline-offset: 2px;
 }
 
 @media (max-width: 768px) {
@@ -3124,36 +3489,6 @@ textarea.campo-entrada {
 	}
 }
 
-@media (max-width: 480px) {
-	.abas {
-		gap: 1.5rem;
-	}
-
-	.aba {
-		font-size: 1.75rem;
-		line-height: 2.25rem;
-	}
-}
-
-@media (min-width: 640px) {
-	.local-texto {
-		font-size: 1rem;
-		line-height: 1.5rem;
-	}
-}
-
-@media (min-width: 768px) {
-	.local-texto {
-		font-size: 1.125rem;
-		line-height: 1.75rem;
-	}
-
-	.saudacao {
-		font-size: 2.25rem;
-		line-height: 2.5rem;
-	}
-}
-
 /* Escala fixa equivalente ao zoom de 75% do Chrome, no computador.
    O zoom fica na .pagina (e não no html) para a dica do gráfico, que é filha do body,
    continuar sendo posicionada pelas coordenadas reais da tela; por isso ela e o
@@ -3197,11 +3532,7 @@ textarea.campo-entrada {
 		flex-direction: row;
 	}
 
-	.cartao-nota:nth-child(odd):last-child:hover {
-		transform: scale(1.01);
-	}
-
-	.cartao-nota:nth-child(odd):last-child .nota-vitrine {
+		.cartao-nota:nth-child(odd):last-child .nota-vitrine {
 		flex: 0 0 calc(50% - 1.25rem);
 		height: auto;
 		min-height: 13rem;
@@ -3214,12 +3545,39 @@ textarea.campo-entrada {
 	}
 }
 
+@media (min-width: 769px) {
+	.aba {
+		padding-inline: 1rem;
+		font-size: 1.625rem;
+	}
+
+	.aba::after {
+		left: 1rem;
+		right: 1rem;
+	}
+
+	.abas {
+		margin-inline: -1rem;
+		background-size: calc(100% - 2rem) 1px;
+	}
+}
+
 @media (min-width: 1025px) {
 	.boas-vindas {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		align-items: start;
-		gap: 2.5rem;
+		align-items: center;
+		gap: 3rem 2.5rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.topo-contato {
+		padding: 0 0.875rem;
+	}
+
+	.apresentacao-acoes .botao {
+		flex: 1 1 auto;
 	}
 }
 
