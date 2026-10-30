@@ -1113,7 +1113,7 @@ function alternarAbas() {
 			}
 		});
 	});
-	// A página sempre abre na primeira aba (Projetos). Apaga a aba que versões
+	// A página sempre abre na primeira aba (Destaques). Apaga a aba que versões
 	// anteriores deixavam salva no navegador.
 	try {
 		localStorage.removeItem("aba");
@@ -1121,7 +1121,7 @@ function alternarAbas() {
 	marcarBordasDasAbas(lista);
 
 	// Um link com o nome da aba (por exemplo, ravelroot.github.io/#contato) abre direto nela.
-	// O endereço volta ao normal em seguida, para a próxima visita abrir em Projetos.
+	// O endereço volta ao normal em seguida, para a próxima visita abrir em Destaques.
 	const abrirPeloEndereco = () => {
 		const pedida = document.getElementById(`aba-${decodeURIComponent(location.hash.slice(1))}`);
 		if (!pedida || !pedida.classList.contains("aba")) return false;
