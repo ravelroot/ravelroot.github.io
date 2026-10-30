@@ -4,16 +4,17 @@
 //   do perfil, um ano inteiro por vez. Se ele não responder, o gráfico usa os eventos públicos dos últimos 90 dias.
 // Tudo fica guardado no navegador por 30 minutos (as linguagens e os anos que já acabaram, por 24 horas)
 // para não gastar o limite da API.
-// O gráfico abre no ano atual e tem um botão para cada ano desde 2022; anos sem commits aparecem vazios.
+// O gráfico abre no ano atual e tem um botão para cada ano desde 2016; anos sem commits aparecem vazios.
 
 const ATIVIDADE = {
 	usuario: "ravelroot",
 	validade: 30 * 60 * 1000,
+	validadeAnoAtual: 5 * 60 * 1000,
 	validadeLinguagens: 24 * 60 * 60 * 1000,
 	chaveCache: "atividade-github-v2",
 	chaveCacheAnos: "atividade-github-anos-v2",
 	// Primeiro ano com botão no gráfico (o calendário começa em 1º de janeiro dele).
-	anoInicial: 2022,
+	anoInicial: 2016,
 	reposRecentes: 5,
 	linguagensVisiveis: 8,
 	reposOcultos: ["ravelroot.github.io", "ravelroot"]
@@ -150,7 +151,7 @@ function lerCacheAnos() {
 async function buscarContribuicoesDoAno(ano, anoCriacao) {
 	if (anoCriacao && ano < anoCriacao) return anoCompleto(ano);
 	const anoAtual = new Date().getFullYear();
-	const validade = ano < anoAtual ? ATIVIDADE.validadeLinguagens : ATIVIDADE.validade;
+	const validade = ano < anoAtual ? ATIVIDADE.validadeLinguagens : ATIVIDADE.validadeAnoAtual;
 	const anos = lerCacheAnos();
 	if (anos[ano] && Date.now() - anos[ano].quando < validade) return anos[ano].contribuicoes;
 
@@ -168,7 +169,7 @@ async function buscarContribuicoesDoAno(ano, anoCriacao) {
 	return contribuicoes;
 }
 
-// Anos com botão no gráfico, do atual até 2022, mesmo os que não tiveram nenhum commit.
+// Anos com botão no gráfico, do atual até 2016, mesmo os que não tiveram nenhum commit.
 function anosDisponiveis() {
 	const anoAtual = new Date().getFullYear();
 	const anos = [];
@@ -199,7 +200,12 @@ async function buscarContribuicoesPorEventos() {
 
 async function carregarDadosGithub() {
 	const salvo = lerCacheAtividade();
-	if (salvo && Date.now() - salvo.quando < ATIVIDADE.validade) return salvo;
+	if (salvo && Date.now() - salvo.quando < ATIVIDADE.validade) {
+		try {
+			salvo.contribuicoes = await buscarContribuicoesDoAno(new Date().getFullYear());
+		} catch (erro) {}
+		return salvo;
+	}
 
 	const [base, contribuicoes] = await Promise.allSettled([buscarPerfilERepos(), buscarContribuicoes()]);
 	const dados = { quando: Date.now(), desatualizado: false };
@@ -433,6 +439,7 @@ function preencherContribuicoes(corpo, dados, contribuicoes) {
 	rodape.append(criar("p", "calendario-nota", nota));
 	rodape.append(montarLegendaCalendario());
 	corpo.append(rodape);
+	desenharCidade(contribuicoes);
 	requestAnimationFrame(() => rolarCalendario(corpo));
 }
 
@@ -466,6 +473,7 @@ function montarSeletorDeAnos(dados, corpo) {
 				})
 				.catch(() => {
 					if (meu !== pedido) return;
+					desenharCidade(null);
 					corpo.removeAttribute("aria-busy");
 					corpo.replaceChildren(criar("p", "atividade-aviso", `Não deu para buscar ${ano} agora. Tente de novo em alguns minutos.`));
 				});
@@ -487,6 +495,149 @@ function montarCartaoContribuicoes(dados) {
 	preencherContribuicoes(corpo, dados, dados.contribuicoes);
 	cartao.append(conteudo);
 	return cartao;
+}
+
+const CIDADE_MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+const CIDADE_MESES_LONGOS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+const formatoDiaCidade = new Intl.DateTimeFormat("pt-BR", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+
+const cidadeArredondar = (valor) => Math.round(valor * 10) / 10;
+const cidadePontos = (lista) => lista.map(([x, y]) => `${cidadeArredondar(x)},${cidadeArredondar(y)}`).join(" ");
+const cidadeEscapar = (texto) => String(texto).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const cidadeDataCurta = (texto) => {
+	const data = dataLocal(texto);
+	return `${data.getDate()} ${CIDADE_MESES[data.getMonth()]}`;
+};
+
+function cidadeFace(poligono, classe, sombra) {
+	const pontos = cidadePontos(poligono);
+	return `<polygon points="${pontos}" class="${classe}"/><polygon points="${pontos}" fill="#000" opacity="${sombra}"/>`;
+}
+
+function estatisticasCidade(contribuicoes) {
+	const dias = contribuicoes.dias.filter((dia) => !dia.futuro);
+	const ativos = dias.filter((dia) => dia.total > 0).length;
+	const melhor = dias.reduce((a, b) => (b.total > a.total ? b : a), dias[0]);
+	const { atual, maior } = sequencias(dias);
+	const porMes = {};
+	dias.forEach((dia) => {
+		const chave = dia.data.slice(0, 7);
+		porMes[chave] = (porMes[chave] || 0) + dia.total;
+	});
+	const topo = Object.entries(porMes).sort((a, b) => b[1] - a[1])[0];
+	const mesMaisAtivo = topo && topo[1] > 0 ? CIDADE_MESES_LONGOS[Number(topo[0].slice(5)) - 1] : "—";
+	return { dias, ativos, melhor, atual, maior, mesMaisAtivo, maximo: Math.max(1, melhor ? melhor.total : 0) };
+}
+
+function svgCidade(contribuicoes) {
+	const S = estatisticasCidade(contribuicoes);
+	const W = 880, H = 420, AW = 8.0, BW = 3.9, AD = 6.6, BD = 3.6, MAXH = 112, INSET = 0.1, OX = 384, OY = 142;
+	const P = (w, d) => [OX + w * AW - d * AD, OY + w * BW + d * BD];
+	const vazios = dataLocal(contribuicoes.dias[0].data).getDay();
+	const NW = Math.ceil((vazios + contribuicoes.dias.length) / 7);
+	const passo = Math.ceil(S.maximo / 4);
+	const celulas = S.dias
+		.map((dia, indice) => ({ ...dia, w: Math.floor((vazios + indice) / 7), d: (vazios + indice) % 7 }))
+		.sort((a, b) => a.w + a.d - (b.w + b.d) || a.w - b.w);
+
+	const T = 9, c0 = P(0, 0), c1 = P(NW, 0), c2 = P(NW, 7), c3 = P(0, 7), desce = ([x, y]) => [x, y + T];
+	let cidade = cidadeFace([c3, c2, desce(c2), desce(c3)], "cidade-n0", 0.55) +
+		cidadeFace([c2, c1, desce(c1), desce(c2)], "cidade-n0", 0.75) +
+		cidadeFace([c0, c1, c2, c3], "cidade-n0", 0.3);
+
+	let marca = "";
+	for (const c of celulas) {
+		const nivel = c.total === 0 ? 0 : Math.min(4, Math.ceil(c.total / passo));
+		const h = c.total === 0 ? 1.5 : 4 + MAXH * Math.pow(c.total / S.maximo, 0.8);
+		const i = INSET, o = 1 - INSET;
+		const t = P(c.w + i, c.d + i), r = P(c.w + o, c.d + i), b = P(c.w + o, c.d + o), l = P(c.w + i, c.d + o);
+		const sobe = ([x, y]) => [x, y - h];
+		const classe = `cidade-n${nivel}`;
+		let luzes = "";
+		if (nivel >= 3 && h > 26) {
+			for (let y = 7; y < h - 5; y += 8) {
+				for (const [p, q] of [[l, b], [b, r]]) {
+					const x = (p[0] + q[0]) / 2, yy = (p[1] + q[1]) / 2 - y;
+					luzes += `<rect x="${cidadeArredondar(x - 0.9)}" y="${cidadeArredondar(yy - 1.5)}" width="1.8" height="3" class="cidade-luz"/>`;
+				}
+			}
+		}
+		const quantidade = contribuicoes.fonte !== "eventos"
+			? (c.total === 0 ? "Nenhuma contribuição" : plural(c.total, "contribuição", "contribuições"))
+			: (c.total === 0 ? "Nenhuma atividade" : plural(c.total, "atividade", "atividades"));
+		const dica = cidadeEscapar(`${quantidade} · ${formatoDiaCidade.format(dataLocal(c.data))}`);
+		cidade += `<g class="cidade-predio" style="animation-delay:${c.w * 24 + c.d * 6}ms" data-dica="${dica}">` +
+			(c.total ? cidadeFace([sobe(l), sobe(b), b, l], classe, 0.35) + cidadeFace([sobe(b), sobe(r), r, b], classe, 0.6) : "") +
+			`<polygon points="${cidadePontos([sobe(t), sobe(r), sobe(b), sobe(l)])}" class="${classe}"/>${luzes}</g>`;
+		if (S.melhor && c.data === S.melhor.data && c.total > 0) {
+			const x = (t[0] + b[0]) / 2, y = Math.max(40, sobe(t)[1]);
+			marca = `<g class="cidade-marca"><line x1="${cidadeArredondar(x)}" y1="${cidadeArredondar(y - 3)}" x2="${cidadeArredondar(x)}" y2="${cidadeArredondar(y - 18)}"/>` +
+				`<text x="${cidadeArredondar(x)}" y="${cidadeArredondar(y - 23)}" text-anchor="middle">${cidadeDataCurta(c.data)}: ${numeroBR.format(c.total)}</text></g>`;
+		}
+	}
+
+	const anoAtual = new Date().getFullYear();
+	const porAno = contribuicoes.fonte === "ano";
+	const periodo = porAno ? `contribuições em ${contribuicoes.ano}` : "atividades nos últimos 90 dias";
+	const rotuloSequencia = porAno && contribuicoes.ano < anoAtual ? "Sequência no fim do ano" : "Sequência atual";
+	const melhorTexto = S.melhor && S.melhor.total > 0 ? `${numeroBR.format(S.melhor.total)} (${cidadeDataCurta(S.melhor.data)})` : "—";
+	const textos = [
+		plural(S.ativos, "dia ativo", "dias ativos"),
+		`Dia mais ativo: ${melhorTexto}`,
+		`${rotuloSequencia}: ${plural(S.atual, "dia", "dias")}`,
+		`Maior sequência: ${plural(S.maior, "dia", "dias")}`,
+		`Mês mais ativo: ${S.mesMaisAtivo}`
+	].map((texto, indice) => `<text x="40" y="${222 + indice * 23}" class="cidade-dado">${cidadeEscapar(texto)}</text>`).join("");
+
+	const descricao = `Cidade de contribuições: ${numeroBR.format(contribuicoes.total)} ${periodo.replace(/^\S+ /, "")}, ${plural(S.ativos, "dia ativo", "dias ativos")}.`;
+	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" class="cidade-svg" role="img" aria-label="${cidadeEscapar(descricao)}">
+<circle class="cidade-ponto" cx="40" cy="48" r="3.5"/><text x="50" y="52" class="cidade-rotulo">AO VIVO</text>
+<text x="40" y="94" class="cidade-rotulo">CIDADE DE CONTRIBUIÇÕES</text>
+<text x="38" y="152" class="cidade-total">${numeroBR.format(contribuicoes.total)}</text>
+<text x="40" y="180" class="cidade-texto" font-size="14">${cidadeEscapar(periodo)}</text>
+${textos}
+<text x="40" y="370" class="cidade-texto" font-size="12">@${cidadeEscapar(ATIVIDADE.usuario)}</text>
+<text x="40" y="388" class="cidade-pequeno">um prédio para cada dia ativo</text>
+${cidade}
+${marca}
+</svg>`;
+}
+
+function desenharCidade(contribuicoes) {
+	const alvo = document.getElementById("cidade");
+	if (!alvo) return;
+	if (!contribuicoes || !contribuicoes.dias || !contribuicoes.dias.length) {
+		alvo.replaceChildren(criar("p", "atividade-aviso", "A cidade aparece assim que o gráfico de contribuições responder."));
+		return;
+	}
+	alvo.innerHTML = svgCidade(contribuicoes);
+}
+
+function montarCartaoCidade() {
+	const cartao = criar("article", "cartao cartao-largo cartao-estatico");
+	const conteudo = criar("div", "cartao-conteudo");
+	const rolagem = criar("div", "cidade-rolagem");
+	rolagem.id = "cidade";
+	conteudo.append(rolagem);
+	cartao.append(conteudo);
+	return cartao;
+}
+
+async function atualizarAnoAtual(dados) {
+	if (document.hidden) return;
+	const anoAtual = new Date().getFullYear();
+	let contribuicoes;
+	try {
+		contribuicoes = await buscarContribuicoesDoAno(anoAtual);
+	} catch (erro) {
+		return;
+	}
+	const anterior = dados.contribuicoes;
+	if (anterior && anterior.fonte === "ano" && anterior.ano === anoAtual && anterior.total === contribuicoes.total) return;
+	dados.contribuicoes = contribuicoes;
+	const selecionado = document.querySelector('#atividade .ano[aria-pressed="true"]');
+	const corpo = document.querySelector("#atividade .contribuicoes-corpo");
+	if (corpo && (!selecionado || Number(selecionado.textContent) === anoAtual)) preencherContribuicoes(corpo, dados, contribuicoes);
 }
 
 function montarCartaoLinguagens(linguagens) {
@@ -602,6 +753,9 @@ function montarAtividade(dados) {
 	grade.replaceChildren();
 	grade.setAttribute("aria-busy", "false");
 	grade.append(montarCartaoContribuicoes(dados));
+	grade.append(montarCartaoCidade());
+	desenharCidade(dados.contribuicoes);
+	setInterval(() => atualizarAnoAtual(dados), ATIVIDADE.validadeAnoAtual);
 	if (dados.linguagens && dados.linguagens.itens.length) grade.append(montarCartaoLinguagens(dados.linguagens));
 	if (dados.repos) grade.append(montarCartaoRepos(dados.repos));
 	grade.after(montarRodapeAtividade(dados));
