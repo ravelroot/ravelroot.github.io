@@ -1,8 +1,3 @@
-// Aba Destaques: os dois projetos apresentados em detalhe.
-// "titulo" precisa ser igual ao de js/projetos.js (de onde vêm ícone, categoria e repositório)
-// e ao de js/documentacao.js (de onde vêm o manual técnico e o PDF do banco).
-// "capa" tem uma imagem para cada tema da página; a galeria usa "miniatura" na grade
-// e "imagem" no visualizador em tela cheia. Os números dos testes vêm dos READMEs dos projetos.
 const DESTAQUES = [
 	{
 		titulo: "Crivo",
@@ -187,33 +182,319 @@ const DESTAQUES = [
 			{ suite: "Carga", detalhe: "1.000 updates distribuídos em 20 salas em paralelo", resultado: "288 ms" },
 			{ suite: "Grafo.exe gerado de novo", detalhe: "Build reproduzível, comparado com o do repositório", resultado: "Idêntico" }
 		]
+	},
+	{
+		titulo: "Nexo",
+		versao: "2.1.0",
+		frase: "Uma plataforma de agentes de IA que respondem só com a própria base de conhecimento, citando o trecho e a página de cada informação.",
+		endereco: "127.0.0.1:8000",
+		capa: {
+			claro: "assets/destaques/nexo/chats.webp",
+			escuro: "assets/destaques/nexo/escuro.webp",
+			legenda: "Dois chats lado a lado: o Técnico de campo responde sobre o compressor e a bomba BC-40, a Aurora sobre trocas, produtos e pagamentos, e cada item da resposta leva o número do trecho de onde saiu."
+		},
+		numeros: [
+			{ valor: "7", rotulo: "formatos na base de conhecimento" },
+			{ valor: "2", rotulo: "cortes de relevância antes do modelo" },
+			{ valor: "41", rotulo: "testes, todos passando" },
+			{ valor: "3", rotulo: "formas de conectar o WhatsApp" }
+		],
+		historia: [
+			"O Nexo parte de uma regra simples: se a informação não está nos documentos, ele não responde. Cada agente tem nome, instruções de tom, saudação e uma base de conhecimento própria, com PDF, Word, planilhas, textos e mais, e cada frase da resposta cita o trecho e a página de onde saiu. Quando falta base, ele diz que não encontrou, e a pergunta vira uma lacuna no Painel de qualidade.",
+			"Entre a pergunta e o modelo existe um funil. A pergunta é reescrita com o histórico da conversa, a busca vetorial traz os candidatos, um cross-encoder reordena tudo pela relação real com a pergunta e dois cortes de relevância descartam o que não serve; se nada passa, o modelo nem é chamado. As peças trocam pelo .env, sem mudar código: Ollama ou OpenAI, ChromaDB ou Qdrant, reranker do HuggingFace ou da Cohere.",
+			"O mesmo agente atende no WhatsApp, pela Evolution API, pela API oficial da Meta ou por um simulador. Ele responde sozinho, passa o contato para a equipe quando não sabe ou quando o cliente pede um atendente, e a equipe assume, devolve ou pede uma sugestão de resposta com as fontes. Para outros sistemas, há chaves de API, a rota /api/ask e webhooks assinados."
+		],
+		pilha: [
+			{ nome: "Interface", itens: ["React 19", "TypeScript", "Vite", "React Router"] },
+			{ nome: "API e RAG", itens: ["Python 3.11+", "FastAPI", "LlamaIndex", "SQLAlchemy", "PyJWT", "bcrypt"] },
+			{ nome: "Modelos e busca", itens: ["Ollama", "OpenAI", "HuggingFace", "Cohere", "ChromaDB", "Qdrant"] },
+			{ nome: "Atendimento e entrega", itens: ["Evolution API", "WhatsApp Cloud API", "Docker Compose", "pytest", "GitHub Actions"] }
+		],
+		galeria: [
+			{ imagem: "assets/destaques/nexo/conversa.webp", miniatura: "assets/destaques/nexo/mini/conversa.webp", legenda: "Uma conversa com o acervo inteiro: cada item da resposta leva o número do trecho, e o painel Trechos usados mostra documento, página, termos destacados, similaridade e o link para abrir o PDF na página certa." },
+			{ imagem: "assets/destaques/nexo/agentes.webp", miniatura: "assets/destaques/nexo/mini/agentes.webp", legenda: "Três agentes, cada um preso à sua base: a Aurora atende a loja, o RH responde cuida de férias e benefícios e o Técnico de campo tira dúvidas de manutenção." },
+			{ imagem: "assets/destaques/nexo/novo-agente.webp", miniatura: "assets/destaques/nexo/mini/novo-agente.webp", legenda: "Novo agente: nome, base de conhecimento, instruções de tom, saudação, resposta para quando não souber, cor e a opção de citar as fontes." },
+			{ imagem: "assets/destaques/nexo/bases.webp", miniatura: "assets/destaques/nexo/mini/bases.webp", legenda: "A base Loja Aurora com seis itens prontos, quatro arquivos de Markdown a Word e dois textos digitados, e as abas Arquivos, Textos, Testar e Integrar." },
+			{ imagem: "assets/destaques/nexo/testar.webp", miniatura: "assets/destaques/nexo/mini/testar.webp", legenda: "A aba Testar busca só dentro da base, sem gerar resposta: três trechos em 4 ms, com os termos da pergunta destacados." },
+			{ imagem: "assets/destaques/nexo/whatsapp.webp", miniatura: "assets/destaques/nexo/mini/whatsapp.webp", legenda: "Caixa de entrada do WhatsApp: a cliente pediu um atendente, o agente avisou que ia chamar a equipe e o administrador assumiu a conversa." },
+			{ imagem: "assets/destaques/nexo/conexoes.webp", miniatura: "assets/destaques/nexo/mini/conexoes.webp", legenda: "Nova conexão em três passos: Evolution API pelo QR code, API oficial da Meta ou simulador, e o agente que vai responder." },
+			{ imagem: "assets/destaques/nexo/painel.webp", miniatura: "assets/destaques/nexo/mini/painel.webp", legenda: "Painel de qualidade: taxa de resposta, tempo médio, perguntas por dia, lacunas do acervo e os documentos mais citados." },
+			{ imagem: "assets/destaques/nexo/integracoes.webp", miniatura: "assets/destaques/nexo/mini/integracoes.webp", legenda: "Integrações: chaves de API, a rota POST /api/ask com exemplos em curl, Python e JavaScript, e webhooks assinados com HMAC SHA-256." }
+		],
+		porDentro: [
+			{
+				titulo: "Dois cortes antes do modelo",
+				texto: "A busca vetorial traz 12 candidatos e descarta os que ficam abaixo da similaridade mínima. Um cross-encoder reordena o resto pela relação real com a pergunta, e só os 4 melhores acima da nota mínima do reranker chegam ao modelo. Se nenhum passar, a resposta é \"não encontrei\" sem chamar o LLM.",
+				codigo: "NEXO_TOP_K=12              candidatos da busca vetorial\nNEXO_MIN_SIMILARITY=0.15   corte 1: cosseno\nNEXO_MIN_RERANK_SCORE=0.1  corte 2: cross-encoder\nNEXO_TOP_N=4               trechos que chegam ao modelo"
+			},
+			{
+				titulo: "Regras acima do agente",
+				texto: "As instruções de cada agente entram no prompt só como tom e estilo, abaixo de regras que valem acima delas: usar apenas os trechos, citar [n] em cada afirmação e responder a frase de não encontrado quando faltar base. A temperatura fica em 0,1, e a verificação de fidelidade com o FaithfulnessEvaluator pode ser ligada no .env."
+			},
+			{
+				titulo: "Bases sem reindexar",
+				texto: "Agente não tem coleção vetorial própria. Cada trecho guarda o id do documento nos metadados, e a busca filtra pelos documentos da base do agente. Mover um arquivo entre bases muda uma linha no banco, sem recalcular vetor nenhum, e a migração da 2.0 levou o acervo antigo para a base Acervo geral do mesmo jeito."
+			},
+			{
+				titulo: "Indexar de novo dá no mesmo",
+				texto: "Cada trecho recebe um UUID v5 calculado a partir do documento e da posição. Reindexar apaga e regrava os mesmos ids, sem deixar vetores órfãos. A fila de indexação roda numa thread própria, e o que ficou pendente volta para a fila quando o servidor reinicia."
+			},
+			{
+				titulo: "Testes sem modelo nenhum",
+				texto: "Um embedding léxico próprio, com palavras, pares de palavras e pedaços de quatro letras espalhados por hash BLAKE2b em 768 dimensões, e um modo extrativo que devolve as frases mais relevantes deixam a suíte inteira rodar sem GPU, sem internet e sem Ollama. As telas deste estudo foram feitas nesse modo."
+			},
+			{
+				titulo: "Do agente para a equipe",
+				texto: "No WhatsApp, o agente responde até não encontrar a resposta ou até o cliente pedir um atendente. Aí o contato vai para Aguardando atendente, o agente pausa nele e sai o webhook whatsapp.handoff. Na API oficial, a assinatura X-Hub-Signature-256 da Meta é conferida em cada mensagem recebida."
+			}
+		],
+		arquitetura: [
+			"Navegador  (React 19 + TypeScript)",
+			"  └─► HTTP/JSON · JWT ou X-API-Key",
+			"        └─► FastAPI  (python -m nexo)",
+			"              ├─► SQLAlchemy ─► SQLite ou PostgreSQL",
+			"              │     bases · agentes · conversas · WhatsApp",
+			"              ├─► fila de indexação",
+			"              │     PDF · DOCX · CSV · JSON · HTML · MD",
+			"              └─► LlamaIndex",
+			"                    ├─► vetores ...... ChromaDB ou Qdrant",
+			"                    ├─► reranker ..... HuggingFace ou Cohere",
+			"                    └─► LLM .......... Ollama ou OpenAI",
+			"",
+			"WhatsApp  (Evolution API · Cloud API da Meta)",
+			"  └─► webhook da conexão ─► agente ─► resposta com fontes",
+			"",
+			"Webhooks assinados ─► Slack, n8n, Zapier ou seu backend"
+		].join("\n"),
+		testes: [
+			{ suite: "Fluxo RAG", detalhe: "Envio, indexação, resposta com fontes, escopo e exclusão de vetores", resultado: "5 de 5" },
+			{ suite: "Motor de busca", detalhe: "Embedding léxico, reranker, cortes de relevância e pergunta sem base", resultado: "4 de 4" },
+			{ suite: "Agentes e bases", detalhe: "Formatos, textos, mover entre bases, saudação e migração da 2.0", resultado: "6 de 6" },
+			{ suite: "WhatsApp", detalhe: "Simulador, passagem para atendente, assinatura da Meta e QR da Evolution", resultado: "4 de 4" },
+			{ suite: "Integrações", detalhe: "Chaves de API, /api/ask, exportação, painel e webhooks assinados", resultado: "12 de 12" },
+			{ suite: "Contas e scripts", detalhe: "Login, bloqueio após cinco tentativas, cadastro, senha e avaliação da busca", resultado: "10 de 10" },
+			{ suite: "Interface React", detalhe: "Checagem de tipos do TypeScript e build do Vite", resultado: "Sem erros" }
+		]
+	},
+	{
+		titulo: "Talos",
+		versao: "1.1.0",
+		frase: "Um sistema desktop de central de serviços, helpdesk e inventário de TI, com os conceitos do GLPI e o banco que a equipe escolher.",
+		endereco: "Talos-1.1.0.exe",
+		capa: {
+			claro: "assets/destaques/talos/painel.webp",
+			escuro: "assets/destaques/talos/escuro.webp",
+			legenda: "O Painel no modo demonstração: indicadores do atendimento, abertos e solucionados nos últimos 30 dias, a fila do técnico, a carga de cada um e os chamados abertos por prioridade."
+		},
+		numeros: [
+			{ valor: "6", rotulo: "bancos com o mesmo modelo" },
+			{ valor: "3", rotulo: "módulos, domínio sem framework" },
+			{ valor: "84", rotulo: "testes passando no build" },
+			{ valor: "600 mil", rotulo: "iterações de PBKDF2 por senha" }
+		],
+		historia: [
+			"O Talos reúne num programa só o que uma equipe de TI usa todo dia: chamados com SLA, problemas e mudanças no modelo ITIL, Kanban, Gantt, agenda dos técnicos, inventário de equipamentos, software, licenças e contratos, base de conhecimento, relatórios e integrações com o chat da equipe. Os conceitos vêm do GLPI, de entidades e perfis a regras de negócio e lixeira, mas nenhuma linha de código.",
+			"Ele instala no Windows como qualquer programa, com o Java embutido, e não tem site nem servidor web. Os dados ficam no banco que a equipe escolher: um arquivo H2 local para começar ou um PostgreSQL, MySQL, MariaDB, SQL Server ou Oracle compartilhado, com o esquema criado e versionado pelo Flyway. Cada estação aponta para o mesmo banco, e é ele que coordena alertas, webhooks e rotinas.",
+			"Por baixo, a arquitetura é hexagonal: as regras de negócio não conhecem Spring, JPA nem JavaFX, e a interface encontra o backend pelo ServiceLoader. É isso que permite abrir todas as telas com dados fictícios, sem banco nenhum, e testar o domínio inteiro contra um repositório em memória."
+		],
+		pilha: [
+			{ nome: "Desktop e instalador", itens: ["Java 21", "JavaFX 21", "jpackage", "WiX Toolset"] },
+			{ nome: "Infraestrutura", itens: ["Spring Boot 4", "Spring Data JPA", "Hibernate", "HikariCP", "Flyway"] },
+			{ nome: "Bancos", itens: ["H2", "PostgreSQL", "MySQL", "MariaDB", "SQL Server", "Oracle"] },
+			{ nome: "Qualidade e entrega", itens: ["Maven", "JUnit 5", "Testcontainers", "GitHub Actions"] }
+		],
+		galeria: [
+			{ imagem: "assets/destaques/talos/chamados.webp", miniatura: "assets/destaques/talos/mini/chamados.webp", legenda: "Chamados abertos com status, prioridade, prazo de SLA em verde ou vermelho, técnico, requerente, categoria e grupo técnico, e as visões Atribuídos a mim, Atrasados e Lixeira." },
+			{ imagem: "assets/destaques/talos/chamado.webp", miniatura: "assets/destaques/talos/mini/chamado.webp", legenda: "A linha do tempo do chamado #21, com acompanhamentos e uma tarefa, as propriedades ao lado e os prazos de SLA: atendimento cumprido e solução estourada." },
+			{ imagem: "assets/destaques/talos/kanban.webp", miniatura: "assets/destaques/talos/mini/kanban.webp", legenda: "Kanban de chamados: colunas com itens, horas trabalhadas e atrasados, e cartões com categoria, tipo, responsável, prazo e tarefas. Os atrasados ficam em vermelho." },
+			{ imagem: "assets/destaques/talos/gantt.webp", miniatura: "assets/destaques/talos/mini/gantt.webp", legenda: "Gantt do projeto Renovação do parque de notebooks, com dependências, o marco de aprovação do orçamento e o caminho crítico destacado." },
+			{ imagem: "assets/destaques/talos/graficos.webp", miniatura: "assets/destaques/talos/mini/graficos.webp", legenda: "O mesmo Painel com outros gráficos: colunas para abertos e solucionados, rosca para status e prioridade e barras para a carga por técnico." },
+			{ imagem: "assets/destaques/talos/integracoes.webp", miniatura: "assets/destaques/talos/mini/integracoes.webp", legenda: "Central de integrações: webhooks para Slack, Microsoft Teams e JSON genérico, o botão Enviar teste e as últimas entregas, inclusive uma falha HTTP 503." },
+			{ imagem: "assets/destaques/talos/comandos.webp", miniatura: "assets/destaques/talos/mini/comandos.webp", legenda: "Paleta de comandos no Ctrl + K: novo chamado, problema ou mudança, alternar o tema, atalhos e qualquer tela do sistema." },
+			{ imagem: "assets/destaques/talos/ativos.webp", miniatura: "assets/destaques/talos/mini/ativos.webp", legenda: "Inventário de ativos com patrimônio, tipo, estado, usuário, localização, fabricante, número de série, IP e fim da garantia." },
+			{ imagem: "assets/destaques/talos/perfis.webp", miniatura: "assets/destaques/talos/mini/perfis.webp", legenda: "Perfis e permissões por módulo: ler, criar, editar, excluir, expurgar, atribuir, ver todos e aprovar. O Super-Administrador é protegido." }
+		],
+		porDentro: [
+			{
+				titulo: "Domínio sem framework",
+				texto: "Três módulos Maven: talos-domain em Java puro, talos-infrastructure com Spring Boot e JPA e talos-desktop com JavaFX. O domínio define as portas DataStore e BackendProvider, a infraestrutura as implementa e a interface encontra o backend pelo ServiceLoader. Sem ele, um repositório em memória sustenta o modo demonstração."
+			},
+			{
+				titulo: "Prioridade por matriz, como no GLPI",
+				texto: "Urgência e impacto, de 1 a 5, entram numa matriz que devolve a prioridade. Os prazos de atendimento (TTO) e de solução (TTR) contam só o horário comercial, pulam feriados e param enquanto o chamado está pendente.",
+				codigo: "            urgência →  1  2  3  4  5\nimpacto 1               1  1  2  2  2\nimpacto 3               2  2  3  4  4\nimpacto 5               2  3  4  5  5"
+			},
+			{
+				titulo: "Um modelo, seis bancos",
+				texto: "As entidades são as mesmas em todos os bancos, e o Flyway guarda um conjunto de migrações para cada um. Um teste confere se os scripts SQL de todos os bancos batem com as entidades, e um job do CI roda a persistência contra PostgreSQL, MySQL, MariaDB, SQL Server e Oracle de verdade, no Docker."
+			},
+			{
+				titulo: "Várias estações, uma rotina",
+				texto: "Cada computador instala o Talos e aponta para o mesmo banco. Antes de rodar uma rotina, como alertas de SLA ou chamados recorrentes, a estação grava na tabela pyh_job_lock até quando ela é dona da rotina; com o controle de versão, se duas tentarem ao mesmo tempo, só uma ganha.",
+				codigo: "pyh_job_lock  job_name · locked_by · locked_until · version\n\nestação A  trava livre ──► grava locked_until ──► roda\nestação B  trava valendo ─────────────────────────► pula"
+			},
+			{
+				titulo: "Login que não dá pista",
+				texto: "Senhas com PBKDF2-HMAC-SHA256, 600 mil iterações e salt aleatório, com hashes antigos atualizados no próximo login. Usuário inexistente, senha errada e conta bloqueada recebem a mesma resposta no mesmo tempo, e a sessão é revalidada a cada 30 segundos. A senha do banco fica cifrada com a DPAPI do Windows."
+			},
+			{
+				titulo: "Integrações que não travam a tela",
+				texto: "Os webhooks para Slack, Teams, Discord, Google Chat e JSON genérico saem em segundo plano pelo java.net.http, sem dependência extra e com 10 segundos de limite. O JSON genérico pode ser assinado com HMAC-SHA256 no cabeçalho X-Talos-Signature, e uma falha nunca impede o atendimento."
+			}
+		],
+		arquitetura: [
+			"Talos-1.1.0.exe  (jpackage, Java embutido)",
+			"  └─► talos-desktop  (JavaFX 21)",
+			"        telas · Kanban · Gantt · paleta de comandos",
+			"        │",
+			"        ▼",
+			"      talos-domain  (Java puro)",
+			"        chamados · SLA · regras · inventário · projetos",
+			"        portas DataStore e BackendProvider",
+			"        ├─► webhooks HTTPS ─► Slack · Teams · Discord",
+			"        │",
+			"        ▼  ServiceLoader",
+			"      talos-infrastructure  (Spring Boot 4, sem web)",
+			"        ├─► JPA + Hibernate + HikariCP",
+			"        ├─► Flyway ........ migrações por banco",
+			"        └─► rotinas ....... trava em pyh_job_lock",
+			"              │",
+			"              ▼",
+			"  H2 · PostgreSQL · MySQL · MariaDB · SQL Server · Oracle"
+		].join("\n"),
+		testes: [
+			{ suite: "Chamados e SLA", detalhe: "Ciclo de vida, pessoas, calendário comercial e matriz de prioridade", resultado: "28 de 28" },
+			{ suite: "Regras e projetos", detalhe: "Motor de regras, caminho crítico, repositório em memória e dados de demonstração", resultado: "15 de 15" },
+			{ suite: "Segurança e administração", detalhe: "Escalada de privilégio, senhas, aprovações, CSV sem fórmulas e links seguros", resultado: "20 de 20" },
+			{ suite: "Integrações e primeiro uso", detalhe: "Webhooks, assinatura HMAC e o assistente de configuração", resultado: "9 de 9" },
+			{ suite: "Infraestrutura com H2", detalhe: "Spring Boot real, migrações Flyway, bloqueio otimista e scripts iguais às entidades", resultado: "10 de 10" },
+			{ suite: "Interface", detalhe: "Traduções completas e iguais em português e inglês", resultado: "2 de 2" },
+			{ suite: "Cinco servidores reais", detalhe: "PostgreSQL, MySQL, MariaDB, SQL Server e Oracle com Testcontainers", resultado: "Job do CI" }
+		]
+	},
+	{
+		titulo: "Bento",
+		versao: "1.2.0",
+		frase: "Um painel administrativo para SaaS montado em bento grid, com tempo real pelo próprio PostgreSQL e uma API completa e testada por trás.",
+		endereco: "localhost:8080",
+		projeto: {
+			categoria: "Painel administrativo",
+			icone: "assets/projetos/bento.png?v=2",
+			link: "https://github.com/ravelroot/Data-Driven-Admin-Panel"
+		},
+		documentos: {
+			manual: "https://github.com/ravelroot/Data-Driven-Admin-Panel/blob/main/Manual-Bento.pdf",
+			banco: "https://github.com/ravelroot/Data-Driven-Admin-Panel/blob/main/Banco-de-Dados-Bento.pdf"
+		},
+		capa: {
+			claro: "assets/destaques/bento/visao-geral.webp",
+			escuro: "assets/destaques/bento/escuro.webp",
+			legenda: "Visão geral dos últimos 30 dias: a receita do período na tampa escura, com o gráfico diário, e os usuários e as assinaturas ativas nos compartimentos ao lado, cada um com a variação e um mini gráfico."
+		},
+		numeros: [
+			{ valor: "22", rotulo: "tabelas no PostgreSQL" },
+			{ valor: "16", rotulo: "paletas de cores" },
+			{ valor: "71", rotulo: "testes, todos passando" },
+			{ valor: "0", rotulo: "Redis ou filas para o tempo real" }
+		],
+		historia: [
+			"O Bento parte da imagem do nome: uma caixa só, dividida em compartimentos. Cada página é uma caixa de cantos arredondados em que os blocos dividem paredes finas, com o menu e os títulos impressos no fundo, e a grade de 12 colunas encaixa cartões de tamanhos diferentes e se reorganiza no tablet e no celular.",
+			"Dentro dela está o dia a dia de um SaaS: visão geral com receita, MRR e meta do mês, analytics com funil, coortes e mapa de calor, transações com reembolso, usuários com papéis e exceções por pessoa, notificações em tempo real, relatórios em CSV e PDF com envios agendados, trilha de auditoria e paleta de comandos com atalhos de teclado.",
+			"Por trás, uma API em TypeScript com Fastify 5 e Zod, documentada em /api/v1/docs. Com Docker, ela sobe com um PostgreSQL 18; sem ele, o PGlite roda o mesmo PostgreSQL embutido no processo do Node, sem instalar nada, e o painel funciona igual."
+		],
+		pilha: [
+			{ nome: "Interface", itens: ["TypeScript", "Tailwind CSS 4", "HTML5", "ApexCharts", "Vite"] },
+			{ nome: "API", itens: ["Node.js 22", "Fastify 5", "Zod", "PDFKit", "bcrypt.js"] },
+			{ nome: "Banco e tempo real", itens: ["PostgreSQL 18", "PGlite", "LISTEN/NOTIFY", "Server-Sent Events"] },
+			{ nome: "Qualidade e entrega", itens: ["Node Test Runner", "Docker Compose", "GitHub Actions"] }
+		],
+		galeria: [
+			{ imagem: "assets/destaques/bento/analytics.webp", miniatura: "assets/destaques/bento/mini/analytics.webp", legenda: "Analytics com intervalo de datas, períodos prontos e agrupamento por dia: receita, novos usuários, visitantes, conversão, receita e reembolsos e o funil da visita à assinatura." },
+			{ imagem: "assets/destaques/bento/transacoes.webp", miniatura: "assets/destaques/bento/mini/transacoes.webp", legenda: "Transações com o resumo do filtro (valor pago, reembolsado e taxa de falha), as abas por status, os filtros por método, tipo e período e a lista com cliente, plano e valor." },
+			{ imagem: "assets/destaques/bento/usuarios.webp", miniatura: "assets/destaques/bento/mini/usuarios.webp", legenda: "Usuários com contagens por status, filtros por papel e plano, seleção para ações em massa, colunas ordenáveis e paginação de 2.415 contas." },
+			{ imagem: "assets/destaques/bento/notificacoes.webp", miniatura: "assets/destaques/bento/mini/notificacoes.webp", legenda: "Notificações chegando ao vivo por Server-Sent Events, com filtros por categoria e a escolha de onde receber cada uma." },
+			{ imagem: "assets/destaques/bento/relatorios.webp", miniatura: "assets/destaques/bento/mini/relatorios.webp", legenda: "Relatórios em três passos (dados, período e formato), com a prévia da receita antes de gerar o PDF ou o CSV." },
+			{ imagem: "assets/destaques/bento/auditoria.webp", miniatura: "assets/destaques/bento/mini/auditoria.webp", legenda: "Trilha de auditoria com filtros por ação, pessoa e período, busca na descrição, o IP de cada registro e exportação em CSV." },
+			{ imagem: "assets/destaques/bento/configuracoes.webp", miniatura: "assets/destaques/bento/mini/configuracoes.webp", legenda: "Aparência: tema claro, escuro ou do sistema, 16 paletas de cores, densidade e menu recolhido, salvos no navegador e na conta." },
+			{ imagem: "assets/destaques/bento/sistema.webp", miniatura: "assets/destaques/bento/mini/sistema.webp", legenda: "Status do sistema: versão, banco (aqui, o PGlite) e latência, tempo no ar, memória, conexões em tempo real, volume das tabelas e migrações aplicadas." },
+			{ imagem: "assets/destaques/bento/componentes.webp", miniatura: "assets/destaques/bento/mini/componentes.webp", legenda: "A biblioteca de componentes em Tailwind CSS, com as escalas principal, de destaque e neutra que mudam junto com a paleta escolhida." }
+		],
+		porDentro: [
+			{
+				titulo: "Tempo real pelo próprio banco",
+				texto: "Cada evento é publicado no canal bento_eventos com pg_notify, e cada instância da API escuta com LISTEN e repassa aos navegadores por Server-Sent Events. Várias instâncias atrás de um balanceador entregam o mesmo evento sem Redis nem fila. Se o canal cai, a instância reconecta em 3 segundos.",
+				codigo: "API 1 ── pg_notify('bento_eventos', json) ──► PostgreSQL\nPostgreSQL ── LISTEN ──► API 1 · API 2 · API 3\nAPI n ── text/event-stream ──► navegadores"
+			},
+			{
+				titulo: "O mesmo SQL, com ou sem servidor",
+				texto: "Sem DATABASE_URL, a API abre o PGlite, o PostgreSQL compilado para WebAssembly, que roda dentro do Node e grava na pasta dados/. Migrações, consultas e testes são os mesmos nos dois casos; só o barramento de eventos troca o LISTEN/NOTIFY por um emissor em memória."
+			},
+			{
+				titulo: "Sessão que gira",
+				texto: "O acesso usa um JWT de 15 minutos num cookie httpOnly, e a renovação usa outro token, guardado só como hash SHA-256 na tabela sessoes e com o cookie restrito a /api/v1/auth. Cada renovação troca o token num UPDATE condicional, que só acerta se o antigo ainda valer."
+			},
+			{
+				titulo: "CSRF sem token escondido",
+				texto: "Pedidos que alteram dados pelo cookie de sessão precisam do cabeçalho X-Bento: 1, que um formulário de outro site não consegue enviar. Chaves de API dispensam o cabeçalho, ficam guardadas só como hash e podem ser apenas de leitura."
+			},
+			{
+				titulo: "Webhooks que não entram na rede interna",
+				texto: "Antes de cada envio, o nome do destino é resolvido, e qualquer endereço de loopback, rede privada, link-local (os metadados de nuvem), CGNAT ou NAT64 é recusado; o envio não segue redirecionamentos. Os segredos das integrações ficam cifrados com AES-256-GCM."
+			},
+			{
+				titulo: "Permissões conferidas duas vezes",
+				texto: "Cada pessoa tem as permissões do papel, mais as concedidas e menos as negadas. A interface esconde o que não pode ser usado e a API confere de novo em cada rota: quem não controla permissões só altera contas de nível menor que o seu, a correção da falha crítica achada na auditoria de segurança da 1.1."
+			}
+		],
+		arquitetura: [
+			"Navegador  (TypeScript + Tailwind CSS 4 + ApexCharts)",
+			"  ├─► HTTP/JSON · cookie httpOnly + X-Bento",
+			"  └◄── Server-Sent Events  (avisos, transações, contas)",
+			"        │",
+			"        ▼",
+			"API  (Node.js 22 + Fastify 5 + Zod)",
+			"  ├─► PostgreSQL 18 .......... com DATABASE_URL",
+			"  │     └─ LISTEN/NOTIFY bento_eventos",
+			"  ├─► PGlite embutido ........ sem DATABASE_URL",
+			"  ├─► relatórios ─► CSV · PDF (PDFKit) · agendador",
+			"  └─► webhooks assinados ─► Slack · Discord · seu endpoint"
+		].join("\n"),
+		testes: [
+			{ suite: "Autenticação e permissões", detalhe: "Sessão, CSRF, papéis, renovação com troca do token e chave só leitura", resultado: "7 de 7" },
+			{ suite: "Listagens e contas", detalhe: "Paginação, ordenação, filtros, bloqueio e permissões individuais", resultado: "7 de 7" },
+			{ suite: "Visão geral e analytics", detalhe: "Períodos de 7d a 12m, funil, coortes e mapa de calor no formato do contrato", resultado: "8 de 8" },
+			{ suite: "Relatórios, avisos e reembolsos", detalhe: "CSV, PDF, agendados, preferências, reembolso e filtros da auditoria", resultado: "14 de 14" },
+			{ suite: "Segurança", detalhe: "JWT forjado, injeção SQL, IDOR, SSRF, mass assignment, CSV e path traversal", resultado: "20 de 20" },
+			{ suite: "Banco vazio", detalhe: "Primeiro administrador criado uma vez e painel zerado sem erros", resultado: "2 de 2" },
+			{ suite: "Interface", detalhe: "Escape de HTML, formatação, menu, atalhos e paleta de comandos", resultado: "13 de 13" },
+			{ suite: "TypeScript strict", detalhe: "Checagem de tipos da interface e da API", resultado: "Sem erros" }
+		]
 	}
 ];
 
-// O que os dois projetos têm em comum, no fim da aba. "icone" usa os desenhos de ICONES_AREAS (js/main.js).
 const DESTAQUES_EM_COMUM = {
-	titulo: "Dois editores, as mesmas regras",
-	texto: "Projetos diferentes, a mesma forma de entregar. É isso que faz os dois funcionarem na mão de quem baixa, e não só no computador de quem escreveu.",
+	titulo: "Cinco projetos, as mesmas regras",
+	texto: "Projetos diferentes, a mesma forma de entregar. É isso que faz os cinco funcionarem na mão de quem baixa, e não só no computador de quem escreveu.",
 	itens: [
 		{
 			icone: "tela",
-			titulo: "Três maneiras de rodar",
-			texto: "Um .exe para Windows em Go com o WebView2, que abre maximizado e usa a janela Salvar como do sistema; um servidor completo com Docker Compose; e um único .html que abre com dois cliques, sem servidor e sem internet."
+			titulo: "Abrem sem montar servidor",
+			texto: "O Crivo e o Grafo têm um .exe e um .html que abrem com dois cliques; o Talos instala como qualquer programa do Windows, com o Java e um banco H2 embutidos; o Nexo e o Bento sobem com o iniciar.cmd, em SQLite ou PGlite. PostgreSQL e Docker entram quando a equipe precisar."
 		},
 		{
 			icone: "build",
-			titulo: "Builds reproduzíveis",
-			texto: "O mesmo código gera sempre o mesmo .exe, byte a byte. A cada push, o CI gera o executável de novo, compara com o do repositório e confere se o .html único está em dia com o código."
+			titulo: "Testados a cada push",
+			texto: "Cada repositório roda a própria suíte no GitHub Actions. No Crivo e no Grafo, o CI ainda gera o .exe de novo e confere se é idêntico ao do repositório, byte a byte; no Talos, um job à parte roda a persistência contra cinco bancos de verdade."
 		},
 		{
 			icone: "escudo",
 			titulo: "Fechados por padrão",
-			texto: "Content-Security-Policy sem eval e nenhum dado do usuário entrando como HTML. O arquivo único só executa o próprio script, conferido por hash SHA-256, e não abre conexão de rede; o app desktop roda sem administrador e não abre portas."
+			texto: "Senhas com bcrypt ou PBKDF2, chaves de API guardadas só como hash, webhooks assinados com HMAC-SHA256 e CSV exportado sem fórmulas. Nos editores, Content-Security-Policy sem eval e nenhum dado do usuário entrando como HTML; no Talos, a senha do banco cifrada pela DPAPI do Windows."
 		},
 		{
 			icone: "livro",
 			titulo: "Feitos para quem chega",
-			texto: "Um tutorial rápido na primeira abertura, que acende cada ferramenta e diz para que ela serve, um manual técnico em PDF e o documento do banco de dados, com diagramas, tabelas e consultas prontas."
+			texto: "Todos trazem um manual técnico em PDF e o modelo do banco documentado, com tabelas, campos e relacionamentos. O Crivo, o Grafo e o Nexo abrem com um tutorial, o Talos com um assistente de configuração, e o Nexo, o Talos e o Bento têm paleta de comandos no Ctrl + K."
 		}
 	]
 };

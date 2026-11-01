@@ -2342,6 +2342,10 @@ svg {
 		gap: 2.5rem;
 	}
 
+	.destaques-atalho:last-child:nth-child(odd) {
+		grid-column: 1 / -1;
+	}
+
 	.destaque-numeros {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 1.25rem;
@@ -3618,6 +3622,24 @@ textarea.campo-entrada {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		align-items: center;
 		gap: 3rem 2.5rem;
+	}
+
+	.destaques-sumario {
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+	}
+
+	.destaques-atalho,
+	.destaques-atalho:last-child:nth-child(odd) {
+		grid-column: span 2;
+	}
+
+	.destaques-atalho:nth-last-child(2):nth-child(3n + 1),
+	.destaques-atalho:last-child:nth-child(3n + 2) {
+		grid-column: span 3;
+	}
+
+	.destaques-atalho:last-child:nth-child(3n + 1) {
+		grid-column: 1 / -1;
 	}
 }
 

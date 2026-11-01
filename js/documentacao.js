@@ -19,7 +19,7 @@ const DOCUMENTACAO = [
 		decisao: "Domínio sem framework",
 		texto: "Arquitetura hexagonal em três módulos Maven. O domínio não depende de framework e a infraestrutura entra pelo ServiceLoader, o que permite rodar a interface com um banco em memória para demonstração e testes.",
 		destaques: ["Hexagonal", "3 módulos Maven", "Flyway"],
-		manual: "https://github.com/ravelroot/Information-Technology-Service-Management/blob/main/Manual-Talos-Vers%C3%A3o%201.0.0.pdf"
+		manual: "https://github.com/ravelroot/Information-Technology-Service-Management/blob/main/Manual-Talos-Vers%C3%A3o%201.1.0.pdf"
 	},
 	{
 		titulo: "Doca",
@@ -37,7 +37,8 @@ const DOCUMENTACAO = [
 		decisao: "Peças plugáveis",
 		texto: "Um único processo Python serve a API e a interface. Modelo de linguagem, embeddings, banco vetorial e reranker são escolhidos por configuração, sem mudar uma linha de código.",
 		destaques: ["SQLAlchemy", "ChromaDB ou Qdrant", "JWT"],
-		manual: "https://github.com/ravelroot/Retrieval-Augmented-QA-System/blob/main/Manual-Nexo.pdf"
+		manual: "https://github.com/ravelroot/Retrieval-Augmented-QA-System/blob/main/Manual-Nexo.pdf",
+		banco: "https://github.com/ravelroot/Retrieval-Augmented-QA-System/blob/main/Banco-de-Dados-Nexo.pdf"
 	},
 	{
 		titulo: "Turno",

@@ -600,7 +600,7 @@ function montarDestaques() {
 	const sumario = bloco("nav", "destaques-sumario");
 	sumario.setAttribute("aria-label", "Projetos em destaque");
 	DESTAQUES.forEach((destaque, indice) => {
-		const projeto = projetoPorTitulo[destaque.titulo] || {};
+		const projeto = projetoPorTitulo[destaque.titulo] || destaque.projeto || {};
 		const atalho = criar("a", "destaques-atalho");
 		atalho.href = `#${ancora(destaque.titulo)}`;
 		atalho.append(criar("span", "destaques-atalho-numero", doisDigitos(indice + 1)));
@@ -628,8 +628,8 @@ function montarDestaques() {
 	area.append(sumario);
 
 	DESTAQUES.forEach((destaque, indice) => {
-		const projeto = projetoPorTitulo[destaque.titulo] || {};
-		const documento = documentoPorTitulo[destaque.titulo] || {};
+		const projeto = projetoPorTitulo[destaque.titulo] || destaque.projeto || {};
+		const documento = documentoPorTitulo[destaque.titulo] || destaque.documentos || {};
 		const secao = criar("article", "destaque");
 		secao.id = ancora(destaque.titulo);
 		secao.setAttribute("aria-labelledby", `${secao.id}-titulo`);
@@ -828,7 +828,7 @@ function montarDestaques() {
 	});
 	comum.append(itens);
 
-	const outros = PROJETOS.length - DESTAQUES.length;
+	const outros = PROJETOS.filter((projeto) => !DESTAQUES.some((destaque) => destaque.titulo === projeto.titulo)).length;
 	const rodape = criar("div", "destaques-comum-rodape");
 	rodape.append(criar("p", "", `Os outros ${outros} projetos, de sistemas distribuídos a um alocador de memória em C, estão na aba Projetos.`));
 	const voltar = criar("button", "cartao-botao destaques-ver-todos", "Ver todos os projetos");
