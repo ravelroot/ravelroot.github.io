@@ -469,27 +469,114 @@ const DESTAQUES = [
 			{ suite: "Interface", detalhe: "Escape de HTML, formatação, menu, atalhos e paleta de comandos", resultado: "13 de 13" },
 			{ suite: "TypeScript strict", detalhe: "Checagem de tipos da interface e da API", resultado: "Sem erros" }
 		]
+	},
+	{
+		titulo: "Turno",
+		versao: "1.7.0",
+		frase: "Um motor de tarefas distribuídas em C#, no estilo Hangfire, em que vários workers idênticos dividem a mesma fila e cada tarefa roda uma única vez por tentativa.",
+		endereco: "localhost:8080",
+		capa: {
+			claro: "assets/destaques/turno/painel.webp",
+			escuro: "assets/destaques/turno/escuro.webp",
+			legenda: "Visão geral do cluster: 1.665 execuções na última hora na tampa escura, com sucessos e falhas por minuto, 16 de 24 vagas ocupadas, a fila e os indicadores das últimas 24 horas."
+		},
+		numeros: [
+			{ valor: "2", rotulo: "camadas contra execução dupla" },
+			{ valor: "6", rotulo: "camadas de resiliência" },
+			{ valor: "99", rotulo: "testes, 11 com cluster real" },
+			{ valor: "60", rotulo: "tarefas em 3 workers, uma vez cada" }
+		],
+		historia: [
+			"O Turno resolve o problema de toda fila de trabalho com mais de um consumidor: garantir que cada tarefa rode uma vez só, mesmo com mensagens duplicadas, workers que caem no meio do processo e reinícios do broker. Quantos workers forem precisos, todos iguais, consomem as mesmas filas do RabbitMQ ou do Azure Service Bus pelo MassTransit, e qualquer um pode cair, reiniciar ou entrar a qualquer momento.",
+			"A tarefa pode rodar na hora, com atraso, em data marcada ou por expressão cron com segundos e fuso horário. Falhas passageiras são repetidas pelo Polly, um disjuntor por tipo de tarefa segura a avalanche, as novas tentativas esperam com backoff exponencial e jitter, e o que esgota as tentativas vai para a fila de erros, com o stack trace, para ser reenfileirado pelo painel ou pela API.",
+			"O painel em Blazor WebAssembly acompanha tudo em tempo real pelo SignalR, com a mesma identidade de caixa única do Bento: execuções por minuto, o quadro de turnos com cada vaga de cada worker, tarefas com tentativas e linha do tempo, recorrentes e fila de erros. A API REST aceita Idempotency-Key, lotes de até mil tarefas e tem documentação no Scalar."
+		],
+		pilha: [
+			{ nome: "Workers e API", itens: ["C#", ".NET 10", "Worker Services", "ASP.NET Core", "SignalR"] },
+			{ nome: "Mensageria e locks", itens: ["MassTransit", "RabbitMQ", "Azure Service Bus", "Redis", "RedLock.net", "Polly"] },
+			{ nome: "Banco e painel", itens: ["PostgreSQL", "EF Core 10", "Npgsql", "Blazor WebAssembly", "Cronos"] },
+			{ nome: "Qualidade e entrega", itens: ["xUnit", "Docker Compose", "GitHub Actions", "Scalar"] }
+		],
+		galeria: [
+			{ imagem: "assets/destaques/turno/tarefas.webp", miniatura: "assets/destaques/turno/mini/tarefas.webp", legenda: "Tarefas com a contagem por estado, de agendadas a canceladas, e a lista com tipo, fila, tentativa, o worker que executou e a duração. As que estão rodando mostram o progresso." },
+			{ imagem: "assets/destaques/turno/detalhes.webp", miniatura: "assets/destaques/turno/mini/detalhes.webp", legenda: "Uma tarefa integration.sync que deu certo na segunda de seis tentativas, com a chave de concorrência parceiro-42, o payload e o resultado em JSON." },
+			{ imagem: "assets/destaques/turno/workers.webp", miniatura: "assets/destaques/turno/mini/workers.webp", legenda: "Workers registrados: três online com oito vagas cada, um encerrando com calma e os antigos offline, com filas, tarefas processadas, falhas e último sinal." },
+			{ imagem: "assets/destaques/turno/recorrentes.webp", miniatura: "assets/destaques/turno/mini/recorrentes.webp", legenda: "Recorrentes por expressão cron com fuso horário e controle de sobreposição, com a próxima execução, a última e o botão para disparar na hora." },
+			{ imagem: "assets/destaques/turno/erros.webp", miniatura: "assets/destaques/turno/mini/erros.webp", legenda: "Fila de erros com o stack trace aberto: falhas 503 de um parceiro que esgotaram as seis tentativas e um erro permanente que pulou as restantes." }
+		],
+		porDentro: [
+			{
+				titulo: "Token de despacho",
+				texto: "Toda vez que uma tarefa entra na fila, ela ganha um dispatch_id novo, que vai dentro da mensagem. Só a mensagem com o token atual consegue iniciar a tarefa, numa única instrução: reenvios, duplicatas e mensagens antigas encontram zero linhas e são descartadas.",
+				codigo: "UPDATE jobs SET state = 'Processing'\n WHERE id = @id\n   AND state = 'Enqueued'\n   AND dispatch_id = @token\n\n0 linhas  mensagem velha ou duplicada, descartada\n1 linha   este worker é o dono da tentativa"
+			},
+			{
+				titulo: "Redlock antes do banco",
+				texto: "Antes de tocar no banco, o worker pega o lock job:{id} no Redis, com renovação automática. Com três ou cinco instâncias independentes de Redis, o lock exige quórum, como no algoritmo original. Se o Redis falhar, a troca atômica no PostgreSQL continua impedindo a segunda execução."
+			},
+			{
+				titulo: "Lease com cerca",
+				texto: "Cada execução tem um lease renovado a cada 10 segundos. Se o worker some, a recuperação devolve a tarefa à fila e registra a tentativa como worker perdido. O término só é gravado se o worker ainda for o dono, com o mesmo worker_id, dispatch_id e estado: quem travou e voltou depois não sobrescreve quem assumiu."
+			},
+			{
+				titulo: "Outbox na mesma transação",
+				texto: "A mensagem para o broker é gravada na mesma transação da tarefa, pelo outbox do MassTransit com EF Core. Se o banco aceitou, a mensagem sai; se recusou, nada é publicado. O broker só avisa que existe trabalho: estado, tentativas e lease vivem no PostgreSQL."
+			},
+			{
+				titulo: "Resiliência em camadas",
+				texto: "O Polly repete na hora as falhas passageiras, abre o disjuntor de um tipo quando metade das execuções falha em 30 segundos e corta a tarefa no tempo limite. Depois, o agendador do Turno faz até cinco tentativas, com espera que dobra de 15 segundos até 15 minutos e 20% de jitter.",
+				codigo: "tentativa 1  falhou ─► espera 15 s ± 20%\ntentativa 2  falhou ─► espera 30 s ± 20%\ntentativa 3  falhou ─► espera 60 s ± 20%\n...          esgotou ─► dead_letters + turno-dead-letter"
+			},
+			{
+				titulo: "Um líder por rotina",
+				texto: "Agendador, recuperação e limpeza rodam em um líder por vez, eleito a cada ciclo pelo próprio Redlock, então dá para ligar quantos workers quiser sem duplicar essas rotinas. Na subida, a API aplica as migrações protegida por pg_advisory_lock, e duas instâncias nunca migram ao mesmo tempo."
+			}
+		],
+		arquitetura: [
+			"Cliente  (curl, sistemas ou o painel)",
+			"  └─► API  (ASP.NET Core · REST · SignalR · Scalar)",
+			"        └─► PostgreSQL  (EF Core 10, schema turno)",
+			"              jobs · tentativas · recorrentes · workers",
+			"              │  outbox na mesma transação",
+			"              ▼",
+			"        MassTransit ─► RabbitMQ ou Azure Service Bus",
+			"              │  ExecuteJob { id, dispatch_id }",
+			"              ▼",
+			"Workers × N  (Worker Services, todos iguais)",
+			"  ├─► Redis ......... Redlock em job:{id} e no líder",
+			"  ├─► Polly ......... retry · disjuntor · tempo limite",
+			"  └─► lease de 10 s ─► término só se ainda for o dono",
+			"",
+			"Painel  (Blazor WebAssembly) ◄── SignalR ── API"
+		].join("\n"),
+		testes: [
+			{ suite: "Domínio", detalhe: "Máquina de estados, nomes de tipo e fila, backoff com jitter e cron com segundos e fuso", resultado: "48 testes" },
+			{ suite: "Handlers", detalhe: "Registro por atributo, payload tipado, progresso e os handlers de exemplo", resultado: "10 testes" },
+			{ suite: "Infraestrutura", detalhe: "Nomes em snake_case, migrações iguais ao modelo, validação da API e pipeline do Polly", resultado: "30 testes" },
+			{ suite: "Cluster distribuído", detalhe: "60 tarefas em 3 workers uma vez cada, duplicatas, worker zumbi e chave de concorrência", resultado: "11 cenários" },
+			{ suite: "CI com serviços reais", detalhe: "As duas suítes com PostgreSQL, Redis e RabbitMQ e as imagens Docker", resultado: "A cada push" }
+		]
 	}
 ];
 
 const DESTAQUES_EM_COMUM = {
-	titulo: "Cinco projetos, as mesmas regras",
-	texto: "Projetos diferentes, a mesma forma de entregar. É isso que faz os cinco funcionarem na mão de quem baixa, e não só no computador de quem escreveu.",
+	titulo: "Seis projetos, as mesmas regras",
+	texto: "Projetos diferentes, a mesma forma de entregar. É isso que faz os seis funcionarem na mão de quem baixa, e não só no computador de quem escreveu.",
 	itens: [
 		{
 			icone: "tela",
-			titulo: "Abrem sem montar servidor",
-			texto: "O Crivo e o Grafo têm um .exe e um .html que abrem com dois cliques; o Talos instala como qualquer programa do Windows, com o Java e um banco H2 embutidos; o Nexo e o Bento sobem com o iniciar.cmd, em SQLite ou PGlite. PostgreSQL e Docker entram quando a equipe precisar."
+			titulo: "Começam com dois cliques",
+			texto: "O Crivo e o Grafo têm um .exe e um .html que abrem direto; o Talos instala como qualquer programa do Windows, com o Java e um banco H2 embutidos; o Nexo e o Bento sobem com o iniciar.cmd, em SQLite ou PGlite; e o Turno sobe o cluster inteiro, com PostgreSQL, Redis, RabbitMQ e três workers, pelo mesmo iniciar.cmd, com senhas geradas na hora."
 		},
 		{
 			icone: "build",
 			titulo: "Testados a cada push",
-			texto: "Cada repositório roda a própria suíte no GitHub Actions. No Crivo e no Grafo, o CI ainda gera o .exe de novo e confere se é idêntico ao do repositório, byte a byte; no Talos, um job à parte roda a persistência contra cinco bancos de verdade."
+			texto: "Cada repositório roda a própria suíte no GitHub Actions. No Crivo e no Grafo, o CI ainda gera o .exe de novo e confere se é idêntico ao do repositório, byte a byte; no Talos, um job à parte roda a persistência contra cinco bancos de verdade; no Turno, o cluster de teste sobe com PostgreSQL, Redis e RabbitMQ reais."
 		},
 		{
 			icone: "escudo",
 			titulo: "Fechados por padrão",
-			texto: "Senhas com bcrypt ou PBKDF2, chaves de API guardadas só como hash, webhooks assinados com HMAC-SHA256 e CSV exportado sem fórmulas. Nos editores, Content-Security-Policy sem eval e nenhum dado do usuário entrando como HTML; no Talos, a senha do banco cifrada pela DPAPI do Windows."
+			texto: "Senhas com bcrypt ou PBKDF2, chaves de API guardadas só como hash, webhooks assinados com HMAC-SHA256 e CSV exportado sem fórmulas. Nos editores, Content-Security-Policy sem eval e nenhum dado do usuário entrando como HTML; no Talos, a senha do banco cifrada pela DPAPI do Windows; no Turno, portas presas a 127.0.0.1 e chave de acesso comparada em tempo constante."
 		},
 		{
 			icone: "livro",
