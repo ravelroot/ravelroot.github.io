@@ -88,7 +88,7 @@ const NOTAS = [
 			{ codigo: "limite = floor(2^32 / n) * n\nx = getRandomValues()      // 0 a 2^32 - 1\n\nx <  limite → carta = x % n\nx >= limite → descarta e sorteia de novo" },
 			"Com 22 cartas, o descarte acontece no máximo uma vez a cada 268 milhões de sorteios, então o custo é nulo; em troca, a chance de cada carta passa a ser exatamente igual, e não só quase. E como o baralho inteiro é embaralhado no início e as cartas saem do topo, nenhuma se repete na mesma leitura sem que o código precise conferir o que já saiu."
 		],
-		projetos: []
+		projetos: ["Grimório"]
 	},
 	{
 		titulo: "Boundary tags: liberar memória em O(1)",

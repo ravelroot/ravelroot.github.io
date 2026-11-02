@@ -377,11 +377,6 @@ const DESTAQUES = [
 		versao: "1.2.0",
 		frase: "Um painel administrativo para SaaS montado em bento grid, com tempo real pelo próprio PostgreSQL e uma API completa e testada por trás.",
 		endereco: "localhost:8080",
-		projeto: {
-			categoria: "Painel administrativo",
-			icone: "assets/projetos/bento.png?v=2",
-			link: "https://github.com/ravelroot/Data-Driven-Admin-Panel"
-		},
 		documentos: {
 			manual: "https://github.com/ravelroot/Data-Driven-Admin-Panel/blob/main/Manual-Bento.pdf",
 			banco: "https://github.com/ravelroot/Data-Driven-Admin-Panel/blob/main/Banco-de-Dados-Bento.pdf"

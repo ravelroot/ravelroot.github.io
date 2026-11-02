@@ -206,13 +206,15 @@ function montarProjetos() {
 
 		const botoes = criar("div", "doc-botoes projeto-botoes");
 		// Quem tem versão no navegador abre com a demo; o código passa a ser o botão contornado.
-		if (destaque && destaque.online) {
-			botoes.append(criarLinkExterno("Abrir demo", destaque.online, "cartao-botao", ICONE_EXTERNO));
+		const online = (destaque && destaque.online) || projeto.online;
+		const manual = manuais[projeto.titulo] || projeto.manual || (destaque && destaque.documentos && destaque.documentos.manual);
+		if (online) {
+			botoes.append(criarLinkExterno("Abrir demo", online, "cartao-botao", ICONE_EXTERNO));
 		}
-		const classeCodigo = destaque && destaque.online ? "cartao-botao cartao-botao-secundario" : "cartao-botao";
+		const classeCodigo = online ? "cartao-botao cartao-botao-secundario" : "cartao-botao";
 		botoes.append(criarLinkExterno("Código no GitHub", projeto.link, `${classeCodigo} projeto-ver`, ICONE_GITHUB));
-		if (manuais[projeto.titulo]) {
-			botoes.append(criarLinkPdf("Manual técnico", manuais[projeto.titulo], "cartao-botao cartao-botao-secundario"));
+		if (manual) {
+			botoes.append(criarLinkPdf("Manual técnico", manual, "cartao-botao cartao-botao-secundario"));
 		}
 		conteudo.append(botoes);
 		cartao.append(conteudo);

@@ -97,5 +97,57 @@ const PROJETOS = [
 		descricao: "Favo é um alocador de memória escrito do zero em C11 que substitui o malloc e o free do sistema: pede memória ao kernel com sbrk e mmap (VirtualAlloc no Windows), alinha blocos a 16 bytes, aloca por First-Fit, Next-Fit ou Best-Fit em árvore rubro-negra e funde vizinhos livres. Funciona via LD_PRELOAD, com API em FastAPI e painel web do heap ao vivo.",
 		link: "https://github.com/ravelroot/Custom-Memory-Allocator",
 		tecnologias: ["C", "CMake", "LD_PRELOAD", "Python", "FastAPI", "SQLite", "Typescript", "Docker"]
+	},
+	{
+		titulo: "Bento",
+		categoria: "Painel administrativo",
+		icone: "assets/projetos/bento.png?v=2",
+		descricao: "Bento é um painel administrativo SaaS em bento grid feito com Tailwind CSS v4: modo claro/escuro salvo no localStorage, KPIs com tendência, gráficos ApexCharts, tabelas com ordenação, busca e paginação, e gavetas laterais. API em TypeScript (Fastify) com PostgreSQL, JWT, permissões por papel, alertas em tempo real (SSE) e relatórios em CSV e PDF.",
+		link: "https://github.com/ravelroot/Data-Driven-Admin-Panel",
+		tecnologias: ["Typescript", "Tailwind CSS", "Node.js", "Fastify", "PostgreSQL", "ApexCharts", "Docker"]
+	},
+	{
+		titulo: "Apogeu",
+		categoria: "Agentes de IA",
+		icone: "assets/projetos/apogeu.png",
+		descricao: "Apogeu é um orquestrador de agentes de IA em LangGraph: um supervisor coordena pesquisador, redator e revisor que colaboram para produzir artigos com fontes. Function calling, gestão de contexto, engenharia de prompts, aprovação humana do plano e streaming ao vivo numa interface Next.js. Roda com OpenAI, Anthropic, Ollama ou modo demonstração.",
+		link: "https://github.com/ravelroot/Multi-Agent-Orchestration-System",
+		tecnologias: ["Python", "LangGraph", "LangChain", "FastAPI", "SQLite", "Next.js", "React", "Typescript"]
+	},
+	{
+		titulo: "Arca",
+		categoria: "Banco de dados",
+		icone: "assets/projetos/arca.png",
+		descricao: "Arca é um banco de dados em C++20 com LSM-Tree: WAL com group commit, memtable em skip list, SSTables com filtro de Bloom e compactação em níveis. Servidor TCP assíncrono compatível com o protocolo do Redis, tabelas com SQL, snapshots MVCC, API REST em Go e painel web em React.",
+		link: "https://github.com/ravelroot/Persistent-Key-Value-Server",
+		manual: "https://github.com/ravelroot/Persistent-Key-Value-Server/blob/main/Manual-Arca.pdf",
+		tecnologias: ["C++", "CMake", "Go", "React", "Typescript", "Vite", "Prometheus", "Docker"]
+	},
+	{
+		titulo: "Leme",
+		categoria: "Armazenamento distribuído",
+		icone: "assets/projetos/leme.png",
+		descricao: "Leme é uma CLI em Go e Cobra para operar um cluster distribuído de armazenamento chave-valor: modo interativo (REPL com histórico e autocompletar) e direto para scripts, roteamento por hash consistente, réplicas com quórum, protocolo binário sobre TCP com TLS, nós de referência, console web e saída em tabela ou JSON.",
+		link: "https://github.com/ravelroot/Distributed-Key-Value-CLI",
+		manual: "https://github.com/ravelroot/Distributed-Key-Value-CLI/blob/main/Manual-Leme.pdf",
+		tecnologias: ["Go", "Cobra", "TLS", "OpenAPI", "Javascript", "Kubernetes", "Prometheus", "Docker"]
+	},
+	{
+		titulo: "Vau",
+		categoria: "CI/CD",
+		icone: "assets/projetos/vau.png",
+		descricao: "Vau é um servidor de CI/CD em PHP que recebe webhooks do GitHub e do GitLab e roda testes e deploy em containers Docker isolados, com limites de CPU e memória, log ao vivo, segredos cifrados, API REST e métricas Prometheus.",
+		link: "https://github.com/ravelroot/Containerized-CI-CD-System",
+		manual: "https://github.com/ravelroot/Containerized-CI-CD-System/blob/main/Manual-Vau.pdf",
+		tecnologias: ["PHP", "Docker", "SQLite", "MySQL", "PostgreSQL", "Prometheus", "PHPUnit", "GitHub Actions"]
+	},
+	{
+		titulo: "Grimório",
+		categoria: "Oráculo de tarô",
+		icone: "assets/projetos/grimorio.png",
+		descricao: "Oráculo de tarô com os 22 Arcanos Maiores, em leituras de carta única ou de três cartas (Origem, Travessia e Destino). A Convergência do Destino sintetiza as cartas por polaridade, elementos e arcano oculto. Cada arcano também se liga a um Caminho de Lord of the Mysteries. Mesa interativa com giro 3D e design responsivo. HTML, CSS e JS puros.",
+		link: "https://github.com/ravelroot/Grimoire-of-the-Seers",
+		online: "https://ravelroot.github.io/Grimoire-of-the-Seers/",
+		tecnologias: ["Javascript", "HTML", "CSS", "Web Animations API", "Web Crypto API"]
 	}
 ];
