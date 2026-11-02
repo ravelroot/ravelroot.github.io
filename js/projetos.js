@@ -131,23 +131,5 @@ const PROJETOS = [
 		link: "https://github.com/ravelroot/Distributed-Key-Value-CLI",
 		manual: "https://github.com/ravelroot/Distributed-Key-Value-CLI/blob/main/Manual-Leme.pdf",
 		tecnologias: ["Go", "Cobra", "TLS", "OpenAPI", "Javascript", "Kubernetes", "Prometheus", "Docker"]
-	},
-	{
-		titulo: "Vau",
-		categoria: "CI/CD",
-		icone: "assets/projetos/vau.png",
-		descricao: "Vau é um servidor de CI/CD em PHP que recebe webhooks do GitHub e do GitLab e roda testes e deploy em containers Docker isolados, com limites de CPU e memória, log ao vivo, segredos cifrados, API REST e métricas Prometheus.",
-		link: "https://github.com/ravelroot/Containerized-CI-CD-System",
-		manual: "https://github.com/ravelroot/Containerized-CI-CD-System/blob/main/Manual-Vau.pdf",
-		tecnologias: ["PHP", "Docker", "SQLite", "MySQL", "PostgreSQL", "Prometheus", "PHPUnit", "GitHub Actions"]
-	},
-	{
-		titulo: "Grimório",
-		categoria: "Oráculo de tarô",
-		icone: "assets/projetos/grimorio.png",
-		descricao: "Oráculo de tarô com os 22 Arcanos Maiores, em leituras de carta única ou de três cartas (Origem, Travessia e Destino). A Convergência do Destino sintetiza as cartas por polaridade, elementos e arcano oculto. Cada arcano também se liga a um Caminho de Lord of the Mysteries. Mesa interativa com giro 3D e design responsivo. HTML, CSS e JS puros.",
-		link: "https://github.com/ravelroot/Grimoire-of-the-Seers",
-		online: "https://ravelroot.github.io/Grimoire-of-the-Seers/",
-		tecnologias: ["Javascript", "HTML", "CSS", "Web Animations API", "Web Crypto API"]
 	}
 ];
