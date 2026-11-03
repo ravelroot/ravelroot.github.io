@@ -112,8 +112,8 @@ const DESTAQUES = [
 	},
 	{
 		titulo: "Grafo",
-		versao: "1.1.0",
-		frase: "Um editor de interfaces e de diagramas no navegador, em que várias pessoas desenham no mesmo arquivo ao mesmo tempo.",
+		versao: "1.2.0",
+		frase: "Um editor de interfaces e de diagramas no navegador, em que várias pessoas desenham no mesmo arquivo ao mesmo tempo, do quadro em branco a um dos 63 modelos prontos.",
 		online: "https://ravelroot.github.io/Collaborative-Design-and-Diagram-Editor/",
 		endereco: "ravelroot.github.io/Collaborative-Design-and-Diagram-Editor",
 		capa: {
@@ -122,13 +122,13 @@ const DESTAQUES = [
 			legenda: "Fluxograma de pedidos numa piscina, com decisão, documento e banco de dados, conectores ortogonais com rótulos e duas entidades ligadas por pé-de-galinha."
 		},
 		numeros: [
-			{ valor: "107", rotulo: "formas em oito bibliotecas" },
+			{ valor: "63", rotulo: "modelos prontos em dez categorias" },
 			{ valor: "37 KB", rotulo: "de núcleo em WebAssembly" },
 			{ valor: "80 ms", rotulo: "para 50 clientes convergirem" },
 			{ valor: "3.000", rotulo: "objetos abaixo de 50 ms de CPU" }
 		],
 		historia: [
-			"O Grafo junta no mesmo arquivo duas coisas que costumam viver em ferramentas separadas: o design de interfaces, com frames, auto layout, restrições, componentes e protótipo clicável, e os diagramas, com 107 formas em oito bibliotecas, de fluxograma e UML a BPMN, entidade-relacionamento e organograma.",
+			"O Grafo junta no mesmo arquivo duas coisas que costumam viver em ferramentas separadas: o design de interfaces, com frames, auto layout, componentes e protótipo clicável, e os diagramas, com 107 formas em oito bibliotecas. Desde a 1.2.0, ninguém começa do zero: o Novo quadro abre já montado um de 63 modelos, de UML e C4 a STRIDE e Kanban, ou um dos 46 padrões de projeto, como diagrama ou como aula em árvore, e as ações rápidas (Ctrl+K) acham qualquer comando, forma ou camada pelo nome.",
 			"E o arquivo é de todo mundo ao mesmo tempo. Quem abre o mesmo link vê os cursores e as seleções dos outros na cor de cada um, comenta em pinos presos ao canvas e salva versões que voltam com um clique. Cada mudança vira um update binário de poucos bytes, que o servidor em Rust aplica, distribui para a sala e grava no PostgreSQL.",
 			"Por baixo, a renderização fica com o PixiJS sobre WebGL2 ou WebGPU, e a geometria pesada roda num núcleo em C++ compilado para WebAssembly. Como o Crivo, ele roda de três maneiras: Grafo.exe no Windows, servidor completo com Docker Compose ou um Grafo.html que abre com dois cliques."
 		],
@@ -147,7 +147,12 @@ const DESTAQUES = [
 			{ imagem: "assets/destaques/grafo/bibliotecas.webp", miniatura: "assets/destaques/grafo/mini/bibliotecas.webp", legenda: "A aba Formas, com o componente Botão e as bibliotecas de formas básicas e de fluxograma." },
 			{ imagem: "assets/destaques/grafo/dados.webp", miniatura: "assets/destaques/grafo/mini/dados.webp", legenda: "Organograma gerado a partir de um CSV com sete pessoas: cartões, conectores e layout de uma vez." },
 			{ imagem: "assets/destaques/grafo/prototipo.webp", miniatura: "assets/destaques/grafo/mini/prototipo.webp", legenda: "Link de protótipo do botão Começar até o frame Detalhes, pronto para apresentar em tela cheia." },
-			{ imagem: "assets/destaques/grafo/versoes.webp", miniatura: "assets/destaques/grafo/mini/versoes.webp", legenda: "Histórico de versões nomeadas, com autor, data, tamanho e o botão Restaurar." }
+			{ imagem: "assets/destaques/grafo/exportar.webp", miniatura: "assets/destaques/grafo/mini/exportar.webp", legenda: "Exportar os três frames da página: PNG, JPG, SVG, PDF com uma página por frame ou o .grafo do projeto, na escala de 1× a 4×." },
+			{ imagem: "assets/destaques/grafo/versoes.webp", miniatura: "assets/destaques/grafo/mini/versoes.webp", legenda: "Histórico de versões nomeadas, com autor, data, tamanho e o botão Restaurar." },
+			{ imagem: "assets/destaques/grafo/modelos.webp", miniatura: "assets/destaques/grafo/mini/modelos.webp", legenda: "A galeria Novo quadro (Ctrl+Alt+N) na categoria Arquitetura: C4, em camadas, microsserviços, hexagonal, orientada a eventos e Clean Architecture, cada um pronto para editar." },
+			{ imagem: "assets/destaques/grafo/aula.webp", miniatura: "assets/destaques/grafo/mini/aula.webp", legenda: "O padrão Strategy aberto como aula: a raiz no topo, Problema, Solução, Participantes e Exemplo nas ramificações e a seção Aula no painel, com Ramificação, Irmã e o sentido da árvore." },
+			{ imagem: "assets/destaques/grafo/acoes-rapidas.webp", miniatura: "assets/destaques/grafo/mini/acoes-rapidas.webp", legenda: "Ações rápidas (Ctrl+K): a busca org traz o modelo Organograma, os comandos do menu Organizar com os atalhos e as formas da biblioteca de organograma." },
+			{ imagem: "assets/destaques/grafo/medicao.webp", miniatura: "assets/destaques/grafo/mini/medicao.webp", legenda: "Medição com Alt: o item selecionado mostra em pixels a distância até as quatro bordas do frame Detalhes." }
 		],
 		porDentro: [
 			{
@@ -174,11 +179,23 @@ const DESTAQUES = [
 			{
 				titulo: "Desenha só o que mudou",
 				texto: "A tela só é redesenhada quando algo muda, objetos fora da vista não são desenhados e o PixiJS refaz apenas os nós alterados. A árvore de filhos e a versão de cada nó ficam em índices: com 20.000 objetos, 200 consultas de filhos levam cerca de 10 ms."
+			},
+			{
+				titulo: "Modelos escritos em duas linhas",
+				texto: "A maioria dos quadros prontos é uma linha de nós e outra de ligações. O tamanho de cada forma sai do próprio texto, a posição vem do mesmo layout de Sugiyama do núcleo em WebAssembly e o quadro inteiro entra no Y.Doc numa só transação, fora do desfazer. Um teste monta os 63 modelos e os 46 padrões e confere que nenhum conector fica solto.",
+				codigo: "nós       q1:decision:Cliente novo?;r1:rounded:Frete grátis\nligações  q1>q2:sim;q1>q3:não\n\naula      a mesma árvore · Tab ramifica · Enter cria a irmã"
+			},
+			{
+				titulo: "Cada arquivo leva os seus ouvintes",
+				texto: "O editor e os painéis registram mouse, teclado, roda e réguas com o signal de um AbortController próprio. Ao abrir ou criar outro arquivo, os dois são destruídos e um abort() desliga tudo de uma vez. Antes da 1.2.0, o arquivo anterior continuava ouvindo o teclado por trás e repetia o botão Apresentar."
 			}
 		],
 		arquitetura: [
 			"Grafo.exe  (Go + WebView2)",
 			"  └─► Grafo.html embutido · janela Salvar como nativa",
+			"",
+			"Novo quadro  (63 modelos · 46 padrões · aula)",
+			"  └─► layout no núcleo ─► Y.Doc, numa só transação",
 			"",
 			"Interface ──► Y.Doc + UndoManager ──► PixiJS 8 (WebGL2 ou WebGPU)",
 			"                │                        │",
@@ -197,8 +214,8 @@ const DESTAQUES = [
 		].join("\n"),
 		testes: [
 			{ suite: "Núcleo C++/WASM", detalhe: "Fuzz de 300 pares de polígonos, índice com 10.000 caixas contra força bruta", resultado: "33 testes" },
-			{ suite: "Editor", detalhe: "Três réplicas, 600 edições concorrentes fora de ordem", resultado: "Convergem" },
-			{ suite: "Ponta a ponta", detalhe: "Playwright com GPU e WASM ativos, duas abas colaborando", resultado: "11 cenários" },
+			{ suite: "Editor", detalhe: "Os 63 modelos e 46 padrões sem pontas soltas e três réplicas com 600 edições fora de ordem", resultado: "23 de 23" },
+			{ suite: "Ponta a ponta", detalhe: "Playwright com GPU e WASM: Novo quadro, aula, ações rápidas, conta-gotas, medição e duas abas colaborando", resultado: "18 cenários" },
 			{ suite: "Servidor Rust", detalhe: "Reconexão após 25 updates perdidos, 50 clientes numa sala", resultado: "24 testes" },
 			{ suite: "Carga", detalhe: "1.000 updates distribuídos em 20 salas em paralelo", resultado: "288 ms" },
 			{ suite: "Grafo.exe gerado de novo", detalhe: "Build reproduzível, comparado com o do repositório", resultado: "Idêntico" }
@@ -206,7 +223,7 @@ const DESTAQUES = [
 	},
 	{
 		titulo: "Nexo",
-		versao: "2.1.0",
+		versao: "2.2.0",
 		frase: "Uma plataforma de agentes de IA que respondem só com a própria base de conhecimento, citando o trecho e a página de cada informação.",
 		endereco: "127.0.0.1:8000",
 		capa: {
@@ -215,32 +232,34 @@ const DESTAQUES = [
 			legenda: "Dois chats lado a lado: o Técnico de campo responde sobre o compressor e a bomba BC-40, a Aurora sobre trocas, produtos e pagamentos, e cada item da resposta leva o número do trecho de onde saiu."
 		},
 		numeros: [
-			{ valor: "7", rotulo: "formatos na base de conhecimento" },
+			{ valor: "11", rotulo: "formatos na base de conhecimento" },
 			{ valor: "2", rotulo: "cortes de relevância antes do modelo" },
-			{ valor: "41", rotulo: "testes, todos passando" },
+			{ valor: "82", rotulo: "testes, todos passando" },
 			{ valor: "3", rotulo: "formas de conectar o WhatsApp" }
 		],
 		historia: [
-			"O Nexo parte de uma regra simples: se a informação não está nos documentos, ele não responde. Cada agente tem nome, instruções de tom, saudação e uma base de conhecimento própria, com PDF, Word, planilhas, textos e mais, e cada frase da resposta cita o trecho e a página de onde saiu. Quando falta base, ele diz que não encontrou, e a pergunta vira uma lacuna no Painel de qualidade.",
-			"Entre a pergunta e o modelo existe um funil. A pergunta é reescrita com o histórico da conversa, a busca vetorial traz os candidatos, um cross-encoder reordena tudo pela relação real com a pergunta e dois cortes de relevância descartam o que não serve; se nada passa, o modelo nem é chamado. As peças trocam pelo .env, sem mudar código: Ollama ou OpenAI, ChromaDB ou Qdrant, reranker do HuggingFace ou da Cohere.",
-			"O mesmo agente atende no WhatsApp, pela Evolution API, pela API oficial da Meta ou por um simulador. Ele responde sozinho, passa o contato para a equipe quando não sabe ou quando o cliente pede um atendente, e a equipe assume, devolve ou pede uma sugestão de resposta com as fontes. Para outros sistemas, há chaves de API, a rota /api/ask e webhooks assinados."
+			"O Nexo parte de uma regra simples: se a informação não está nos documentos, ele não responde. Cada agente tem nome, instruções de tom, saudação e uma base de conhecimento própria, com PDF, Word, EPUB, PowerPoint, Excel, textos e mais, e cada frase da resposta cita o trecho e a página de onde saiu. Quando falta base, ele diz que não encontrou, e a pergunta vira uma lacuna no Painel de qualidade.",
+			"Entre a pergunta e o modelo existe um funil. A pergunta é reescrita com o histórico da conversa, a busca vetorial traz os candidatos, um cross-encoder reordena tudo pela relação real com a pergunta e dois cortes de relevância descartam o que não serve; se nada passa, o modelo nem é chamado. As peças trocam pelo .env, sem mudar código: Ollama ou OpenAI, ChromaDB ou Qdrant, reranker do HuggingFace ou da Cohere. Desde a 2.2.0, a resposta aparece enquanto o modelo escreve, para com Esc e pode ser refeita com fontes novas.",
+			"O mesmo agente atende no WhatsApp, pela Evolution API, pela API oficial da Meta ou por um simulador. Ele responde sozinho, passa o contato para a equipe quando não sabe ou quando o cliente pede um atendente, e a equipe assume, devolve ou pede uma sugestão de resposta com as fontes. Para outros sistemas, há chaves de API, a rota /api/ask, respostas em streaming e webhooks assinados, repetidos até três vezes quando o destino falha."
 		],
 		pilha: [
 			{ nome: "Interface", itens: ["React 19", "TypeScript", "Vite", "React Router"] },
-			{ nome: "API e RAG", itens: ["Python 3.11+", "FastAPI", "LlamaIndex", "SQLAlchemy", "PyJWT", "bcrypt"] },
+			{ nome: "API e RAG", itens: ["Python 3.11+", "FastAPI", "Server-Sent Events", "LlamaIndex", "SQLAlchemy", "PyJWT", "bcrypt"] },
 			{ nome: "Modelos e busca", itens: ["Ollama", "OpenAI", "HuggingFace", "Cohere", "ChromaDB", "Qdrant"] },
 			{ nome: "Atendimento e entrega", itens: ["Evolution API", "WhatsApp Cloud API", "Docker Compose", "pytest", "GitHub Actions"] }
 		],
 		galeria: [
-			{ imagem: "assets/destaques/nexo/conversa.webp", miniatura: "assets/destaques/nexo/mini/conversa.webp", legenda: "Uma conversa com o acervo inteiro: cada item da resposta leva o número do trecho, e o painel Trechos usados mostra documento, página, termos destacados, similaridade e o link para abrir o PDF na página certa." },
+			{ imagem: "assets/destaques/nexo/conversa.webp", miniatura: "assets/destaques/nexo/mini/conversa.webp", legenda: "Uma conversa com o acervo inteiro: cada item da resposta leva o número do trecho e o botão de refazer, e o painel Trechos usados mostra documento, página, termos destacados, similaridade e o link para abrir o PDF na página certa." },
 			{ imagem: "assets/destaques/nexo/agentes.webp", miniatura: "assets/destaques/nexo/mini/agentes.webp", legenda: "Três agentes, cada um preso à sua base: a Aurora atende a loja, o RH responde cuida de férias e benefícios e o Técnico de campo tira dúvidas de manutenção." },
 			{ imagem: "assets/destaques/nexo/novo-agente.webp", miniatura: "assets/destaques/nexo/mini/novo-agente.webp", legenda: "Novo agente: nome, base de conhecimento, instruções de tom, saudação, resposta para quando não souber, cor e a opção de citar as fontes." },
 			{ imagem: "assets/destaques/nexo/bases.webp", miniatura: "assets/destaques/nexo/mini/bases.webp", legenda: "A base Loja Aurora com seis itens prontos, quatro arquivos de Markdown a Word e dois textos digitados, e as abas Arquivos, Textos, Testar e Integrar." },
 			{ imagem: "assets/destaques/nexo/testar.webp", miniatura: "assets/destaques/nexo/mini/testar.webp", legenda: "A aba Testar busca só dentro da base, sem gerar resposta: três trechos em 4 ms, com os termos da pergunta destacados." },
+			{ imagem: "assets/destaques/nexo/documentos.webp", miniatura: "assets/destaques/nexo/mini/documentos.webp", legenda: "Documentos com dois itens marcados para reindexar, mover de base ou excluir de uma vez, e o envio que já aceita EPUB, PowerPoint, Excel e ODT." },
 			{ imagem: "assets/destaques/nexo/whatsapp.webp", miniatura: "assets/destaques/nexo/mini/whatsapp.webp", legenda: "Caixa de entrada do WhatsApp: a cliente pediu um atendente, o agente avisou que ia chamar a equipe e o administrador assumiu a conversa." },
 			{ imagem: "assets/destaques/nexo/conexoes.webp", miniatura: "assets/destaques/nexo/mini/conexoes.webp", legenda: "Nova conexão em três passos: Evolution API pelo QR code, API oficial da Meta ou simulador, e o agente que vai responder." },
-			{ imagem: "assets/destaques/nexo/painel.webp", miniatura: "assets/destaques/nexo/mini/painel.webp", legenda: "Painel de qualidade: taxa de resposta, tempo médio, perguntas por dia, lacunas do acervo e os documentos mais citados." },
-			{ imagem: "assets/destaques/nexo/integracoes.webp", miniatura: "assets/destaques/nexo/mini/integracoes.webp", legenda: "Integrações: chaves de API, a rota POST /api/ask com exemplos em curl, Python e JavaScript, e webhooks assinados com HMAC SHA-256." }
+			{ imagem: "assets/destaques/nexo/painel.webp", miniatura: "assets/destaques/nexo/mini/painel.webp", legenda: "Painel de qualidade: taxa de resposta, tempo médio, perguntas por dia, lacunas do acervo, os documentos mais citados e o botão Exportar CSV." },
+			{ imagem: "assets/destaques/nexo/integracoes.webp", miniatura: "assets/destaques/nexo/mini/integracoes.webp", legenda: "Integrações: chaves de API, a rota POST /api/ask com exemplos em curl, Python e JavaScript, e webhooks assinados com HMAC SHA-256." },
+			{ imagem: "assets/destaques/nexo/contas.webp", miniatura: "assets/destaques/nexo/mini/contas.webp", legenda: "Sistema e conta: Sair dos outros dispositivos, a troca de senha e as contas, em que o administrador cria, muda o perfil, redefine a senha e exclui." }
 		],
 		porDentro: [
 			{
@@ -267,16 +286,26 @@ const DESTAQUES = [
 			{
 				titulo: "Do agente para a equipe",
 				texto: "No WhatsApp, o agente responde até não encontrar a resposta ou até o cliente pedir um atendente. Aí o contato vai para Aguardando atendente, o agente pausa nele e sai o webhook whatsapp.handoff. Na API oficial, a assinatura X-Hub-Signature-256 da Meta é conferida em cada mensagem recebida."
+			},
+			{
+				titulo: "A resposta chega enquanto é escrita",
+				texto: "A rota de streaming responde em Server-Sent Events: primeiro avisa se está buscando ou escrevendo, depois manda um delta para cada pedaço do texto e, no fim, o mesmo JSON da rota comum. Pergunta e resposta só são gravadas quando o modelo termina; se ele falhar, chega um evento error e nada fica no banco. O botão de parar, ou Esc, descarta a resposta e devolve a pergunta para a caixa.",
+				codigo: "event: status   {\"stage\": \"searching\"}\nevent: status   {\"stage\": \"writing\"}\nevent: delta    {\"text\": \"Desligue a bomba e \"}\nevent: done     pergunta · resposta · fontes"
+			},
+			{
+				titulo: "Encerrar sessões sem tabela de sessões",
+				texto: "Cada conta tem um session_version, que vai dentro do token JWT. Trocar ou redefinir a senha e o botão Sair dos outros dispositivos somam 1, e todo token com a versão antiga passa a receber 401 SESSION_REVOKED. Em arquivos de contas antigos o campo vale 0, então quem já estava logado continua logado depois da atualização.",
+				codigo: "token   ver = 3\nconta   session_version = 4\n\nver ≠ session_version  →  401 SESSION_REVOKED"
 			}
 		],
 		arquitetura: [
 			"Navegador  (React 19 + TypeScript)",
-			"  └─► HTTP/JSON · JWT ou X-API-Key",
+			"  └─► HTTP/JSON · SSE · JWT ou X-API-Key",
 			"        └─► FastAPI  (python -m nexo)",
 			"              ├─► SQLAlchemy ─► SQLite ou PostgreSQL",
 			"              │     bases · agentes · conversas · WhatsApp",
 			"              ├─► fila de indexação",
-			"              │     PDF · DOCX · CSV · JSON · HTML · MD",
+			"              │     PDF · DOCX · EPUB · PPTX · XLSX · ODT · CSV · MD",
 			"              └─► LlamaIndex",
 			"                    ├─► vetores ...... ChromaDB ou Qdrant",
 			"                    ├─► reranker ..... HuggingFace ou Cohere",
@@ -285,23 +314,26 @@ const DESTAQUES = [
 			"WhatsApp  (Evolution API · Cloud API da Meta)",
 			"  └─► webhook da conexão ─► agente ─► resposta com fontes",
 			"",
-			"Webhooks assinados ─► Slack, n8n, Zapier ou seu backend"
+			"Webhooks assinados, até 3 tentativas ─► Slack, n8n, Zapier ou seu backend"
 		].join("\n"),
 		testes: [
 			{ suite: "Fluxo RAG", detalhe: "Envio, indexação, resposta com fontes, escopo e exclusão de vetores", resultado: "5 de 5" },
 			{ suite: "Motor de busca", detalhe: "Embedding léxico, reranker, cortes de relevância e pergunta sem base", resultado: "4 de 4" },
+			{ suite: "Respostas em streaming", detalhe: "Deltas do modelo, gravação só no fim, erro sem gravar nada e refazer resposta", resultado: "7 de 7" },
+			{ suite: "Formatos novos", detalhe: "EPUB, PPTX, XLSX e ODT, arquivos corrompidos e grandes demais depois de descompactados", resultado: "25 de 25" },
 			{ suite: "Agentes e bases", detalhe: "Formatos, textos, mover entre bases, saudação e migração da 2.0", resultado: "6 de 6" },
 			{ suite: "WhatsApp", detalhe: "Simulador, passagem para atendente, assinatura da Meta e QR da Evolution", resultado: "4 de 4" },
-			{ suite: "Integrações", detalhe: "Chaves de API, /api/ask, exportação, painel e webhooks assinados", resultado: "12 de 12" },
-			{ suite: "Contas e scripts", detalhe: "Login, bloqueio após cinco tentativas, cadastro, senha e avaliação da busca", resultado: "10 de 10" },
+			{ suite: "Integrações", detalhe: "Chaves de API, /api/ask, exportação, painel, webhooks com novas tentativas e X-Request-ID", resultado: "14 de 14" },
+			{ suite: "Ações em lote", detalhe: "Reindexar, mover e excluir vários itens, busca nas conversas e CSV do painel", resultado: "3 de 3" },
+			{ suite: "Contas e scripts", detalhe: "Login, bloqueio após cinco tentativas, sessões encerradas, contas criadas pelo administrador e avaliação da busca", resultado: "14 de 14" },
 			{ suite: "Interface React", detalhe: "Checagem de tipos do TypeScript e build do Vite", resultado: "Sem erros" }
 		]
 	},
 	{
 		titulo: "Talos",
-		versao: "1.1.0",
+		versao: "1.2.0",
 		frase: "Um sistema desktop de central de serviços, helpdesk e inventário de TI, com os conceitos do GLPI e o banco que a equipe escolher.",
-		endereco: "Talos-1.1.0.exe",
+		endereco: "Talos-1.2.0.exe",
 		capa: {
 			claro: "assets/destaques/talos/painel.webp",
 			escuro: "assets/destaques/talos/escuro.webp",
@@ -310,11 +342,11 @@ const DESTAQUES = [
 		numeros: [
 			{ valor: "6", rotulo: "bancos com o mesmo modelo" },
 			{ valor: "3", rotulo: "módulos, domínio sem framework" },
-			{ valor: "84", rotulo: "testes passando no build" },
+			{ valor: "99", rotulo: "testes automatizados" },
 			{ valor: "600 mil", rotulo: "iterações de PBKDF2 por senha" }
 		],
 		historia: [
-			"O Talos reúne num programa só o que uma equipe de TI usa todo dia: chamados com SLA, problemas e mudanças no modelo ITIL, Kanban, Gantt, agenda dos técnicos, inventário de equipamentos, software, licenças e contratos, base de conhecimento, relatórios e integrações com o chat da equipe. Os conceitos vêm do GLPI, de entidades e perfis a regras de negócio e lixeira, mas nenhuma linha de código.",
+			"O Talos reúne num programa só o que uma equipe de TI usa todo dia: chamados com SLA, problemas e mudanças no modelo ITIL, ações em lote e mescla de duplicados, Kanban, Gantt, agenda dos técnicos, inventário de equipamentos, software, licenças e contratos, base de conhecimento, relatórios e integrações com o chat da equipe. Os conceitos vêm do GLPI, de entidades e perfis a regras de negócio e lixeira, mas nenhuma linha de código.",
 			"Ele instala no Windows como qualquer programa, com o Java embutido, e não tem site nem servidor web. Os dados ficam no banco que a equipe escolher: um arquivo H2 local para começar ou um PostgreSQL, MySQL, MariaDB, SQL Server ou Oracle compartilhado, com o esquema criado e versionado pelo Flyway. Cada estação aponta para o mesmo banco, e é ele que coordena alertas, webhooks e rotinas.",
 			"Por baixo, a arquitetura é hexagonal: as regras de negócio não conhecem Spring, JPA nem JavaFX, e a interface encontra o backend pelo ServiceLoader. É isso que permite abrir todas as telas com dados fictícios, sem banco nenhum, e testar o domínio inteiro contra um repositório em memória."
 		],
@@ -361,16 +393,26 @@ const DESTAQUES = [
 			{
 				titulo: "Integrações que não travam a tela",
 				texto: "Os webhooks para Slack, Teams, Discord, Google Chat e JSON genérico saem em segundo plano pelo java.net.http, sem dependência extra e com 10 segundos de limite. O JSON genérico pode ser assinado com HMAC-SHA256 no cabeçalho X-Talos-Signature, e uma falha nunca impede o atendimento."
+			},
+			{
+				titulo: "Em lote item a item, na mescla tudo junto",
+				texto: "Uma ação em lote passa cada item pelo mesmo serviço da tela do item, com as mesmas permissões: o que falha não impede o resto e volta com o número e o motivo, até 500 itens por vez. A mescla faz o contrário, numa transação só: copia os acompanhamentos com o número de origem, leva as tarefas, soma o tempo gasto sem contar duas vezes, liga os duplicados com o vínculo Duplica e os fecha.",
+				codigo: "lote     #12 ✓   #15 ✓   #19 ✗ número e motivo na lista\nmescla   #31 + #34 ─► #30   uma transação · vínculo Duplica"
+			},
+			{
+				titulo: "Itens parecidos sem tabela nova",
+				texto: "Enquanto o título é digitado, as palavras sem acento, com três letras ou mais e fora de uma lista de palavras vazias, viram até quatro buscas nos itens abertos. A nota é o índice de Jaccard entre os títulos: só aparece o que passa de 0,3, no máximo quatro itens. A 1.2.0 não cria tabela nenhuma, e quem usa a 1.0 ou a 1.1 instala por cima.",
+				codigo: "título    Impressora do RH não imprime\npalavras  impressora · imprime\nnota      |A ∩ B| / |A ∪ B| ≥ 0,3  →  até 4 itens abertos"
 			}
 		],
 		arquitetura: [
-			"Talos-1.1.0.exe  (jpackage, Java embutido)",
+			"Talos-1.2.0.exe  (jpackage, Java embutido)",
 			"  └─► talos-desktop  (JavaFX 21)",
 			"        telas · Kanban · Gantt · paleta de comandos",
 			"        │",
 			"        ▼",
 			"      talos-domain  (Java puro)",
-			"        chamados · SLA · regras · inventário · projetos",
+			"        chamados · SLA · lote e mescla · regras · inventário · projetos",
 			"        portas DataStore e BackendProvider",
 			"        ├─► webhooks HTTPS ─► Slack · Teams · Discord",
 			"        │",
@@ -384,12 +426,14 @@ const DESTAQUES = [
 			"  H2 · PostgreSQL · MySQL · MariaDB · SQL Server · Oracle"
 		].join("\n"),
 		testes: [
-			{ suite: "Chamados e SLA", detalhe: "Ciclo de vida, pessoas, calendário comercial e matriz de prioridade", resultado: "28 de 28" },
-			{ suite: "Regras e projetos", detalhe: "Motor de regras, caminho crítico, repositório em memória e dados de demonstração", resultado: "15 de 15" },
-			{ suite: "Segurança e administração", detalhe: "Escalada de privilégio, senhas, aprovações, CSV sem fórmulas e links seguros", resultado: "20 de 20" },
-			{ suite: "Integrações e primeiro uso", detalhe: "Webhooks, assinatura HMAC e o assistente de configuração", resultado: "9 de 9" },
-			{ suite: "Infraestrutura com H2", detalhe: "Spring Boot real, migrações Flyway, bloqueio otimista e scripts iguais às entidades", resultado: "10 de 10" },
-			{ suite: "Interface", detalhe: "Traduções completas e iguais em português e inglês", resultado: "2 de 2" },
+			{ suite: "Chamados e SLA", detalhe: "Ciclo de vida, pessoas, calendário comercial e matriz de prioridade", resultado: "28 testes" },
+			{ suite: "Ações em lote e mescla", detalhe: "Atribuir, status e urgência em lote, mescla com tarefas e tempo, duplicar e itens parecidos", resultado: "10 testes" },
+			{ suite: "Regras e projetos", detalhe: "Motor de regras, caminho crítico, repositório em memória e dados de demonstração", resultado: "15 testes" },
+			{ suite: "Segurança e administração", detalhe: "Escalada de privilégio, senhas, aprovações, CSV sem fórmulas e links seguros", resultado: "20 testes" },
+			{ suite: "Correções da 1.2.0", detalhe: "CSV com aspas e datas impossíveis, número enorme na busca, seguidores, aprovação após recusa e lixeira", resultado: "5 testes" },
+			{ suite: "Integrações e primeiro uso", detalhe: "Webhooks, assinatura HMAC e o assistente de configuração", resultado: "9 testes" },
+			{ suite: "Infraestrutura com H2", detalhe: "Spring Boot real, migrações Flyway, bloqueio otimista, busca sem acentos e scripts iguais às entidades", resultado: "10 testes" },
+			{ suite: "Interface", detalhe: "Traduções completas e iguais em português e inglês", resultado: "2 testes" },
 			{ suite: "Cinco servidores reais", detalhe: "PostgreSQL, MySQL, MariaDB, SQL Server e Oracle com Testcontainers", resultado: "Job do CI" }
 		]
 	},

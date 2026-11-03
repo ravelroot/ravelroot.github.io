@@ -14,7 +14,7 @@ const PROJETOS = [
 		titulo: "Talos",
 		categoria: "ITSM e helpdesk",
 		icone: "assets/projetos/talos.png?v=2",
-		descricao: "Talos é um sistema desktop de ITSM, helpdesk e inventário de ativos em Java 21 com Spring Boot (JPA e Flyway) e interface JavaFX. Arquitetura hexagonal inspirada no GLPI: chamados, problemas, mudanças, SLA, regras de negócio, Kanban e Gantt. Banco à escolha (PostgreSQL, MySQL, MariaDB, SQL Server, Oracle ou H2) e instalador .msi via jpackage.",
+		descricao: "Talos é um sistema desktop de ITSM, helpdesk e inventário de ativos em Java 21 com Spring Boot (JPA e Flyway) e interface JavaFX. Arquitetura hexagonal inspirada no GLPI: chamados, problemas, mudanças, SLA, ações em lote, mescla, Kanban e Gantt. Banco à escolha (PostgreSQL, MySQL, MariaDB, SQL Server, Oracle ou H2) e instalador .exe via jpackage.",
 		link: "https://github.com/ravelroot/Information-Technology-Service-Management",
 		tecnologias: ["Java", "Spring Boot", "JavaFX", "JPA", "Flyway", "PostgreSQL"]
 	},
@@ -30,7 +30,7 @@ const PROJETOS = [
 		titulo: "Nexo",
 		categoria: "IA e RAG",
 		icone: "assets/projetos/nexo.png?v=2",
-		descricao: "Nexo é um chatbot RAG para manuais técnicos e livros em PDF desenvolvido em Python com FastAPI, LlamaIndex e interface React + TypeScript. Responde com base estrita nos documentos, citando trecho e página, com reranking e cortes de relevância contra alucinações. Com suporte a ChromaDB, Qdrant, Ollama, OpenAI e Cohere.",
+		descricao: "Nexo é uma plataforma de agentes de IA com RAG em Python, FastAPI e LlamaIndex, com interface React + TypeScript. Cada agente responde só com a própria base (PDF, Word, EPUB, PowerPoint, planilhas e mais), citando trecho e página, com reranking, respostas em tempo real e WhatsApp. Suporta ChromaDB, Qdrant, Ollama, OpenAI e Cohere.",
 		link: "https://github.com/ravelroot/Retrieval-Augmented-QA-System",
 		tecnologias: ["Python", "FastAPI", "LlamaIndex", "React", "Typescript", "ChromaDB", "Qdrant"]
 	},
@@ -86,7 +86,7 @@ const PROJETOS = [
 		titulo: "Grafo",
 		categoria: "Design e diagramas",
 		icone: "assets/projetos/grafo.png",
-		descricao: "Grafo é um editor colaborativo de design e diagramas no navegador, em JavaScript com PixiJS (WebGL2 e WebGPU) e núcleo geométrico em C++ compilado para WebAssembly. Frames, auto layout, componentes, fluxogramas, UML, ER e BPMN, protótipo clicável e edição em tempo real com Yjs, servidor em Rust, PostgreSQL, Redis e NATS.",
+		descricao: "Grafo é um editor colaborativo de design e diagramas no navegador, em JavaScript com PixiJS (WebGL2 e WebGPU) e núcleo geométrico em C++ compilado para WebAssembly. Frames, auto layout, componentes, UML, ER e BPMN, 63 modelos e 46 padrões prontos, protótipo clicável e edição em tempo real com Yjs, servidor em Rust, PostgreSQL, Redis e NATS.",
 		link: "https://github.com/ravelroot/Collaborative-Design-and-Diagram-Editor",
 		tecnologias: ["Javascript", "PixiJS", "C++", "WebAssembly", "Rust", "Yjs", "PostgreSQL", "Docker"]
 	},
