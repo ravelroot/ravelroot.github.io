@@ -37,7 +37,7 @@ const PROJETOS = [
 	{
 		titulo: "Turno",
 		categoria: "Tarefas distribuídas",
-		icone: "assets/projetos/turno.png",
+		icone: "assets/projetos/turno.png?v=2",
 		descricao: "Turno é um motor de agendamento e processamento de tarefas distribuídas em C# e .NET 10, no estilo Hangfire. Workers clonados consomem filas do RabbitMQ ou Azure Service Bus via MassTransit, com lock Redlock no Redis, Polly (retry, circuit breaker e fila de erros), PostgreSQL e painel em Blazor WebAssembly em tempo real.",
 		link: "https://github.com/ravelroot/Distributed-Task-Processing-Engine",
 		tecnologias: ["C#", ".NET 10", "MassTransit", "RabbitMQ", "Redis", "PostgreSQL", "Blazor", "Docker"]
