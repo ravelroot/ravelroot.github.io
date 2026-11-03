@@ -55,7 +55,7 @@ const DOCUMENTACAO = [
 		miniatura: "assets/documentacao/sonda.png",
 		miniaturaDescricao: "Diagrama das entidades do índice invertido da Sonda",
 		decisao: "O índice é o banco",
-		texto: "Nada de SQL nem LIKE: o índice invertido fica em segmentos binários imutáveis, com checksum CRC32 em todo arquivo e troca atômica da lista de segmentos, seguro contra queda de energia e indexação paralela.",
+		texto: "Nada de SQL nem LIKE: o índice invertido fica em segmentos binários imutáveis, com checksum CRC32 em todo arquivo e troca atômica da lista de segmentos, seguro contra queda de energia e indexação paralela. A cópia de segurança leva o último commit num .zip com manifesto, e a restauração só troca o índice depois de conferir tamanhos e CRC32.",
 		destaques: ["Índice invertido", "Segmentos imutáveis", "CRC32"],
 		manual: "https://github.com/ravelroot/Inverted-Index-Search-Engine/blob/main/Manual-Sonda.pdf",
 		banco: "https://github.com/ravelroot/Inverted-Index-Search-Engine/blob/main/Banco-de-Dados-Sonda.pdf"

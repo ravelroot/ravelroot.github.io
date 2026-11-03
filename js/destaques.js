@@ -18,7 +18,7 @@ const DESTAQUES = [
 		],
 		historia: [
 			"A premissa do Crivo é que o editor mostre exatamente o que o jogo vai receber. A imagem não é tratada como uma pintura, e sim como o que ela é: uma matriz de pixels RGBA, em que cada traço altera números que podem sair do editor como PNG, GIF, sprite sheet ou código-fonte em JSON, CSV, JavaScript, Python, C e Java.",
-			"Em volta dessa matriz está um editor completo: 23 ferramentas, seleção por retângulo, elipse, laço e varinha mágica, camadas em grupos com 19 modos de mistura, animação quadro a quadro com tags e cels vinculados, tilemaps, slices e arquivos .ase com camadas. As paletas clássicas já vêm prontas (Game Boy, NES, Pico-8, CGA, Commodore 64 e 1 bit), e um caderno folheia os projetos página por página.",
+			"Em volta dessa matriz está um editor completo: 23 ferramentas, seleção por retângulo, elipse, laço e varinha mágica, camadas em grupos com 19 modos de mistura, animação quadro a quadro com tags e cels vinculados, tilemaps, slices e arquivos .ase com camadas. As paletas clássicas já vêm prontas (Game Boy, NES, Pico-8, CGA, Commodore 64 e 1 bit), e um caderno folheia os projetos página por página. A própria interface também troca de paleta pelo botão do topo, entre a do Crivo e as do Bento, do Sonda e do Nexo, cada uma em claro e escuro, sem mexer nas cores do desenho.",
 			"Desde a 2.4.0, os mesmos pixels viram jogo: o Estúdio de jogo monta fases com tiles, atores com 12 comportamentos prontos ou com eventos no estilo do GameMaker, regras, sons de 8 bits e código em Crivo Script, C++ ou Lua, com tiles de 8 a 1024 px. O jogo sai numa única página HTML, e o Crivo roda como Crivo.exe no Windows, como servidor Django com PostgreSQL ou num Crivo.html que abre sem internet."
 		],
 		pilha: [
@@ -130,7 +130,7 @@ const DESTAQUES = [
 		historia: [
 			"O Grafo junta no mesmo arquivo duas coisas que costumam viver em ferramentas separadas: o design de interfaces, com frames, auto layout, componentes e protótipo clicável, e os diagramas, com 107 formas em oito bibliotecas. Desde a 1.2.0, ninguém começa do zero: o Novo quadro abre já montado um de 63 modelos, de UML e C4 a STRIDE e Kanban, ou um dos 46 padrões de projeto, como diagrama ou como aula em árvore, e as ações rápidas (Ctrl+K) acham qualquer comando, forma ou camada pelo nome.",
 			"E o arquivo é de todo mundo ao mesmo tempo. Quem abre o mesmo link vê os cursores e as seleções dos outros na cor de cada um, comenta em pinos presos ao canvas e salva versões que voltam com um clique. Cada mudança vira um update binário de poucos bytes, que o servidor em Rust aplica, distribui para a sala e grava no PostgreSQL.",
-			"Por baixo, a renderização fica com o PixiJS sobre WebGL2 ou WebGPU, e a geometria pesada roda num núcleo em C++ compilado para WebAssembly. Como o Crivo, ele roda de três maneiras: Grafo.exe no Windows, servidor completo com Docker Compose ou um Grafo.html que abre com dois cliques."
+			"Por baixo, a renderização fica com o PixiJS sobre WebGL2 ou WebGPU, e a geometria pesada roda num núcleo em C++ compilado para WebAssembly. Como o Crivo, ele roda de três maneiras: Grafo.exe no Windows, servidor completo com Docker Compose ou um Grafo.html que abre com dois cliques. Nas três, o botão de paleta no topo troca a interface entre a paleta do Grafo e as do Bento, do Sonda e do Nexo, em claro e escuro, sem alterar as cores do arquivo."
 		],
 		pilha: [
 			{ nome: "Editor", itens: ["JavaScript", "PixiJS 8", "WebGL2", "WebGPU", "Yjs"] },
@@ -439,7 +439,7 @@ const DESTAQUES = [
 	},
 	{
 		titulo: "Bento",
-		versao: "1.2.0",
+		versao: "1.3.0",
 		frase: "Um painel administrativo para SaaS montado em bento grid, com tempo real pelo próprio PostgreSQL e uma API completa e testada por trás.",
 		endereco: "localhost:8080",
 		documentos: {
@@ -452,14 +452,14 @@ const DESTAQUES = [
 			legenda: "Visão geral dos últimos 30 dias: a receita do período na tampa escura, com o gráfico diário, e os usuários e as assinaturas ativas nos compartimentos ao lado, cada um com a variação e um mini gráfico."
 		},
 		numeros: [
-			{ valor: "22", rotulo: "tabelas no PostgreSQL" },
+			{ valor: "23", rotulo: "tabelas no PostgreSQL" },
 			{ valor: "16", rotulo: "paletas de cores" },
-			{ valor: "71", rotulo: "testes, todos passando" },
+			{ valor: "82", rotulo: "testes, todos passando" },
 			{ valor: "0", rotulo: "Redis ou filas para o tempo real" }
 		],
 		historia: [
 			"O Bento parte da imagem do nome: uma caixa só, dividida em compartimentos. Cada página é uma caixa de cantos arredondados em que os blocos dividem paredes finas, com o menu e os títulos impressos no fundo, e a grade de 12 colunas encaixa cartões de tamanhos diferentes e se reorganiza no tablet e no celular.",
-			"Dentro dela está o dia a dia de um SaaS: visão geral com receita, MRR e meta do mês, analytics com funil, coortes e mapa de calor, transações com reembolso, usuários com papéis e exceções por pessoa, notificações em tempo real, relatórios em CSV e PDF com envios agendados, trilha de auditoria e paleta de comandos com atalhos de teclado.",
+			"Dentro dela está o dia a dia de um SaaS: visão geral com receita, MRR e meta do mês, analytics com funil, coortes e mapa de calor, transações com reembolso, usuários com papéis e exceções por pessoa, notificações em tempo real, relatórios em CSV e PDF com envios agendados, trilha de auditoria e paleta de comandos com atalhos de teclado. Desde a 1.3.0, cada conta guarda notas internas da equipe, com as importantes fixadas no topo e cada uma registrada na auditoria, e os filtros de Transações e Auditoria viram visões salvas, reaplicadas com um clique.",
 			"Por trás, uma API em TypeScript com Fastify 5 e Zod, documentada em /api/v1/docs. Com Docker, ela sobe com um PostgreSQL 18; sem ele, o PGlite roda o mesmo PostgreSQL embutido no processo do Node, sem instalar nada, e o painel funciona igual."
 		],
 		pilha: [
@@ -522,11 +522,12 @@ const DESTAQUES = [
 		testes: [
 			{ suite: "Autenticação e permissões", detalhe: "Sessão, CSRF, papéis, renovação com troca do token e chave só leitura", resultado: "7 de 7" },
 			{ suite: "Listagens e contas", detalhe: "Paginação, ordenação, filtros, bloqueio e permissões individuais", resultado: "7 de 7" },
+			{ suite: "Notas internas", detalhe: "Validação, fixadas primeiro, só o autor ou quem controla permissões altera, auditoria e remoção junto com a conta", resultado: "6 de 6" },
 			{ suite: "Visão geral e analytics", detalhe: "Períodos de 7d a 12m, funil, coortes e mapa de calor no formato do contrato", resultado: "8 de 8" },
 			{ suite: "Relatórios, avisos e reembolsos", detalhe: "CSV, PDF, agendados, preferências, reembolso e filtros da auditoria", resultado: "14 de 14" },
 			{ suite: "Segurança", detalhe: "JWT forjado, injeção SQL, IDOR, SSRF, mass assignment, CSV e path traversal", resultado: "20 de 20" },
 			{ suite: "Banco vazio", detalhe: "Primeiro administrador criado uma vez e painel zerado sem erros", resultado: "2 de 2" },
-			{ suite: "Interface", detalhe: "Escape de HTML, formatação, menu, atalhos e paleta de comandos", resultado: "13 de 13" },
+			{ suite: "Interface", detalhe: "Escape de HTML, formatação, menu, atalhos, paleta de comandos e visões salvas", resultado: "18 de 18" },
 			{ suite: "TypeScript strict", detalhe: "Checagem de tipos da interface e da API", resultado: "Sem erros" }
 		]
 	},

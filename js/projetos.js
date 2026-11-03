@@ -46,7 +46,7 @@ const PROJETOS = [
 		titulo: "Sonda",
 		categoria: "Motor de busca",
 		icone: "assets/projetos/sonda.png",
-		descricao: "Sonda é um motor de busca de texto completo escrito do zero em C# e .NET 10, no estilo Lucene e Elasticsearch. Indexa pastas de .txt, .md e .html em paralelo com TPL e ConcurrentDictionary, aplica tokenização e stemming RSLP e Porter, grava um índice invertido binário via FileStream e ordena por BM25 ou TF-IDF, com painel web, API e CLI.",
+		descricao: "Sonda é um motor de busca de texto completo escrito do zero em C# e .NET 10, no estilo Lucene e Elasticsearch. Indexa .txt, .md e .html em paralelo com TPL, aplica stemming RSLP e Porter, grava um índice invertido binário e ordena por BM25 ou TF-IDF, com \"Você quis dizer?\", comparação lado a lado dos dois modelos e backup conferido por CRC32. Painel web, API e CLI.",
 		link: "https://github.com/ravelroot/Inverted-Index-Search-Engine",
 		tecnologias: ["C#", ".NET 10", "ASP.NET Core", "TPL", "Brotli", "xUnit", "Docker"]
 	},
@@ -102,7 +102,7 @@ const PROJETOS = [
 		titulo: "Bento",
 		categoria: "Painel administrativo",
 		icone: "assets/projetos/bento.png?v=2",
-		descricao: "Bento é um painel administrativo SaaS em bento grid feito com Tailwind CSS v4: modo claro/escuro salvo no localStorage, KPIs com tendência, gráficos ApexCharts, tabelas com ordenação, busca e paginação, e gavetas laterais. API em TypeScript (Fastify) com PostgreSQL, JWT, permissões por papel, alertas em tempo real (SSE) e relatórios em CSV e PDF.",
+		descricao: "Bento é um painel administrativo SaaS em bento grid feito com Tailwind CSS v4: modo claro/escuro salvo no localStorage, KPIs com tendência, gráficos ApexCharts, tabelas com ordenação, busca, paginação e visões salvas, e gavetas laterais com notas internas. API em TypeScript (Fastify) com PostgreSQL, JWT, permissões por papel, alertas em tempo real (SSE) e relatórios em CSV e PDF.",
 		link: "https://github.com/ravelroot/Data-Driven-Admin-Panel",
 		tecnologias: ["Typescript", "Tailwind CSS", "Node.js", "Fastify", "PostgreSQL", "ApexCharts", "Docker"]
 	},
