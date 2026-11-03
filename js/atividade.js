@@ -17,7 +17,7 @@ const ATIVIDADE = {
 	anoInicial: 2016,
 	reposRecentes: 5,
 	linguagensVisiveis: 8,
-	reposOcultos: ["ravelroot.github.io", "ravel-os.github.io", "ravelroot"]
+	reposOcultos: ["ravelroot.github.io", "ravelroot"]
 };
 
 const API_GITHUB = "https://api.github.com";

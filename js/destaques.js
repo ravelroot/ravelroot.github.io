@@ -1,34 +1,36 @@
 const DESTAQUES = [
 	{
 		titulo: "Crivo",
-		versao: "2.2.0",
-		frase: "Um editor de pixel art que trata a imagem como ela é: uma matriz de pixels RGBA.",
+		versao: "2.4.0",
+		frase: "Um editor de pixel art que trata a imagem como ela é, uma matriz de pixels RGBA, com um estúdio de jogos 2D embutido.",
 		online: "https://ravelroot.github.io/Pixel-Art-Matrix-Editor/",
 		endereco: "ravelroot.github.io/Pixel-Art-Matrix-Editor",
 		capa: {
-			claro: "assets/destaques/crivo/camadas-grupos.webp",
+			claro: "assets/destaques/crivo/jogo-cena.webp",
 			escuro: "assets/destaques/crivo/escuro.webp",
-			legenda: "O exemplo Modos de mesclagem: um nascer do sol em 16 × 16 com um grupo, camadas em multiplicar, tela e sobrepor e uma camada de referência, que aparece no editor e fica fora das exportações."
+			legenda: "O Estúdio de jogo com o exemplo Gotinha e as moedas: a fase 1 montada com tiles de 8 × 8 sobre morros em parallax, a moldura tracejada do tamanho da tela e os atores prontos para entrar na cena."
 		},
 		numeros: [
 			{ valor: "23", rotulo: "ferramentas de desenho" },
-			{ valor: "19", rotulo: "modos de mistura" },
-			{ valor: "263", rotulo: "testes, todos passando" },
-			{ valor: "3", rotulo: "linguagens, os mesmos pixels" }
+			{ valor: "12", rotulo: "comportamentos de jogo prontos" },
+			{ valor: "301", rotulo: "testes, todos passando" },
+			{ valor: "3", rotulo: "linguagens de código no motor" }
 		],
 		historia: [
 			"A premissa do Crivo é que o editor mostre exatamente o que o jogo vai receber. A imagem não é tratada como uma pintura, e sim como o que ela é: uma matriz de pixels RGBA, em que cada traço altera números que podem sair do editor como PNG, GIF, sprite sheet ou código-fonte em JSON, CSV, JavaScript, Python, C e Java.",
-			"Em volta dessa matriz está um editor completo: 23 ferramentas, seleção por retângulo, elipse, laço e varinha mágica, camadas em grupos com 19 modos de mistura, animação quadro a quadro com tags e cels vinculados, tilemaps, slices e arquivos .ase com camadas. As paletas clássicas já vêm prontas: Game Boy, NES, Pico-8, CGA, Commodore 64 e 1 bit.",
-			"E ele roda onde for mais prático: como Crivo.exe no Windows, sem instalar nada; como servidor Django com PostgreSQL, API e histórico de versões; ou num único Crivo.html que abre com dois cliques, sem internet. A mesma versão está publicada no GitHub Pages."
+			"Em volta dessa matriz está um editor completo: 23 ferramentas, seleção por retângulo, elipse, laço e varinha mágica, camadas em grupos com 19 modos de mistura, animação quadro a quadro com tags e cels vinculados, tilemaps, slices e arquivos .ase com camadas. As paletas clássicas já vêm prontas (Game Boy, NES, Pico-8, CGA, Commodore 64 e 1 bit), e um caderno folheia os projetos página por página.",
+			"Desde a 2.4.0, os mesmos pixels viram jogo: o Estúdio de jogo monta fases com tiles, atores com 12 comportamentos prontos ou com eventos no estilo do GameMaker, regras, sons de 8 bits e código em Crivo Script, C++ ou Lua, com tiles de 8 a 1024 px. O jogo sai numa única página HTML, e o Crivo roda como Crivo.exe no Windows, como servidor Django com PostgreSQL ou num Crivo.html que abre sem internet."
 		],
 		pilha: [
 			{ nome: "Editor", itens: ["JavaScript", "Canvas 2D", "HTML5", "CSS3"] },
+			{ nome: "Motor de jogo", itens: ["Web Audio API", "Gamepad API", "Interpretador próprio", "CSP com SHA-256"] },
 			{ nome: "Servidor e API", itens: ["Python 3.13", "Django 6.1", "Gunicorn", "PostgreSQL 17", "SQLite"] },
 			{ nome: "Desktop e linha de comando", itens: ["Go 1.24", "WebView2", "Java 21"] },
 			{ nome: "Qualidade e entrega", itens: ["Node Test Runner", "Playwright", "Ruff", "Bandit", "Docker", "GitHub Actions"] }
 		],
 		galeria: [
 			{ imagem: "assets/destaques/crivo/editor.webp", miniatura: "assets/destaques/crivo/mini/editor.webp", legenda: "A poção de exemplo aberta: três camadas, quatro quadros na linha do tempo e a paleta Crivo ao lado." },
+			{ imagem: "assets/destaques/crivo/camadas-grupos.webp", miniatura: "assets/destaques/crivo/mini/camadas-grupos.webp", legenda: "O exemplo Modos de mesclagem: um nascer do sol em 16 × 16 com um grupo, camadas em multiplicar, tela e sobrepor e uma camada de referência, que aparece no editor e fica fora das exportações." },
 			{ imagem: "assets/destaques/crivo/pontilhado.webp", miniatura: "assets/destaques/crivo/mini/pontilhado.webp", legenda: "Céu feito com o degradê pontilhado de Bayer e nuvens com o pincel de pontilhado. O padrão é fixo na matriz, então traços vizinhos se encaixam sem emendas." },
 			{ imagem: "assets/destaques/crivo/simetria.webp", miniatura: "assets/destaques/crivo/mini/simetria.webp", legenda: "Simetria horizontal e vertical: cada traço vira quatro, com os dois eixos tracejados na tela." },
 			{ imagem: "assets/destaques/crivo/ladrilho.webp", miniatura: "assets/destaques/crivo/mini/ladrilho.webp", legenda: "Modo ladrilho, no tema escuro: o tile de tijolos repetido 3 × 3 para conferir as emendas da textura." },
@@ -36,7 +38,12 @@ const DESTAQUES = [
 			{ imagem: "assets/destaques/crivo/editor-paleta.webp", miniatura: "assets/destaques/crivo/mini/editor-paleta.webp", legenda: "Editor de paleta com seletor HSV, rampa entre duas cores e ordenação por matiz, luminosidade ou saturação." },
 			{ imagem: "assets/destaques/crivo/exportar-dados.webp", miniatura: "assets/destaques/crivo/mini/exportar-dados.webp", legenda: "A matriz exportada como dado: o índice da paleta de cada pixel, pronto para entrar no código do jogo." },
 			{ imagem: "assets/destaques/crivo/sprite-sheet.webp", miniatura: "assets/destaques/crivo/mini/sprite-sheet.webp", legenda: "Sprite sheet dos quatro quadros, com o JSON das posições no formato que Phaser, PixiJS e Godot leem." },
-			{ imagem: "assets/destaques/crivo/abas.webp", miniatura: "assets/destaques/crivo/mini/abas.webp", legenda: "Vários projetos abertos em abas e a janela de pré-visualização (F7), com a própria reprodução." }
+			{ imagem: "assets/destaques/crivo/abas.webp", miniatura: "assets/destaques/crivo/mini/abas.webp", legenda: "Vários projetos abertos em abas e a janela de pré-visualização (F7), com a própria reprodução." },
+			{ imagem: "assets/destaques/crivo/caderno.webp", miniatura: "assets/destaques/crivo/mini/caderno.webp", legenda: "O caderno (F8) com os projetos abertos: uma pixel art por página, em tamanho inteiro, com nome, tamanho e quadros, e as folhas virando em 3D." },
+			{ imagem: "assets/destaques/crivo/jogo-terminal.webp", miniatura: "assets/destaques/crivo/mini/jogo-terminal.webp", legenda: "O jogo rodando com a depuração (F3): pelo terminal (F4), os pontos foram para 99 e surgiram moedas novas, e a regra das 20 moedas deu uma vida extra." },
+			{ imagem: "assets/destaques/crivo/jogo-eventos.webp", miniatura: "assets/destaques/crivo/mini/jogo-eventos.webp", legenda: "Eventos no estilo do GameMaker: o Morcego guardião é um objeto livre, sem comportamento pronto. Um alarme o faz voar até o jogador, e duas faíscas o derrubam." },
+			{ imagem: "assets/destaques/crivo/jogo-codigo.webp", miniatura: "assets/destaques/crivo/mini/jogo-codigo.webp", legenda: "Um script em C++ e o terminal em Lua: a função chuva_de_moedas, escrita em Lua, chama bonus_por_vida, escrita em C++." },
+			{ imagem: "assets/destaques/crivo/jogo-sons.webp", miniatura: "assets/destaques/crivo/mini/jogo-sons.webp", legenda: "Sons de 8 bits sintetizados na hora, sem arquivos de áudio: cinco ondas, sete modelos prontos, botão Aleatório e o desenho da onda." }
 		],
 		porDentro: [
 			{
@@ -63,6 +70,15 @@ const DESTAQUES = [
 			{
 				titulo: "Mesmos pixels em três linguagens",
 				texto: "O editor (JavaScript), o servidor (Python) e a linha de comando (Java) compõem grupos e os 19 modos de mistura cada um do seu lado. Um teste de paridade monta 30 documentos aleatórios e exige os mesmos pixels nos três."
+			},
+			{
+				titulo: "Física em passos fixos",
+				texto: "O jogo avança em passos de 1/60 s, com um acumulador que absorve a variação do monitor: o mesmo pulo tem a mesma altura a 60 ou a 144 Hz. Cada movimento anda em fatias menores que um tile, então nada atravessa parede, e a plataforma de mão única só segura quem vem de cima. O pulo ainda perdoa: 100 ms de coyote time depois da borda e 120 ms de buffer para o botão apertado antes de tocar o chão."
+			},
+			{
+				titulo: "Três linguagens, um interpretador",
+				texto: "Crivo Script, C++ e Lua têm cada uma o seu leitor e o seu analisador, mas viram a mesma árvore e rodam no mesmo interpretador, escrito à mão e sem eval, o que mantém a Content-Security-Policy do editor e do jogo exportado. Uma função em Lua chama outra escrita em C++, laços sem fim param em 200 mil passos e a recursão em 64 níveis, sempre com o erro na linha certa.",
+				codigo: "C++   │ int bonus(int v) { return v * 10; }\nLua   │ function chuva(n) return bonus(n) end\nCrivo │ chuva(3)   → 30"
 			}
 		],
 		arquitetura: [
@@ -70,6 +86,10 @@ const DESTAQUES = [
 			"  └─► Crivo.html embutido · janela Salvar como nativa · F11",
 			"",
 			"Navegador  (JavaScript + Canvas 2D)",
+			"  ├─► Estúdio de jogo ........... .crivojogo",
+			"  │     ├─► física em passos de 1/60 s · som em Web Audio",
+			"  │     ├─► Crivo Script · C++ · Lua ─► um interpretador",
+			"  │     └─► jogo exportado em .html, com CSP própria",
 			"  ├─► IndexedDB ................. sem servidor",
 			"  └─► HTTP/JSON + CSRF",
 			"        └─► Django 6.1 + Gunicorn",
@@ -80,10 +100,11 @@ const DESTAQUES = [
 			"  └─► lê .crivo ─► PNG · sprite sheet · classe Java"
 		].join("\n"),
 		testes: [
-			{ suite: "Núcleo JavaScript", detalhe: "Geometria, flood fill, RLE, histórico, GIF, .ase e APNG de ida e volta", resultado: "107 de 107" },
+			{ suite: "Núcleo JavaScript", detalhe: "Geometria, flood fill, RLE, histórico, GIF, .ase, APNG, motor de jogo e as três linguagens", resultado: "135 de 135" },
 			{ suite: "API Django", detalhe: "Revisões, conflitos, exportação e o conjunto de segurança", resultado: "72 de 72" },
 			{ suite: "Ferramenta Java", detalhe: "Leitura do .crivo, PNG, sprite sheet e classe compilada em memória", resultado: "36 de 36" },
-			{ suite: "Interface no Chromium", detalhe: "Playwright contra o Django e o Crivo.html direto do disco", resultado: "48 de 48" },
+			{ suite: "Interface no Chromium", detalhe: "Playwright contra o Django e o Crivo.html direto do disco, com o estúdio de jogo", resultado: "58 de 58" },
+			{ suite: "Jogo exportado", detalhe: "A página .html aberta e jogada no Chromium, com a própria CSP e sem acesso à rede", resultado: "0 erros" },
 			{ suite: "Paridade de composição", detalhe: "30 documentos aleatórios em JavaScript, Python e Java", resultado: "Mesmos pixels" },
 			{ suite: "Ruff e Bandit", detalhe: "Estilo, bugs prováveis e padrões inseguros no Python", resultado: "0 problemas" },
 			{ suite: "Crivo.exe gerado de novo", detalhe: "Build reproduzível, comparado com o do repositório", resultado: "Idêntico" }

@@ -1122,7 +1122,7 @@ function alternarAbas() {
 	} catch (erro) {}
 	marcarBordasDasAbas(lista);
 
-	// Um link com o nome da aba (por exemplo, ravel-os.github.io/#contato) abre direto nela.
+	// Um link com o nome da aba (por exemplo, ravelroot.github.io/#contato) abre direto nela.
 	// O endereço volta ao normal em seguida, para a próxima visita abrir em Destaques.
 	const abrirPeloEndereco = () => {
 		const pedida = document.getElementById(`aba-${decodeURIComponent(location.hash.slice(1))}`);

@@ -68,11 +68,11 @@ const PROJETOS = [
 	},
 	{
 		titulo: "Crivo",
-		categoria: "Editor de pixel art",
+		categoria: "Pixel art e jogos 2D",
 		icone: "assets/projetos/crivo.png",
-		descricao: "Crivo é um editor de pixel art no navegador em JavaScript puro: matriz RGBA via ImageData, balde por varredura, Bresenham e elipse de ponto médio, camadas, animação, simetria e histórico ilimitado com diffs e RLE. Paletas Game Boy, NES, Pico-8 e CGA, tons em OKLCH, PNG, sprite sheet e matrizes JSON/CSV/JS/Python. API Django e CLI Java.",
+		descricao: "Crivo é um editor de pixel art e engine de jogos 2D no navegador, em JavaScript puro. Matriz RGBA, camadas com modos de mistura, animação, histórico ilimitado e exportação para PNG, GIF, .ase e sprite sheets. Estúdio de jogo com cenas, atores, eventos, física e scripting em C++, Lua e Crivo Script, exportado em HTML. Desktop, API Django e CLI Java.",
 		link: "https://github.com/ravelroot/Pixel-Art-Matrix-Editor",
-		tecnologias: ["Javascript", "Canvas 2D", "Python", "Django", "PostgreSQL", "Java", "Docker"]
+		tecnologias: ["Javascript", "Canvas 2D", "Web Audio", "Python", "Django", "PostgreSQL", "Java", "Docker"]
 	},
 	{
 		titulo: "Lume",
