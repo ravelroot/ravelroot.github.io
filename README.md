@@ -38,7 +38,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 <p align="center"><b>Aba Atividade</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-atividade.png?v=4" alt="Prévia da aba Atividade: botões de ano, gráfico de contribuições de 2026, cidade de contribuições, linguagens mais usadas e repositórios recentes">
+  <img src="assets/preview-portfolio-atividade.png?v=5" alt="Prévia da aba Atividade: botões de ano, gráfico de contribuições de 2026, cidade de contribuições, linguagens mais usadas e repositórios recentes">
 </p>
 
 <p align="center"><b>Aba Notas</b></p>

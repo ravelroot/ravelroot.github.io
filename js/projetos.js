@@ -117,7 +117,7 @@ const PROJETOS = [
 	{
 		titulo: "Arca",
 		categoria: "Banco de dados",
-		icone: "assets/projetos/arca.png",
+		icone: "assets/projetos/arca.png?v=2",
 		descricao: "Arca é um banco de dados em C++20 com LSM-Tree: WAL com group commit, memtable em skip list, SSTables com filtro de Bloom e compactação em níveis. Servidor TCP assíncrono compatível com o protocolo do Redis, tabelas com SQL, snapshots MVCC, API REST em Go e painel web em React.",
 		link: "https://github.com/ravelroot/Persistent-Key-Value-Server",
 		manual: "https://github.com/ravelroot/Persistent-Key-Value-Server/blob/main/Manual-Arca.pdf",
