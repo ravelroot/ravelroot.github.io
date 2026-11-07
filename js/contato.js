@@ -22,7 +22,6 @@ function iniciarContato() {
 	if (!form) return;
 	const status = document.getElementById("contato-status");
 	const botao = form.querySelector(".contato-enviar");
-	const textoBotao = botao.textContent;
 	const mensagem = form.elements.mensagem;
 	const contador = document.getElementById("contato-contador");
 	const limite = Number(mensagem.maxLength) || 3000;
@@ -33,11 +32,16 @@ function iniciarContato() {
 	mensagem.addEventListener("input", contar);
 	contar();
 
+	let ultimoErro = null;
 	const avisar = (texto, estado, extra) => {
 		status.replaceChildren();
 		if (texto) status.append(texto);
 		if (extra) status.append(" ", extra, ".");
 		status.dataset.estado = estado || "";
+	};
+	const avisarErro = (campos) => {
+		ultimoErro = campos;
+		avisar(I18n.t("contato.erro"), "erro", linkEmailContato(campos));
 	};
 
 	// Depois de enviar, o formulário dá lugar a uma confirmação com opção de mandar outra mensagem.
@@ -45,27 +49,37 @@ function iniciarContato() {
 	enviado.hidden = true;
 	enviado.tabIndex = -1;
 	form.after(enviado);
-	const mostrarEnviado = (nome) => {
+	let nomeEnviado = "";
+	const preencherEnviado = () => {
 		enviado.replaceChildren();
 		const titulo = criar("p", "contato-enviado-titulo");
-		titulo.append(criar("span", "caminho", "$"), "mensagem enviada");
+		titulo.append(criar("span", "caminho", "$"), I18n.t("contato.enviadoTitulo"));
 		enviado.append(titulo);
-		enviado.append(criar("p", "cartao-descricao", `Obrigado${nome ? `, ${nome}` : ""}! Sua mensagem chegou no meu e-mail e respondo em breve no endereço que você deixou.`));
-		const outra = criar("button", "filtro", "Enviar outra mensagem");
+		enviado.append(criar("p", "cartao-descricao", nomeEnviado ? I18n.t("contato.enviadoTextoNome", { nome: nomeEnviado }) : I18n.t("contato.enviadoTexto")));
+		const outra = criar("button", "filtro", I18n.t("contato.outra"));
 		outra.type = "button";
 		outra.addEventListener("click", () => {
 			form.reset();
 			contar();
+			ultimoErro = null;
 			avisar("");
 			enviado.hidden = true;
 			form.hidden = false;
 			form.elements.nome.focus();
 		});
 		enviado.append(outra);
+	};
+	const mostrarEnviado = (nome) => {
+		nomeEnviado = nome || "";
+		preencherEnviado();
 		form.hidden = true;
 		enviado.hidden = false;
 		enviado.focus();
 	};
+	I18n.aoTrocar(() => {
+		if (!enviado.hidden) preencherEnviado();
+		if (ultimoErro) avisarErro(ultimoErro);
+	});
 
 	form.addEventListener("submit", async (evento) => {
 		evento.preventDefault();
@@ -90,14 +104,16 @@ function iniciarContato() {
 			email: campos.email,
 			motivo: campos.motivo,
 			mensagem: campos.mensagem,
+			idioma: I18n.info().nome,
 			_subject: `Contato pelo portfólio: ${campos.motivo} (${campos.nome} ${campos.sobrenome})`,
 			_template: "table",
 			_captcha: "false"
 		};
 
 		botao.disabled = true;
-		botao.textContent = "Enviando…";
+		botao.textContent = I18n.t("contato.enviando");
 		form.setAttribute("aria-busy", "true");
+		ultimoErro = null;
 		avisar("");
 		const controle = new AbortController();
 		const relogio = setTimeout(() => controle.abort(), CONTATO.tempoLimite);
@@ -112,11 +128,11 @@ function iniciarContato() {
 			if (!resposta.ok || String(dados.success) !== "true") throw new Error(dados.message || `HTTP ${resposta.status}`);
 			mostrarEnviado(campos.nome);
 		} catch (erro) {
-			avisar("Não deu para enviar agora. Tente de novo em alguns minutos ou escreva direto para", "erro", linkEmailContato(campos));
+			avisarErro(campos);
 		} finally {
 			clearTimeout(relogio);
 			botao.disabled = false;
-			botao.textContent = textoBotao;
+			botao.textContent = I18n.t("contato.enviar");
 			form.removeAttribute("aria-busy");
 		}
 	});

@@ -22,8 +22,6 @@ const ATIVIDADE = {
 
 const API_GITHUB = "https://api.github.com";
 const API_CONTRIBUICOES = "https://github-contributions-api.jogruber.de/v4/";
-const numeroBR = new Intl.NumberFormat("pt-BR");
-const decimalBR = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
 async function buscarJson(url) {
 	const resposta = await fetch(url);
@@ -59,7 +57,7 @@ function textoData(data) {
 }
 
 function tempoRelativo(iso) {
-	const formato = new Intl.RelativeTimeFormat("pt-BR", { numeric: "auto" });
+	const formato = new Intl.RelativeTimeFormat(I18n.locale(), { numeric: "auto" });
 	let valor = (Date.parse(iso) - Date.now()) / 1000;
 	const unidades = [[60, "second"], [60, "minute"], [24, "hour"], [7, "day"], [4.345, "week"], [12, "month"], [Infinity, "year"]];
 	for (const [tamanho, unidade] of unidades) {
@@ -306,11 +304,16 @@ function sequencias(dias) {
 
 function tamanhoArquivo(bytes) {
 	const kb = bytes / 1024;
-	return kb >= 1024 ? `${decimalBR.format(kb / 1024)} MB` : `${decimalBR.format(kb)} KB`;
+	return kb >= 1024 ? `${I18n.decimal(kb / 1024)} MB` : `${I18n.decimal(kb)} KB`;
 }
 
-function plural(valor, singular, pluralTexto) {
-	return `${numeroBR.format(valor)} ${valor === 1 ? singular : pluralTexto}`;
+function textoQuantidade(contribuicoes, total) {
+	if (contribuicoes.fonte !== "eventos") return total === 0 ? I18n.t("atividade.nenhumaContribuicao") : I18n.tn("atividade.contribuicoes", total);
+	return total === 0 ? I18n.t("atividade.nenhumaAtividade") : I18n.tn("atividade.atividades", total);
+}
+
+function dataDoDia(texto) {
+	return I18n.data(dataLocal(texto), { weekday: "short", day: "numeric", month: "short", year: "numeric" });
 }
 
 function criarNumero(rotulo, valor, detalhe) {
@@ -326,8 +329,6 @@ function montarCalendario(contribuicoes) {
 	const primeiro = dataLocal(dias[0].data);
 	const vazios = primeiro.getDay();
 	const semanas = Math.ceil((vazios + dias.length) / 7);
-	const formatoDia = new Intl.DateTimeFormat("pt-BR", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
-	const formatoMes = new Intl.DateTimeFormat("pt-BR", { month: "short" });
 
 	const rolagem = criar("div", "calendario-rolagem");
 	const calendario = criar("div", "calendario");
@@ -344,8 +345,7 @@ function montarCalendario(contribuicoes) {
 		if (indice === 0 && data.getDate() > 14) return;
 		if (coluna - ultimaColuna < 3) return;
 		ultimaColuna = coluna;
-		let nome = formatoMes.format(data).replace(".", "");
-		nome = nome.charAt(0).toUpperCase() + nome.slice(1);
+		let nome = I18n.nomeMes(data.getMonth(), "short");
 		if (primeiroRotulo || data.getMonth() === 0) nome += ` ${data.getFullYear()}`;
 		primeiroRotulo = false;
 		const rotulo = criar("span", "", nome);
@@ -358,12 +358,12 @@ function montarCalendario(contribuicoes) {
 	corpo.tabIndex = 0;
 	const ativos = dias.filter((dia) => dia.total > 0).length;
 	const totalTexto = contribuicoes.fonte !== "eventos"
-		? plural(contribuicoes.total, "contribuição", "contribuições")
-		: plural(contribuicoes.total, "atividade pública", "atividades públicas");
-	corpo.setAttribute("aria-label", `Gráfico de contribuições: ${totalTexto} em ${plural(ativos, "dia", "dias")} com atividade.`);
-	["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"].forEach((nome, linha) => {
-		corpo.append(criar("span", "calendario-dia-semana", linha % 2 === 1 ? nome : ""));
-	});
+		? I18n.tn("atividade.contribuicoes", contribuicoes.total)
+		: I18n.tn("atividade.atividadesPublicas", contribuicoes.total);
+	corpo.setAttribute("aria-label", I18n.t("atividade.graficoRotulo", { total: totalTexto, dias: I18n.tn("atividade.dias", ativos) }));
+	for (let linha = 0; linha < 7; linha++) {
+		corpo.append(criar("span", "calendario-dia-semana", linha % 2 === 1 ? I18n.nomeDiaSemana(linha) : ""));
+	}
 	for (let i = 0; i < vazios; i++) corpo.append(criar("span", "celula celula-vazia"));
 	dias.forEach((dia) => {
 		if (dia.futuro) {
@@ -372,10 +372,7 @@ function montarCalendario(contribuicoes) {
 		}
 		const celula = criar("span", "celula");
 		celula.dataset.nivel = dia.nivel;
-		const quantidade = contribuicoes.fonte !== "eventos"
-			? (dia.total === 0 ? "Nenhuma contribuição" : plural(dia.total, "contribuição", "contribuições"))
-			: (dia.total === 0 ? "Nenhuma atividade" : plural(dia.total, "atividade", "atividades"));
-		celula.dataset.dica = `${quantidade} · ${formatoDia.format(dataLocal(dia.data))}`;
+		celula.dataset.dica = `${textoQuantidade(contribuicoes, dia.total)} · ${dataDoDia(dia.data)}`;
 		corpo.append(celula);
 	});
 
@@ -387,13 +384,13 @@ function montarCalendario(contribuicoes) {
 function montarLegendaCalendario() {
 	const legenda = criar("div", "calendario-legenda");
 	legenda.setAttribute("aria-hidden", "true");
-	legenda.append(criar("span", "", "Menos"));
+	legenda.append(criar("span", "", I18n.t("atividade.menos")));
 	for (let nivel = 0; nivel <= 4; nivel++) {
 		const amostra = criar("span", "celula");
 		amostra.dataset.nivel = nivel;
 		legenda.append(amostra);
 	}
-	legenda.append(criar("span", "", "Mais"));
+	legenda.append(criar("span", "", I18n.t("atividade.mais")));
 	return legenda;
 }
 
@@ -406,35 +403,35 @@ function preencherContribuicoes(corpo, dados, contribuicoes) {
 		const passados = contribuicoes.dias.filter((dia) => !dia.futuro);
 		const { atual, maior } = sequencias(passados);
 		if (contribuicoes.fonte === "ano") {
-			numeros.append(criarNumero(`Contribuições em ${contribuicoes.ano}`, numeroBR.format(contribuicoes.total)));
-			numeros.append(criarNumero("Dias com contribuições", numeroBR.format(passados.filter((dia) => dia.total > 0).length)));
+			numeros.append(criarNumero(I18n.t("atividade.contribuicoesEm", { ano: contribuicoes.ano }), I18n.numero(contribuicoes.total)));
+			numeros.append(criarNumero(I18n.t("atividade.diasComContribuicoes"), I18n.numero(passados.filter((dia) => dia.total > 0).length)));
 		} else {
-			numeros.append(criarNumero("Atividades em 90 dias", numeroBR.format(contribuicoes.total)));
-			numeros.append(criarNumero("Sequência atual", plural(atual, "dia", "dias")));
+			numeros.append(criarNumero(I18n.t("atividade.atividades90"), I18n.numero(contribuicoes.total)));
+			numeros.append(criarNumero(I18n.t("atividade.sequenciaAtual"), I18n.tn("atividade.dias", atual)));
 		}
-		numeros.append(criarNumero("Maior sequência", plural(maior, "dia", "dias")));
+		numeros.append(criarNumero(I18n.t("atividade.maiorSequencia"), I18n.tn("atividade.dias", maior)));
 	}
-	if (dados.perfil) numeros.append(criarNumero("Repositórios públicos", numeroBR.format(dados.perfil.repositorios)));
+	if (dados.perfil) numeros.append(criarNumero(I18n.t("atividade.repositoriosPublicos"), I18n.numero(dados.perfil.repositorios)));
 	corpo.append(numeros);
 
 	if (!contribuicoes) {
-		corpo.append(criar("p", "atividade-aviso", "O gráfico de contribuições não respondeu agora. Tente de novo em alguns minutos."));
+		corpo.append(criar("p", "atividade-aviso", I18n.t("atividade.semGrafico")));
 		return;
 	}
 
 	corpo.append(montarCalendario(contribuicoes));
 	const rodape = criar("div", "calendario-rodape");
-	const formatoPeriodo = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "short", year: "numeric" });
+	const formatoPeriodo = { day: "numeric", month: "short", year: "numeric" };
 	const passados = contribuicoes.dias.filter((dia) => !dia.futuro);
-	const inicio = formatoPeriodo.format(dataLocal(contribuicoes.dias[0].data));
-	const fim = formatoPeriodo.format(dataLocal(passados[passados.length - 1].data));
+	const inicio = I18n.data(dataLocal(contribuicoes.dias[0].data), formatoPeriodo);
+	const fim = I18n.data(dataLocal(passados[passados.length - 1].data), formatoPeriodo);
 	let nota;
 	if (contribuicoes.fonte === "ano" && passados.length < contribuicoes.dias.length) {
-		nota = `Commits, pull requests e issues de ${inicio} até hoje. Os dias que ainda não chegaram aparecem vazados.`;
+		nota = I18n.t("atividade.notaAteHoje", { inicio });
 	} else if (contribuicoes.fonte === "ano") {
-		nota = `Commits, pull requests e issues de ${inicio} a ${fim}.`;
+		nota = I18n.t("atividade.notaAno", { inicio, fim });
 	} else {
-		nota = `O calendário completo não respondeu agora: mostrando a atividade pública de ${inicio} a ${fim}.`;
+		nota = I18n.t("atividade.notaEventos", { inicio, fim });
 	}
 	rodape.append(criar("p", "calendario-nota", nota));
 	rodape.append(montarLegendaCalendario());
@@ -450,7 +447,7 @@ function montarSeletorDeAnos(dados, corpo) {
 
 	const grupo = criar("div", "anos");
 	grupo.setAttribute("role", "group");
-	grupo.setAttribute("aria-label", "Período do gráfico de contribuições");
+	grupo.setAttribute("aria-label", I18n.t("atividade.periodo"));
 	let pedido = 0;
 
 	// O ano atual já vem carregado com a aba; os outros são buscados no clique.
@@ -475,7 +472,7 @@ function montarSeletorDeAnos(dados, corpo) {
 					if (meu !== pedido) return;
 					desenharCidade(null);
 					corpo.removeAttribute("aria-busy");
-					corpo.replaceChildren(criar("p", "atividade-aviso", `Não deu para buscar ${ano} agora. Tente de novo em alguns minutos.`));
+					corpo.replaceChildren(criar("p", "atividade-aviso", I18n.t("atividade.anoFalhou", { ano })));
 				});
 		});
 		grupo.append(botao);
@@ -487,7 +484,7 @@ function montarCartaoContribuicoes(dados) {
 	const cartao = criar("article", "cartao cartao-largo cartao-estatico");
 	const conteudo = criar("div", "cartao-conteudo");
 	const topo = criar("div", "contribuicoes-topo");
-	topo.append(criar("h3", "cartao-titulo", "Contribuições"));
+	topo.append(criar("h3", "cartao-titulo", I18n.t("atividade.titulo")));
 	const corpo = criar("div", "contribuicoes-corpo");
 	const seletor = montarSeletorDeAnos(dados, corpo);
 	if (seletor) topo.append(seletor);
@@ -497,16 +494,12 @@ function montarCartaoContribuicoes(dados) {
 	return cartao;
 }
 
-const CIDADE_MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
-const CIDADE_MESES_LONGOS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-const formatoDiaCidade = new Intl.DateTimeFormat("pt-BR", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
-
 const cidadeArredondar = (valor) => Math.round(valor * 10) / 10;
 const cidadePontos = (lista) => lista.map(([x, y]) => `${cidadeArredondar(x)},${cidadeArredondar(y)}`).join(" ");
 const cidadeEscapar = (texto) => String(texto).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const cidadeDataCurta = (texto) => {
 	const data = dataLocal(texto);
-	return `${data.getDate()} ${CIDADE_MESES[data.getMonth()]}`;
+	return I18n.t("comum.dataCurta", { dia: data.getDate(), mes: I18n.nomeMes(data.getMonth(), "short", false) });
 };
 
 function cidadeFace(poligono, classe, sombra) {
@@ -525,7 +518,7 @@ function estatisticasCidade(contribuicoes) {
 		porMes[chave] = (porMes[chave] || 0) + dia.total;
 	});
 	const topo = Object.entries(porMes).sort((a, b) => b[1] - a[1])[0];
-	const mesMaisAtivo = topo && topo[1] > 0 ? CIDADE_MESES_LONGOS[Number(topo[0].slice(5)) - 1] : "—";
+	const mesMaisAtivo = topo && topo[1] > 0 ? I18n.nomeMes(Number(topo[0].slice(5)) - 1, "long") : "—";
 	return { dias, ativos, melhor, atual, maior, mesMaisAtivo, maximo: Math.max(1, melhor ? melhor.total : 0) };
 }
 
@@ -562,42 +555,42 @@ function svgCidade(contribuicoes) {
 				}
 			}
 		}
-		const quantidade = contribuicoes.fonte !== "eventos"
-			? (c.total === 0 ? "Nenhuma contribuição" : plural(c.total, "contribuição", "contribuições"))
-			: (c.total === 0 ? "Nenhuma atividade" : plural(c.total, "atividade", "atividades"));
-		const dica = cidadeEscapar(`${quantidade} · ${formatoDiaCidade.format(dataLocal(c.data))}`);
+		const dica = cidadeEscapar(`${textoQuantidade(contribuicoes, c.total)} · ${dataDoDia(c.data)}`);
 		cidade += `<g class="cidade-predio" style="animation-delay:${c.w * 24 + c.d * 6}ms" data-dica="${dica}">` +
 			(c.total ? cidadeFace([sobe(l), sobe(b), b, l], classe, 0.35) + cidadeFace([sobe(b), sobe(r), r, b], classe, 0.6) : "") +
 			`<polygon points="${cidadePontos([sobe(t), sobe(r), sobe(b), sobe(l)])}" class="${classe}"/>${luzes}</g>`;
 		if (S.melhor && c.data === S.melhor.data && c.total > 0) {
 			const x = (t[0] + b[0]) / 2, y = Math.max(40, sobe(t)[1]);
 			marca = `<g class="cidade-marca"><line x1="${cidadeArredondar(x)}" y1="${cidadeArredondar(y - 3)}" x2="${cidadeArredondar(x)}" y2="${cidadeArredondar(y - 18)}"/>` +
-				`<text x="${cidadeArredondar(x)}" y="${cidadeArredondar(y - 23)}" text-anchor="middle">${cidadeDataCurta(c.data)}: ${numeroBR.format(c.total)}</text></g>`;
+				`<text x="${cidadeArredondar(x)}" y="${cidadeArredondar(y - 23)}" text-anchor="middle">${cidadeEscapar(`${cidadeDataCurta(c.data)}: ${I18n.numero(c.total)}`)}</text></g>`;
 		}
 	}
 
 	const anoAtual = new Date().getFullYear();
 	const porAno = contribuicoes.fonte === "ano";
-	const periodo = porAno ? `contribuições em ${contribuicoes.ano}` : "atividades nos últimos 90 dias";
-	const rotuloSequencia = porAno && contribuicoes.ano < anoAtual ? "Sequência no fim do ano" : "Sequência atual";
-	const melhorTexto = S.melhor && S.melhor.total > 0 ? `${numeroBR.format(S.melhor.total)} (${cidadeDataCurta(S.melhor.data)})` : "—";
+	const periodo = porAno ? I18n.t("atividade.cidadePeriodoAno", { ano: contribuicoes.ano }) : I18n.t("atividade.cidadePeriodoEventos");
+	const rotuloSequencia = I18n.t(porAno && contribuicoes.ano < anoAtual ? "atividade.sequenciaFimAno" : "atividade.sequenciaAtual");
+	const melhorTexto = S.melhor && S.melhor.total > 0 ? `${I18n.numero(S.melhor.total)} (${cidadeDataCurta(S.melhor.data)})` : "—";
+	const ativosTexto = I18n.tn("atividade.diasAtivos", S.ativos);
 	const textos = [
-		plural(S.ativos, "dia ativo", "dias ativos"),
-		`Dia mais ativo: ${melhorTexto}`,
-		`${rotuloSequencia}: ${plural(S.atual, "dia", "dias")}`,
-		`Maior sequência: ${plural(S.maior, "dia", "dias")}`,
-		`Mês mais ativo: ${S.mesMaisAtivo}`
+		ativosTexto,
+		I18n.t("atividade.diaMaisAtivo", { valor: melhorTexto }),
+		I18n.t("atividade.sequenciaValor", { rotulo: rotuloSequencia, valor: I18n.tn("atividade.dias", S.atual) }),
+		I18n.t("atividade.sequenciaValor", { rotulo: I18n.t("atividade.maiorSequencia"), valor: I18n.tn("atividade.dias", S.maior) }),
+		I18n.t("atividade.mesMaisAtivo", { mes: S.mesMaisAtivo })
 	].map((texto, indice) => `<text x="40" y="${222 + indice * 23}" class="cidade-dado">${cidadeEscapar(texto)}</text>`).join("");
 
-	const descricao = `Cidade de contribuições: ${numeroBR.format(contribuicoes.total)} ${periodo.replace(/^\S+ /, "")}, ${plural(S.ativos, "dia ativo", "dias ativos")}.`;
+	const descricao = porAno
+		? I18n.t("atividade.cidadeDescricaoAno", { total: I18n.numero(contribuicoes.total), ano: contribuicoes.ano, ativos: ativosTexto })
+		: I18n.t("atividade.cidadeDescricaoEventos", { total: I18n.numero(contribuicoes.total), ativos: ativosTexto });
 	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" class="cidade-svg" role="img" aria-label="${cidadeEscapar(descricao)}">
-<circle class="cidade-ponto" cx="40" cy="48" r="3.5"/><text x="50" y="52" class="cidade-rotulo">AO VIVO</text>
-<text x="40" y="94" class="cidade-rotulo">CIDADE DE CONTRIBUIÇÕES</text>
-<text x="38" y="152" class="cidade-total">${numeroBR.format(contribuicoes.total)}</text>
+<circle class="cidade-ponto" cx="40" cy="48" r="3.5"/><text x="50" y="52" class="cidade-rotulo">${cidadeEscapar(I18n.t("atividade.cidadeAoVivo"))}</text>
+<text x="40" y="94" class="cidade-rotulo">${cidadeEscapar(I18n.t("atividade.cidadeTitulo"))}</text>
+<text x="38" y="152" class="cidade-total">${cidadeEscapar(I18n.numero(contribuicoes.total))}</text>
 <text x="40" y="180" class="cidade-texto" font-size="14">${cidadeEscapar(periodo)}</text>
 ${textos}
 <text x="40" y="370" class="cidade-texto" font-size="12">@${cidadeEscapar(ATIVIDADE.usuario)}</text>
-<text x="40" y="388" class="cidade-pequeno">um prédio para cada dia ativo</text>
+<text x="40" y="388" class="cidade-pequeno">${cidadeEscapar(I18n.t("atividade.cidadeLegenda"))}</text>
 ${cidade}
 ${marca}
 </svg>`;
@@ -607,7 +600,7 @@ function desenharCidade(contribuicoes) {
 	const alvo = document.getElementById("cidade");
 	if (!alvo) return;
 	if (!contribuicoes || !contribuicoes.dias || !contribuicoes.dias.length) {
-		alvo.replaceChildren(criar("p", "atividade-aviso", "A cidade aparece assim que o gráfico de contribuições responder."));
+		alvo.replaceChildren(criar("p", "atividade-aviso", I18n.t("atividade.cidadeEspera")));
 		return;
 	}
 	alvo.innerHTML = svgCidade(contribuicoes);
@@ -643,10 +636,8 @@ async function atualizarAnoAtual(dados) {
 function montarCartaoLinguagens(linguagens) {
 	const cartao = criar("article", "cartao cartao-estatico");
 	const conteudo = criar("div", "cartao-conteudo");
-	conteudo.append(criar("h3", "cartao-titulo", "Linguagens mais usadas"));
-	const explicacao = linguagens.fonte === "bytes"
-		? "Proporção do código somado de todos os repositórios públicos."
-		: "Linguagem principal de cada repositório público.";
+	conteudo.append(criar("h3", "cartao-titulo", I18n.t("atividade.linguagens")));
+	const explicacao = I18n.t(linguagens.fonte === "bytes" ? "atividade.linguagensBytes" : "atividade.linguagensRepos");
 	conteudo.append(criar("p", "grupo-rotulo", explicacao));
 
 	const ordenadas = [...linguagens.itens].sort((a, b) => b.valor - a.valor);
@@ -654,7 +645,7 @@ function montarCartaoLinguagens(linguagens) {
 	const visiveis = ordenadas.slice(0, ATIVIDADE.linguagensVisiveis);
 	const resto = ordenadas.slice(ATIVIDADE.linguagensVisiveis);
 	if (resto.length) {
-		visiveis.push({ nome: "Outras", valor: resto.reduce((soma, item) => soma + item.valor, 0), outras: resto.length });
+		visiveis.push({ nome: I18n.t("atividade.outras"), valor: resto.reduce((soma, item) => soma + item.valor, 0), outras: resto.length });
 	}
 	const maior = Math.max(...visiveis.map((item) => item.valor));
 
@@ -664,15 +655,15 @@ function montarCartaoLinguagens(linguagens) {
 		const percentual = (item.valor / total) * 100;
 		const topo = criar("div", "linguagem-topo");
 		topo.append(criar("span", "linguagem-nome", item.nome));
-		topo.append(criar("span", "linguagem-valor", `${decimalBR.format(percentual)}%`));
+		topo.append(criar("span", "linguagem-valor", `${I18n.decimal(percentual)}%`));
 		const barra = criar("div", "linguagem-barra");
 		barra.dataset.largura = `${Math.max((item.valor / maior) * 100, 1)}%`;
 		if (item.outras) {
-			linha.dataset.dica = `${plural(item.outras, "linguagem", "linguagens")} com menos código`;
+			linha.dataset.dica = I18n.tn("atividade.outrasDica", item.outras);
 		} else if (linguagens.fonte === "bytes") {
-			linha.dataset.dica = `${tamanhoArquivo(item.valor)} de código em ${plural(item.repos, "repositório", "repositórios")}`;
+			linha.dataset.dica = I18n.t("atividade.codigoEm", { tamanho: tamanhoArquivo(item.valor), repos: I18n.tn("atividade.repositorios", item.repos) });
 		} else {
-			linha.dataset.dica = `Principal em ${plural(item.repos, "repositório", "repositórios")}`;
+			linha.dataset.dica = I18n.t("atividade.principalEm", { repos: I18n.tn("atividade.repositorios", item.repos) });
 		}
 		linha.append(topo, barra);
 		lista.append(linha);
@@ -690,8 +681,8 @@ function montarCartaoRepos(repos) {
 
 	const cartao = criar("article", "cartao cartao-estatico");
 	const conteudo = criar("div", "cartao-conteudo");
-	conteudo.append(criar("h3", "cartao-titulo", "Repositórios recentes"));
-	conteudo.append(criar("p", "grupo-rotulo", "Os últimos a receber commits."));
+	conteudo.append(criar("h3", "cartao-titulo", I18n.t("atividade.recentes")));
+	conteudo.append(criar("p", "grupo-rotulo", I18n.t("atividade.recentesTexto")));
 
 	const lista = criar("ul", "repos");
 	repos
@@ -721,7 +712,7 @@ function montarCartaoRepos(repos) {
 			if (repo.descricao) link.append(criar("span", "repo-descricao", repo.descricao));
 			const meta = criar("span", "repo-meta");
 			if (repo.linguagem) meta.append(criar("span", "habilidade", repo.linguagem));
-			meta.append(criar("span", "", `atualizado ${tempoRelativo(repo.atualizado)}`));
+			meta.append(criar("span", "", I18n.t("atividade.atualizado", { tempo: tempoRelativo(repo.atualizado) })));
 			link.append(meta);
 
 			item.append(link);
@@ -734,13 +725,9 @@ function montarCartaoRepos(repos) {
 
 function montarRodapeAtividade(dados) {
 	const rodape = criar("p", "atividade-rodape");
-	const hora = new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" }).format(new Date(dados.quando));
-	rodape.append(
-		dados.desatualizado
-			? `O GitHub limitou as consultas agora; mostrando os dados salvos às ${hora}. `
-			: `Dados ao vivo do GitHub, atualizados às ${hora}. `
-	);
-	const link = criar("a", "atividade-link", "Ver perfil no GitHub");
+	const hora = I18n.data(new Date(dados.quando), { hour: "2-digit", minute: "2-digit" });
+	rodape.append(I18n.t(dados.desatualizado ? "atividade.limitado" : "atividade.aoVivo", { hora }));
+	const link = criar("a", "atividade-link", I18n.t("atividade.verPerfil"));
 	link.href = (dados.perfil && dados.perfil.url) || `https://github.com/${ATIVIDADE.usuario}`;
 	link.target = "_blank";
 	link.rel = "noopener noreferrer";
@@ -748,14 +735,22 @@ function montarRodapeAtividade(dados) {
 	return rodape;
 }
 
+let atividadeDados = null;
+let atividadeComErro = false;
+let atividadeRelogio = null;
+
 function montarAtividade(dados) {
+	atividadeDados = dados;
+	atividadeComErro = false;
 	const grade = document.getElementById("atividade");
 	grade.replaceChildren();
 	grade.setAttribute("aria-busy", "false");
+	document.querySelectorAll("#painel-atividade > .atividade-rodape").forEach((rodape) => rodape.remove());
 	grade.append(montarCartaoContribuicoes(dados));
 	grade.append(montarCartaoCidade());
 	desenharCidade(dados.contribuicoes);
-	setInterval(() => atualizarAnoAtual(dados), ATIVIDADE.validadeAnoAtual);
+	clearInterval(atividadeRelogio);
+	atividadeRelogio = setInterval(() => atualizarAnoAtual(dados), ATIVIDADE.validadeAnoAtual);
 	if (dados.linguagens && dados.linguagens.itens.length) grade.append(montarCartaoLinguagens(dados.linguagens));
 	if (dados.repos) grade.append(montarCartaoRepos(dados.repos));
 	grade.after(montarRodapeAtividade(dados));
@@ -779,14 +774,15 @@ function rolarCalendario(raiz = document.getElementById("atividade")) {
 }
 
 function mostrarErroAtividade() {
+	atividadeComErro = true;
 	const grade = document.getElementById("atividade");
 	grade.replaceChildren();
 	grade.setAttribute("aria-busy", "false");
 	const cartao = criar("article", "cartao cartao-largo cartao-estatico");
 	const conteudo = criar("div", "cartao-conteudo");
-	conteudo.append(criar("h3", "cartao-titulo", "GitHub fora do ar por agora"));
-	conteudo.append(criar("p", "cartao-descricao atividade-erro", "Não deu para buscar os dados ao vivo. O GitHub limita as consultas sem login a 60 por hora; tente de novo em alguns minutos."));
-	const botao = criar("a", "cartao-botao", "Ver perfil no GitHub");
+	conteudo.append(criar("h3", "cartao-titulo", I18n.t("atividade.foraDoAr")));
+	conteudo.append(criar("p", "cartao-descricao atividade-erro", I18n.t("atividade.erro")));
+	const botao = criar("a", "cartao-botao", I18n.t("atividade.verPerfil"));
 	botao.href = `https://github.com/${ATIVIDADE.usuario}`;
 	botao.target = "_blank";
 	botao.rel = "noopener noreferrer";
@@ -803,6 +799,11 @@ function iniciarAtividade() {
 	prepararDicas();
 	carregarDadosGithub().then(montarAtividade).catch(mostrarErroAtividade);
 }
+
+I18n.aoTrocar(() => {
+	if (atividadeDados) montarAtividade(atividadeDados);
+	else if (atividadeComErro) mostrarErroAtividade();
+});
 
 document.addEventListener("aba-ativada", (evento) => {
 	if (evento.detail !== "aba-atividade") return;

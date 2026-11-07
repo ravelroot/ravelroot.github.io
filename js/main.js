@@ -5,6 +5,17 @@ function criar(tag, classe, texto) {
 	return elemento;
 }
 
+const CONTEUDO = { projetos: [], habilidades: [], documentacao: [], destaques: [], emComum: null, notas: [] };
+
+function atualizarConteudo() {
+	CONTEUDO.projetos = I18n.traduzirLista(PROJETOS, "projetos", "titulo");
+	CONTEUDO.habilidades = I18n.traduzirLista(HABILIDADES, "habilidades", "icone");
+	CONTEUDO.documentacao = typeof DOCUMENTACAO !== "undefined" ? I18n.traduzirLista(DOCUMENTACAO, "documentacao", "titulo") : [];
+	CONTEUDO.destaques = typeof DESTAQUES !== "undefined" ? I18n.traduzirLista(DESTAQUES, "destaques", "titulo") : [];
+	CONTEUDO.emComum = typeof DESTAQUES_EM_COMUM !== "undefined" ? I18n.traduzirObjeto(DESTAQUES_EM_COMUM, "emComum") : null;
+	CONTEUDO.notas = I18n.traduzirLista(NOTAS, "notas", "id");
+}
+
 // Linguagens que viram filtro na aba Projetos (só aparecem as que algum projeto usa).
 const LINGUAGENS = ["Python", "Java", "TypeScript", "JavaScript", "C#", "C", "C++", "Go", "Rust", "Kotlin", "PHP", "Ruby"];
 
@@ -66,7 +77,7 @@ function montarFiltros(painel, grade, cartoes, revelacao) {
 	const barra = criar("div", "filtros");
 	const grupo = criar("div", "filtros-botoes");
 	grupo.setAttribute("role", "group");
-	grupo.setAttribute("aria-label", "Filtrar projetos por linguagem");
+	grupo.setAttribute("aria-label", I18n.t("projetos.filtrar"));
 	const resultado = criar("p", "filtros-resultado");
 	resultado.setAttribute("aria-live", "polite");
 	const botoes = [];
@@ -92,8 +103,8 @@ function montarFiltros(painel, grade, cartoes, revelacao) {
 			if (mostra) visiveis.push(item.cartao);
 		});
 		resultado.textContent = chave === null
-			? `${cartoes.length} projetos`
-			: `${visiveis.length} de ${cartoes.length} projetos`;
+			? I18n.tn("projetos.total", cartoes.length)
+			: I18n.tn("projetos.parcial", cartoes.length, { n: I18n.numero(visiveis.length), total: I18n.numero(cartoes.length) });
 		revelacao.repetir(visiveis);
 	};
 
@@ -109,11 +120,11 @@ function montarFiltros(painel, grade, cartoes, revelacao) {
 		botoes.push(botao);
 		grupo.append(botao);
 	};
-	criarBotao("Todos", null, cartoes.length);
+	criarBotao(I18n.t("projetos.todos"), null, cartoes.length);
 	linguagens.forEach((linguagem) => criarBotao(linguagem.nome, linguagem.chave, linguagem.total));
 	grupo.append(extra);
 
-	resultado.textContent = `${cartoes.length} projetos`;
+	resultado.textContent = I18n.tn("projetos.total", cartoes.length);
 	barra.append(grupo, resultado);
 	painel.insertBefore(barra, grade);
 
@@ -128,8 +139,8 @@ function montarFiltros(painel, grade, cartoes, revelacao) {
 			const total = cartoes.filter((item) => item.tecnologias.includes(chave)).length;
 			extra.replaceChildren(nome, criar("span", "filtro-total", String(total)));
 			extra.insertAdjacentHTML("beforeend", ICONE_FECHAR);
-			extra.setAttribute("aria-label", `${nome}: ${total} projetos. Remover filtro`);
-			extra.title = "Remover filtro";
+			extra.setAttribute("aria-label", I18n.tn("projetos.removerFiltroRotulo", total, { nome }));
+			extra.title = I18n.t("projetos.removerFiltro");
 			extra.hidden = false;
 			aplicar(chave, extra);
 		}
@@ -139,22 +150,20 @@ function montarFiltros(painel, grade, cartoes, revelacao) {
 function montarProjetos() {
 	const painel = document.getElementById("painel-projetos");
 	const grade = document.getElementById("projetos");
+	painel.querySelectorAll(":scope > .filtros").forEach((barra) => barra.remove());
+	grade.replaceChildren();
 	const manuais = {};
-	if (typeof DOCUMENTACAO !== "undefined") {
-		DOCUMENTACAO.forEach((doc) => {
-			manuais[doc.titulo] = doc.manual;
-		});
-	}
+	CONTEUDO.documentacao.forEach((doc) => {
+		manuais[doc.titulo] = doc.manual;
+	});
 
 	// Projetos com estudo de caso na aba Destaques (e, alguns, com versão no navegador).
 	const destaquePorTitulo = {};
-	if (typeof DESTAQUES !== "undefined") {
-		DESTAQUES.forEach((destaque) => {
-			destaquePorTitulo[destaque.titulo] = destaque;
-		});
-	}
+	CONTEUDO.destaques.forEach((destaque) => {
+		destaquePorTitulo[destaque.titulo] = destaque;
+	});
 
-	const cartoes = PROJETOS.map((projeto) => {
+	const cartoes = CONTEUDO.projetos.map((projeto) => {
 		const cartao = criar("article", "cartao cartao-projeto");
 		const destaque = destaquePorTitulo[projeto.titulo];
 
@@ -185,9 +194,9 @@ function montarProjetos() {
 			const meta = criar("div", "nota-meta");
 			if (projeto.categoria) meta.append(criar("span", "nota-tema", projeto.categoria));
 			if (destaque) {
-				const estudo = criar("button", "projeto-estudo", "Estudo de caso");
+				const estudo = criar("button", "projeto-estudo", I18n.t("projetos.estudo"));
 				estudo.type = "button";
-				estudo.setAttribute("aria-label", `Ver o estudo de caso do ${projeto.titulo} na aba Destaques`);
+				estudo.setAttribute("aria-label", I18n.t("projetos.estudoRotulo", { titulo: projeto.titulo }));
 				estudo.addEventListener("click", () => abrirDestaque(projeto.titulo));
 				meta.append(estudo);
 			}
@@ -209,12 +218,12 @@ function montarProjetos() {
 		const online = (destaque && destaque.online) || projeto.online;
 		const manual = manuais[projeto.titulo] || projeto.manual || (destaque && destaque.documentos && destaque.documentos.manual);
 		if (online) {
-			botoes.append(criarLinkExterno("Abrir demo", online, "cartao-botao", ICONE_EXTERNO));
+			botoes.append(criarLinkExterno(I18n.t("projetos.demo"), online, "cartao-botao", ICONE_EXTERNO));
 		}
 		const classeCodigo = online ? "cartao-botao cartao-botao-secundario" : "cartao-botao";
-		botoes.append(criarLinkExterno("Código no GitHub", projeto.link, `${classeCodigo} projeto-ver`, ICONE_GITHUB));
+		botoes.append(criarLinkExterno(I18n.t("comum.codigoGithub"), projeto.link, `${classeCodigo} projeto-ver`, ICONE_GITHUB));
 		if (manual) {
-			botoes.append(criarLinkPdf("Manual técnico", manual, "cartao-botao cartao-botao-secundario"));
+			botoes.append(criarLinkPdf(I18n.t("comum.manual"), manual, "cartao-botao cartao-botao-secundario"));
 		}
 		conteudo.append(botoes);
 		cartao.append(conteudo);
@@ -291,10 +300,13 @@ function abrirDestaque(titulo) {
 function montarHabilidades() {
 	const painel = document.getElementById("painel-habilidades");
 	const grade = document.getElementById("habilidades");
+	painel.querySelectorAll(":scope > .filtros").forEach((barra) => barra.remove());
+	grade.replaceChildren();
+	grade.classList.remove("so-usadas");
 
 	// Em quais projetos cada tecnologia aparece (pelo nome exato, sem diferenciar maiúsculas).
 	const usos = {};
-	PROJETOS.forEach((projeto) => {
+	CONTEUDO.projetos.forEach((projeto) => {
 		projeto.tecnologias.forEach((nome) => {
 			const chave = nome.toLowerCase();
 			(usos[chave] = usos[chave] || []).push(projeto.titulo);
@@ -303,7 +315,7 @@ function montarHabilidades() {
 
 	const usadas = new Set();
 	let totalGeral = 0;
-	const cartoes = HABILIDADES.map((area) => {
+	const cartoes = CONTEUDO.habilidades.map((area) => {
 		const cartao = criar("article", area.largo ? "cartao cartao-largo cartao-area" : "cartao cartao-area");
 		const conteudo = criar("div", "cartao-conteudo");
 
@@ -316,7 +328,7 @@ function montarHabilidades() {
 		topo.append(criar("h3", "cartao-titulo", area.titulo));
 		const total = area.grupos.reduce((soma, grupo) => soma + grupo.itens.length, 0);
 		totalGeral += total;
-		topo.append(criar("span", "area-total", `${total} itens`));
+		topo.append(criar("span", "area-total", I18n.tn("habilidades.itens", total)));
 		conteudo.append(topo);
 
 		let ordem = 0;
@@ -346,10 +358,10 @@ function montarHabilidades() {
 	const barra = criar("div", "filtros");
 	const grupo = criar("div", "filtros-botoes");
 	grupo.setAttribute("role", "group");
-	grupo.setAttribute("aria-label", "Mostrar habilidades");
+	grupo.setAttribute("aria-label", I18n.t("habilidades.mostrar"));
 	const opcoes = [
-		{ rotulo: "Todas", total: totalGeral, so: false },
-		{ rotulo: "Usadas nos projetos", total: usadas.size, so: true }
+		{ rotulo: I18n.t("habilidades.todas"), total: totalGeral, so: false },
+		{ rotulo: I18n.t("habilidades.usadas"), total: usadas.size, so: true }
 	];
 	const botoes = opcoes.map((opcao) => {
 		const botao = criar("button", "filtro", opcao.rotulo);
@@ -381,11 +393,12 @@ function criarLinkPdf(texto, url, classe) {
 
 function montarDocumentacao() {
 	const grade = document.getElementById("documentacao");
+	grade.replaceChildren();
 	const projetoPorTitulo = {};
-	PROJETOS.forEach((projeto) => {
+	CONTEUDO.projetos.forEach((projeto) => {
 		projetoPorTitulo[projeto.titulo] = projeto;
 	});
-	DOCUMENTACAO.forEach((doc) => {
+	CONTEUDO.documentacao.forEach((doc) => {
 		const projeto = projetoPorTitulo[doc.titulo] || {};
 		const cartao = criar("article", "cartao cartao-doc");
 
@@ -393,7 +406,7 @@ function montarDocumentacao() {
 		miniatura.href = doc.banco || doc.manual;
 		miniatura.target = "_blank";
 		miniatura.rel = "noopener noreferrer";
-		miniatura.setAttribute("aria-label", `Abrir ${doc.banco ? "a arquitetura do banco" : "o manual técnico"} do ${doc.titulo} (PDF)`);
+		miniatura.setAttribute("aria-label", I18n.t(doc.banco ? "documentacao.abrirBanco" : "documentacao.abrirManual", { titulo: doc.titulo }));
 		// O diagrama é um PNG/SVG branco; no tema claro, o filtro do tema o deixa em grafite.
 		// (Imagem comum de propósito: máscaras CSS com url() não carregam ao abrir o index.html direto do arquivo.)
 		const diagrama = criar("img", "doc-diagrama");
@@ -415,7 +428,7 @@ function montarDocumentacao() {
 		}
 		titulo.append(doc.titulo);
 		conteudo.append(titulo);
-		conteudo.append(criar("p", "grupo-rotulo", "Decisão de arquitetura"));
+		conteudo.append(criar("p", "grupo-rotulo", I18n.t("documentacao.decisao")));
 		conteudo.append(criar("p", "doc-decisao", doc.decisao));
 		conteudo.append(criar("p", "cartao-descricao", doc.texto));
 
@@ -424,8 +437,8 @@ function montarDocumentacao() {
 		conteudo.append(destaques);
 
 		const botoes = criar("div", "doc-botoes");
-		botoes.append(criarLinkPdf("Manual técnico", doc.manual, "cartao-botao"));
-		if (doc.banco) botoes.append(criarLinkPdf("Arquitetura do BD", doc.banco, "cartao-botao cartao-botao-secundario"));
+		botoes.append(criarLinkPdf(I18n.t("comum.manual"), doc.manual, "cartao-botao"));
+		if (doc.banco) botoes.append(criarLinkPdf(I18n.t("comum.bancoDados"), doc.banco, "cartao-botao cartao-botao-secundario"));
 		conteudo.append(botoes);
 
 		cartao.append(conteudo);
@@ -459,14 +472,14 @@ function rolarAte(elemento) {
 // com anterior/próxima (dá a volta no fim), setas do teclado e deslize no celular.
 function criarGaleria() {
 	const dialogo = criar("dialog", "galeria");
-	dialogo.setAttribute("aria-label", "Imagem ampliada");
+	dialogo.setAttribute("aria-label", I18n.t("galeria.rotulo"));
 
 	const topo = criar("div", "galeria-topo");
 	const contador = criar("p", "nota-meta galeria-contador");
 	const fechar = criar("button", "leitor-fechar");
 	fechar.type = "button";
-	fechar.setAttribute("aria-label", "Fechar imagem");
-	fechar.title = "Fechar (Esc)";
+	fechar.setAttribute("aria-label", I18n.t("galeria.fechar"));
+	fechar.title = I18n.t("comum.fechar");
 	fechar.innerHTML = ICONE_FECHAR;
 	topo.append(contador, fechar);
 
@@ -481,8 +494,8 @@ function criarGaleria() {
 		botao.innerHTML = icone;
 		return botao;
 	};
-	const anterior = criarPasso("galeria-anterior", "Imagem anterior", ICONE_SETA_VOLTAR);
-	const proxima = criarPasso("galeria-proxima", "Próxima imagem", ICONE_SETA);
+	const anterior = criarPasso("galeria-anterior", I18n.t("galeria.anterior"), ICONE_SETA_VOLTAR);
+	const proxima = criarPasso("galeria-proxima", I18n.t("galeria.proxima"), ICONE_SETA);
 	palco.append(imagem, anterior, proxima);
 
 	const legenda = criar("p", "galeria-legenda");
@@ -579,16 +592,17 @@ function criarLinkExterno(texto, url, classe, icone) {
 
 function montarDestaques() {
 	const area = document.getElementById("destaques");
+	area.replaceChildren();
+	document.querySelectorAll("dialog.galeria").forEach((dialogo) => dialogo.remove());
+	if (!CONTEUDO.destaques.length) return;
 	const projetoPorTitulo = {};
-	PROJETOS.forEach((projeto) => {
+	CONTEUDO.projetos.forEach((projeto) => {
 		projetoPorTitulo[projeto.titulo] = projeto;
 	});
 	const documentoPorTitulo = {};
-	if (typeof DOCUMENTACAO !== "undefined") {
-		DOCUMENTACAO.forEach((doc) => {
-			documentoPorTitulo[doc.titulo] = doc;
-		});
-	}
+	CONTEUDO.documentacao.forEach((doc) => {
+		documentoPorTitulo[doc.titulo] = doc;
+	});
 	const galeria = criarGaleria();
 	const blocos = [];
 	const bloco = (tag, classe) => {
@@ -600,8 +614,8 @@ function montarDestaques() {
 
 	// Sumário: um atalho para cada projeto, com ícone, categoria e versão.
 	const sumario = bloco("nav", "destaques-sumario");
-	sumario.setAttribute("aria-label", "Projetos em destaque");
-	DESTAQUES.forEach((destaque, indice) => {
+	sumario.setAttribute("aria-label", I18n.t("destaques.sumario"));
+	CONTEUDO.destaques.forEach((destaque, indice) => {
 		const projeto = projetoPorTitulo[destaque.titulo] || destaque.projeto || {};
 		const atalho = criar("a", "destaques-atalho");
 		atalho.href = `#${ancora(destaque.titulo)}`;
@@ -629,7 +643,7 @@ function montarDestaques() {
 	});
 	area.append(sumario);
 
-	DESTAQUES.forEach((destaque, indice) => {
+	CONTEUDO.destaques.forEach((destaque, indice) => {
 		const projeto = projetoPorTitulo[destaque.titulo] || destaque.projeto || {};
 		const documento = documentoPorTitulo[destaque.titulo] || destaque.documentos || {};
 		const secao = criar("article", "destaque");
@@ -639,7 +653,7 @@ function montarDestaques() {
 		// Cabeçalho: posição, categoria, versão, nome, frase e links
 		const cabecalho = bloco("header", "destaque-cabecalho");
 		const meta = criar("p", "nota-meta destaque-meta");
-		meta.append(criar("span", "leitor-numero", `Destaque ${doisDigitos(indice + 1)} / ${doisDigitos(DESTAQUES.length)}`));
+		meta.append(criar("span", "leitor-numero", I18n.t("destaques.posicao", { n: doisDigitos(indice + 1), total: doisDigitos(CONTEUDO.destaques.length) })));
 		if (projeto.categoria) meta.append(criar("span", "nota-tema", projeto.categoria));
 		meta.append(criar("span", "destaque-versao", `v${destaque.versao}`));
 		const titulo = criar("h3", "destaque-titulo");
@@ -653,10 +667,10 @@ function montarDestaques() {
 		}
 		titulo.append(destaque.titulo);
 		const botoes = criar("div", "doc-botoes destaque-botoes");
-		if (destaque.online) botoes.append(criarLinkExterno("Abrir no navegador", destaque.online, "cartao-botao", ICONE_EXTERNO));
-		if (projeto.link) botoes.append(criarLinkExterno("Código no GitHub", projeto.link, "cartao-botao cartao-botao-secundario", ICONE_GITHUB));
-		if (documento.manual) botoes.append(criarLinkPdf("Manual técnico", documento.manual, "cartao-botao cartao-botao-secundario"));
-		if (documento.banco) botoes.append(criarLinkPdf("Arquitetura do BD", documento.banco, "cartao-botao cartao-botao-secundario"));
+		if (destaque.online) botoes.append(criarLinkExterno(I18n.t("destaques.navegador"), destaque.online, "cartao-botao", ICONE_EXTERNO));
+		if (projeto.link) botoes.append(criarLinkExterno(I18n.t("comum.codigoGithub"), projeto.link, "cartao-botao cartao-botao-secundario", ICONE_GITHUB));
+		if (documento.manual) botoes.append(criarLinkPdf(I18n.t("comum.manual"), documento.manual, "cartao-botao cartao-botao-secundario"));
+		if (documento.banco) botoes.append(criarLinkPdf(I18n.t("comum.bancoDados"), documento.banco, "cartao-botao cartao-botao-secundario"));
 		cabecalho.append(meta, titulo, criar("p", "destaque-frase", destaque.frase), botoes);
 		secao.append(cabecalho);
 
@@ -678,7 +692,7 @@ function montarDestaques() {
 		barra.append(pontos, criar("span", "destaque-janela-endereco", destaque.endereco || ""));
 		const tela = criar("button", "destaque-janela-tela");
 		tela.type = "button";
-		tela.setAttribute("aria-label", `Ampliar a tela principal do ${destaque.titulo}`);
+		tela.setAttribute("aria-label", I18n.t("destaques.ampliarTela", { titulo: destaque.titulo }));
 		[["destaque-capa-escura", destaque.capa.escuro], ["destaque-capa-clara", destaque.capa.claro]].forEach(([classe, src]) => {
 			const imagem = criar("img", classe);
 			imagem.src = src;
@@ -691,7 +705,7 @@ function montarDestaques() {
 		});
 		const ampliar = criar("span", "destaque-ampliar");
 		ampliar.innerHTML = ICONE_AMPLIAR;
-		ampliar.append("Ampliar");
+		ampliar.append(I18n.t("destaques.ampliar"));
 		tela.append(ampliar);
 		tela.addEventListener("click", () => galeria.abrir(itensDaGaleria, 0, destaque.titulo, tela));
 		janela.append(barra, tela);
@@ -711,11 +725,11 @@ function montarDestaques() {
 		// A ideia (texto) e as tecnologias, lado a lado no computador
 		const colunas = bloco("div", "destaque-colunas");
 		const ideia = criar("div", "destaque-ideia");
-		ideia.append(criarRotulo("A ideia"));
+		ideia.append(criarRotulo(I18n.t("destaques.ideia")));
 		destaque.historia.forEach((paragrafo) => ideia.append(criar("p", "nota-paragrafo", paragrafo)));
 		const pilha = criar("aside", "destaque-pilha");
-		pilha.setAttribute("aria-label", `Tecnologias do ${destaque.titulo}`);
-		pilha.append(criarRotulo("Tecnologias"));
+		pilha.setAttribute("aria-label", I18n.t("destaques.tecnologiasDe", { titulo: destaque.titulo }));
+		pilha.append(criarRotulo(I18n.t("destaques.tecnologias")));
 		destaque.pilha.forEach((grupo) => {
 			pilha.append(criar("p", "grupo-rotulo", grupo.nome));
 			const etiquetas = criar("div", "habilidades habilidades-grupo");
@@ -727,13 +741,13 @@ function montarDestaques() {
 
 		// Galeria: as fotos abrem no visualizador (a capa é a primeira da sequência)
 		const blocoGaleria = bloco("section", "destaque-secao");
-		blocoGaleria.append(criarRotulo("Galeria", `${destaque.galeria.length} telas · clique para ampliar`));
+		blocoGaleria.append(criarRotulo(I18n.t("destaques.galeria"), I18n.tn("destaques.galeriaExtra", destaque.galeria.length)));
 		const grade = criar("div", "destaque-galeria");
 		destaque.galeria.forEach((foto, posicao) => {
 			const figura = criar("figure", "destaque-foto");
 			const botao = criar("button", "destaque-foto-botao");
 			botao.type = "button";
-			botao.setAttribute("aria-label", `Ampliar: ${foto.legenda}`);
+			botao.setAttribute("aria-label", I18n.t("destaques.ampliarFoto", { legenda: foto.legenda }));
 			const imagem = criar("img", "destaque-foto-imagem");
 			imagem.src = foto.miniatura || foto.imagem;
 			imagem.alt = "";
@@ -753,7 +767,7 @@ function montarDestaques() {
 
 		// Por dentro: as decisões de engenharia, numeradas
 		const blocoDetalhes = bloco("section", "destaque-secao");
-		blocoDetalhes.append(criarRotulo("Por dentro", `${destaque.porDentro.length} decisões de engenharia`));
+		blocoDetalhes.append(criarRotulo(I18n.t("destaques.porDentro"), I18n.tn("destaques.porDentroExtra", destaque.porDentro.length)));
 		const detalhes = criar("div", "destaque-detalhes");
 		destaque.porDentro.forEach((detalhe, posicao) => {
 			const cartao = criar("article", "destaque-detalhe");
@@ -775,23 +789,23 @@ function montarDestaques() {
 		// Arquitetura (no estilo do terminal) e os resultados dos testes
 		const tecnico = bloco("div", "destaque-colunas destaque-tecnico");
 		const arquitetura = criar("div", "destaque-arquitetura");
-		arquitetura.append(criarRotulo("Arquitetura"));
+		arquitetura.append(criarRotulo(I18n.t("destaques.arquitetura")));
 		const terminal = criar("div", "terminal");
 		const terminalBarra = criar("div", "terminal-barra");
 		const terminalPontos = pontos.cloneNode(true);
 		terminalPontos.className = "terminal-pontos";
-		terminalBarra.append(terminalPontos, criar("p", "terminal-titulo", `${destaque.titulo.toLowerCase()} --arquitetura`));
+		terminalBarra.append(terminalPontos, criar("p", "terminal-titulo", I18n.t("destaques.arquiteturaComando", { nome: destaque.titulo.toLowerCase() })));
 		const desenho = criar("pre", "destaque-arquitetura-desenho");
 		desenho.append(criar("code", "", destaque.arquitetura));
 		desenho.tabIndex = 0;
-		desenho.setAttribute("aria-label", `Diagrama da arquitetura do ${destaque.titulo}`);
+		desenho.setAttribute("aria-label", I18n.t("destaques.arquiteturaRotulo", { titulo: destaque.titulo }));
 		terminal.append(terminalBarra, desenho);
 		arquitetura.append(terminal);
 
 		const testes = criar("div", "destaque-testes");
-		testes.append(criarRotulo("Testes e verificações"));
+		testes.append(criarRotulo(I18n.t("destaques.testes")));
 		const tabela = criar("table", "destaque-tabela");
-		const legendaTabela = criar("caption", "", `Resultados da rodada de testes da versão ${destaque.versao} do ${destaque.titulo}`);
+		const legendaTabela = criar("caption", "", I18n.t("destaques.testesLegenda", { versao: destaque.versao, titulo: destaque.titulo }));
 		const corpo = criar("tbody");
 		destaque.testes.forEach((teste) => {
 			const linha = criar("tr");
@@ -810,13 +824,14 @@ function montarDestaques() {
 	});
 
 	// O que os dois têm em comum, e o caminho de volta para os outros projetos
+	const emComum = CONTEUDO.emComum;
 	const comum = bloco("section", "destaques-comum");
 	comum.setAttribute("aria-labelledby", "destaques-comum-titulo");
-	const tituloComum = criar("h3", "destaques-comum-titulo", DESTAQUES_EM_COMUM.titulo);
+	const tituloComum = criar("h3", "destaques-comum-titulo", emComum.titulo);
 	tituloComum.id = "destaques-comum-titulo";
-	comum.append(tituloComum, criar("p", "destaques-comum-texto", DESTAQUES_EM_COMUM.texto));
+	comum.append(tituloComum, criar("p", "destaques-comum-texto", emComum.texto));
 	const itens = criar("div", "destaques-comum-itens");
-	DESTAQUES_EM_COMUM.itens.forEach((item) => {
+	emComum.itens.forEach((item) => {
 		const cartao = criar("article", "destaques-comum-item");
 		const topo = criar("div", "area-topo");
 		if (ICONES_AREAS[item.icone]) {
@@ -830,10 +845,10 @@ function montarDestaques() {
 	});
 	comum.append(itens);
 
-	const outros = PROJETOS.filter((projeto) => !DESTAQUES.some((destaque) => destaque.titulo === projeto.titulo)).length;
+	const outros = CONTEUDO.projetos.filter((projeto) => !CONTEUDO.destaques.some((destaque) => destaque.titulo === projeto.titulo)).length;
 	const rodape = criar("div", "destaques-comum-rodape");
-	rodape.append(criar("p", "", `Os outros ${outros} projetos, de sistemas distribuídos a um alocador de memória em C, estão na aba Projetos.`));
-	const voltar = criar("button", "cartao-botao destaques-ver-todos", "Ver todos os projetos");
+	rodape.append(criar("p", "", I18n.tn("destaques.outros", outros)));
+	const voltar = criar("button", "cartao-botao destaques-ver-todos", I18n.t("destaques.verTodos"));
 	voltar.type = "button";
 	voltar.insertAdjacentHTML("beforeend", ICONE_SETA);
 	voltar.addEventListener("click", () => irParaAba("aba-projetos", true));
@@ -863,12 +878,12 @@ function numeroDaNota(indice) {
 function preencherMeta(meta, nota, indice) {
 	meta.replaceChildren();
 	if (indice !== undefined) {
-		meta.append(criar("span", "leitor-numero", `${numeroDaNota(indice)} / ${numeroDaNota(NOTAS.length - 1)}`));
+		meta.append(criar("span", "leitor-numero", `${numeroDaNota(indice)} / ${numeroDaNota(CONTEUDO.notas.length - 1)}`));
 	}
 	meta.append(criar("span", "nota-tema", nota.tema));
 	const tempo = criar("span", "nota-tempo");
 	tempo.innerHTML = ICONE_RELOGIO;
-	tempo.append(`${contarMinutos(nota)} min de leitura`);
+	tempo.append(I18n.t("notas.leitura", { n: contarMinutos(nota) }));
 	meta.append(tempo);
 }
 
@@ -921,8 +936,8 @@ function criarLeitor(projetoPorTitulo, botoes) {
 	const meta = criar("p", "nota-meta");
 	const fechar = criar("button", "leitor-fechar");
 	fechar.type = "button";
-	fechar.setAttribute("aria-label", "Fechar nota");
-	fechar.title = "Fechar (Esc)";
+	fechar.setAttribute("aria-label", I18n.t("notas.fechar"));
+	fechar.title = I18n.t("comum.fechar");
 	fechar.innerHTML = ICONE_FECHAR;
 	topo.append(meta, fechar);
 
@@ -934,7 +949,7 @@ function criarLeitor(projetoPorTitulo, botoes) {
 	const projetos = criar("div", "leitor-projetos");
 
 	const navegacao = criar("nav", "leitor-navegacao");
-	navegacao.setAttribute("aria-label", "Outras notas");
+	navegacao.setAttribute("aria-label", I18n.t("notas.outras"));
 	const criarPasso = (classe, rotulo, icone, iconeDepois) => {
 		const botao = criar("button", `leitor-passo ${classe}`);
 		botao.type = "button";
@@ -946,8 +961,8 @@ function criarLeitor(projetoPorTitulo, botoes) {
 		botao.append(linha, nome);
 		return { botao, nome };
 	};
-	const anterior = criarPasso("leitor-anterior", "Anterior", ICONE_SETA_VOLTAR, false);
-	const proxima = criarPasso("leitor-proxima", "Próxima", ICONE_SETA, true);
+	const anterior = criarPasso("leitor-anterior", I18n.t("notas.anterior"), ICONE_SETA_VOLTAR, false);
+	const proxima = criarPasso("leitor-proxima", I18n.t("notas.proxima"), ICONE_SETA, true);
 	navegacao.append(anterior.botao, proxima.botao);
 
 	artigo.append(titulo, resumo, corpo, projetos, navegacao);
@@ -956,13 +971,13 @@ function criarLeitor(projetoPorTitulo, botoes) {
 
 	let atual = 0;
 	const prepararPasso = (passo, indice) => {
-		const existe = indice >= 0 && indice < NOTAS.length;
+		const existe = indice >= 0 && indice < CONTEUDO.notas.length;
 		passo.botao.hidden = !existe;
-		if (existe) passo.nome.textContent = NOTAS[indice].titulo;
+		if (existe) passo.nome.textContent = CONTEUDO.notas[indice].titulo;
 	};
 	const mostrar = (indice) => {
 		atual = indice;
-		const nota = NOTAS[indice];
+		const nota = CONTEUDO.notas[indice];
 		preencherMeta(meta, nota, indice);
 		titulo.textContent = nota.titulo;
 		resumo.textContent = nota.resumo;
@@ -1019,14 +1034,16 @@ function criarLeitor(projetoPorTitulo, botoes) {
 
 function montarNotas() {
 	const grade = document.getElementById("notas");
+	grade.replaceChildren();
+	document.querySelectorAll("dialog.leitor").forEach((dialogo) => dialogo.remove());
 	const projetoPorTitulo = {};
-	PROJETOS.forEach((projeto) => {
+	CONTEUDO.projetos.forEach((projeto) => {
 		projetoPorTitulo[projeto.titulo] = projeto;
 	});
 	const botoes = [];
 	const leitor = criarLeitor(projetoPorTitulo, botoes);
 
-	NOTAS.forEach((nota, indice) => {
+	CONTEUDO.notas.forEach((nota, indice) => {
 		const cartao = criar("article", "cartao cartao-nota");
 		const vitrine = criarVitrine(nota);
 		vitrine.addEventListener("click", () => leitor.abrir(indice));
@@ -1041,7 +1058,7 @@ function montarNotas() {
 
 		const rodape = criar("div", "nota-rodape");
 		if (nota.projetos.length) rodape.append(criarEtiquetasProjetos(nota.projetos, projetoPorTitulo));
-		const botao = criar("button", "cartao-botao nota-ler", "Ler nota");
+		const botao = criar("button", "cartao-botao nota-ler", I18n.t("notas.ler"));
 		botao.type = "button";
 		botao.setAttribute("aria-haspopup", "dialog");
 		botao.insertAdjacentHTML("beforeend", ICONE_SETA);
@@ -1152,6 +1169,7 @@ function ligarCopiarEmail() {
 	document.querySelectorAll("[data-copiar]").forEach((botao) => {
 		const rotulo = botao.querySelector(".copiar-rotulo");
 		const original = rotulo ? rotulo.textContent : "";
+		const textoOriginal = () => (rotulo && rotulo.dataset.i18n ? I18n.t(rotulo.dataset.i18n) : original);
 		let relogio = null;
 		botao.addEventListener("click", async () => {
 			const texto = botao.dataset.copiar;
@@ -1162,12 +1180,12 @@ function ligarCopiarEmail() {
 				return;
 			}
 			botao.classList.add("copiado");
-			if (rotulo) rotulo.textContent = "E-mail copiado";
-			if (aviso) aviso.textContent = `E-mail ${texto} copiado.`;
+			if (rotulo) rotulo.textContent = I18n.t("copiar.copiado");
+			if (aviso) aviso.textContent = I18n.t("copiar.aviso", { email: texto });
 			clearTimeout(relogio);
 			relogio = setTimeout(() => {
 				botao.classList.remove("copiado");
-				if (rotulo) rotulo.textContent = original;
+				if (rotulo) rotulo.textContent = textoOriginal();
 				if (aviso) aviso.textContent = "";
 			}, 2200);
 		});
@@ -1211,12 +1229,16 @@ function acompanharRolagem() {
 function alternarTema() {
 	const raiz = document.documentElement;
 	const botao = document.getElementById("botao-tema");
+	const rotular = () => {
+		const proximo = I18n.t(raiz.dataset.tema === "claro" ? "tema.escuro" : "tema.claro");
+		botao.setAttribute("aria-label", proximo);
+		botao.title = proximo;
+	};
+	I18n.aoTrocar(rotular);
 	const aplicar = (tema) => {
 		if (tema === "claro") raiz.dataset.tema = "claro";
 		else delete raiz.dataset.tema;
-		const proximo = tema === "claro" ? "Ativar tema escuro" : "Ativar tema claro";
-		botao.setAttribute("aria-label", proximo);
-		botao.title = proximo;
+		rotular();
 		// A barra do navegador no celular acompanha o fundo da página.
 		const cor = document.querySelector('meta[name="theme-color"]');
 		if (cor) cor.content = tema === "claro" ? "#e8ecea" : "#0c0a09";
@@ -1231,13 +1253,144 @@ function alternarTema() {
 	});
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-	alternarTema();
+function guardarPosicao() {
+	const painel = document.querySelector(".painel:not([hidden])");
+	if (!painel || painel.getBoundingClientRect().top > window.innerHeight / 2) return () => {};
+	const limite = alturaDoTopo();
+	const secao = Array.from(painel.querySelectorAll(".destaque[id]")).find((elemento) => elemento.getBoundingClientRect().bottom > limite);
+	const id = secao ? secao.id : null;
+	const antes = (secao || painel).getBoundingClientRect().top;
+	return () => {
+		const alvo = (id && document.getElementById(id)) || painel;
+		const diferenca = alvo.getBoundingClientRect().top - antes;
+		if (Math.abs(diferenca) > 1) window.scrollTo({ top: window.scrollY + diferenca, behavior: "instant" });
+	};
+}
+
+const ICONE_CONFERIDO ='<svg class="menu-idioma-marca" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+function montarSeletorDeIdioma() {
+	const caixa = document.getElementById("idioma");
+	const botao = document.getElementById("botao-idioma");
+	const menu = document.getElementById("menu-idioma");
+	if (!caixa || !botao || !menu) return;
+	const sigla = botao.querySelector(".botao-idioma-sigla");
+	const aviso = document.getElementById("aviso");
+
+	const opcoes = I18n.idiomas().map((idioma) => {
+		const item = criar("li");
+		item.setAttribute("role", "none");
+		const opcao = criar("button", "menu-idioma-opcao");
+		opcao.type = "button";
+		opcao.tabIndex = -1;
+		opcao.lang = idioma.locale;
+		opcao.dataset.idioma = idioma.codigo;
+		opcao.setAttribute("role", "menuitemradio");
+		const codigo = criar("span", "menu-idioma-sigla", idioma.sigla);
+		codigo.setAttribute("aria-hidden", "true");
+		opcao.append(codigo, criar("span", "menu-idioma-nome", idioma.nome));
+		opcao.insertAdjacentHTML("beforeend", ICONE_CONFERIDO);
+		item.append(opcao);
+		menu.append(item);
+		return opcao;
+	});
+
+	const rotular = () => {
+		const atual = I18n.info();
+		sigla.textContent = atual.sigla;
+		botao.setAttribute("aria-label", I18n.t("idioma.atual", { nome: atual.nome }));
+		botao.title = I18n.t("idioma.trocar");
+		menu.setAttribute("aria-label", I18n.t("idioma.menu"));
+		opcoes.forEach((opcao) => opcao.setAttribute("aria-checked", opcao.dataset.idioma === atual.codigo ? "true" : "false"));
+	};
+
+	const aberto = () => botao.getAttribute("aria-expanded") === "true";
+	const fechar = (devolverFoco) => {
+		if (!aberto()) return;
+		botao.setAttribute("aria-expanded", "false");
+		menu.hidden = true;
+		if (devolverFoco) botao.focus({ preventScroll: true });
+	};
+	const abrir = (posicao) => {
+		botao.setAttribute("aria-expanded", "true");
+		menu.hidden = false;
+		const marcada = opcoes.findIndex((opcao) => opcao.getAttribute("aria-checked") === "true");
+		const alvo = posicao === "ultima" ? opcoes.length - 1 : Math.max(0, marcada);
+		opcoes[alvo].focus({ preventScroll: true });
+	};
+
+	const escolher = async (codigo) => {
+		fechar(true);
+		if (codigo === I18n.atual()) return;
+		caixa.setAttribute("aria-busy", "true");
+		caixa.classList.remove("idioma-erro");
+		try {
+			await I18n.carregar(codigo);
+			const restaurarPosicao = guardarPosicao();
+			await I18n.definir(codigo);
+			restaurarPosicao();
+			if (aviso) aviso.textContent = I18n.t("idioma.alterado", { nome: I18n.info().nome });
+		} catch (erro) {
+			caixa.classList.add("idioma-erro");
+			setTimeout(() => caixa.classList.remove("idioma-erro"), 2400);
+			if (aviso) aviso.textContent = I18n.t("idioma.falhou");
+		} finally {
+			caixa.removeAttribute("aria-busy");
+		}
+	};
+
+	botao.addEventListener("click", () => (aberto() ? fechar(false) : abrir()));
+	botao.addEventListener("keydown", (evento) => {
+		if (evento.key !== "ArrowDown" && evento.key !== "ArrowUp") return;
+		evento.preventDefault();
+		abrir(evento.key === "ArrowUp" ? "ultima" : undefined);
+	});
+	opcoes.forEach((opcao) => opcao.addEventListener("click", () => escolher(opcao.dataset.idioma)));
+	menu.addEventListener("keydown", (evento) => {
+		const indice = opcoes.indexOf(document.activeElement);
+		let alvo = null;
+		if (evento.key === "ArrowDown") alvo = (indice + 1) % opcoes.length;
+		else if (evento.key === "ArrowUp") alvo = (indice - 1 + opcoes.length) % opcoes.length;
+		else if (evento.key === "Home") alvo = 0;
+		else if (evento.key === "End") alvo = opcoes.length - 1;
+		else if (evento.key === "Escape") {
+			evento.preventDefault();
+			fechar(true);
+			return;
+		} else if (evento.key === "Tab") {
+			fechar(false);
+			return;
+		}
+		if (alvo === null) return;
+		evento.preventDefault();
+		opcoes[alvo].focus({ preventScroll: true });
+	});
+	document.addEventListener("pointerdown", (evento) => {
+		if (aberto() && !caixa.contains(evento.target)) fechar(false);
+	});
+	caixa.addEventListener("focusout", (evento) => {
+		if (aberto() && evento.relatedTarget && !caixa.contains(evento.relatedTarget)) fechar(false);
+	});
+
+	rotular();
+	I18n.aoTrocar(rotular);
+}
+
+function montarConteudo() {
+	atualizarConteudo();
 	montarProjetos();
 	montarHabilidades();
 	montarDocumentacao();
-	if (typeof DESTAQUES !== "undefined") montarDestaques();
+	montarDestaques();
 	montarNotas();
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+	await I18n.iniciar();
+	alternarTema();
+	montarSeletorDeIdioma();
+	montarConteudo();
+	I18n.aoTrocar(montarConteudo);
 	alternarAbas();
 	ligarAtalhosDeAba();
 	ligarCopiarEmail();

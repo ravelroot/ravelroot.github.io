@@ -7,6 +7,7 @@
 // frase no lugar do código; se a nota não tem código nem citação, entra a primeira frase do texto.
 const NOTAS = [
 	{
+		id: "fila-nao-e-banco",
 		titulo: "Fila não é banco de dados",
 		tema: "Consistência",
 		resumo: "No Turno e no Delco, o broker só avisa que existe trabalho. Quem sabe o que já foi feito é o banco.",
@@ -19,6 +20,7 @@ const NOTAS = [
 		projetos: ["Turno", "Delco"]
 	},
 	{
+		id: "dinheiro-e-inteiro",
 		titulo: "Dinheiro é inteiro",
 		tema: "Modelagem de dados",
 		resumo: "Por que o Doca grava valores em centavos, e não em ponto flutuante.",
@@ -31,6 +33,7 @@ const NOTAS = [
 		projetos: ["Doca"]
 	},
 	{
+		id: "concorrencia-otimista",
 		titulo: "Concorrência otimista com número de revisão",
 		tema: "Concorrência",
 		resumo: "Dois salvamentos ao mesmo tempo: como o Crivo garante que um não apague o outro.",
@@ -43,6 +46,7 @@ const NOTAS = [
 		projetos: ["Crivo"]
 	},
 	{
+		id: "indice-invertido",
 		titulo: "Índice invertido: buscar sem LIKE",
 		tema: "Busca",
 		resumo: "Como a Sonda encontra uma palavra em milhares de documentos sem varrer nenhum deles.",
@@ -55,6 +59,7 @@ const NOTAS = [
 		projetos: ["Sonda"]
 	},
 	{
+		id: "rag-depende-da-busca",
 		titulo: "RAG: a resposta depende da busca",
 		tema: "IA",
 		resumo: "No Nexo, o modelo de linguagem é a peça mais fácil de trocar. O que decide a qualidade é o que chega até ele.",
@@ -67,6 +72,7 @@ const NOTAS = [
 		projetos: ["Nexo"]
 	},
 	{
+		id: "banco-por-servico",
 		titulo: "Um banco por serviço",
 		tema: "Arquitetura",
 		resumo: "No Argo, nenhum microsserviço lê o banco do outro. O que isso custa e o que isso compra.",
@@ -79,6 +85,7 @@ const NOTAS = [
 		projetos: ["Argo"]
 	},
 	{
+		id: "embaralhar-sem-vies",
 		titulo: "Embaralhar sem viés",
 		tema: "Aleatoriedade",
 		resumo: "Como o Grimório dos Videntes dá a mesma chance a cada um dos 22 arcanos, sem repetir carta na mesma leitura.",
@@ -91,6 +98,7 @@ const NOTAS = [
 		projetos: ["Grimório"]
 	},
 	{
+		id: "boundary-tags",
 		titulo: "Boundary tags: liberar memória em O(1)",
 		tema: "Gerenciamento de memória",
 		resumo: "Como o free do Favo descobre se os vizinhos estão livres sem percorrer o heap.",

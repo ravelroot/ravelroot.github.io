@@ -3,13 +3,21 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Erik Pimenta | Engenheiro de Software</title>
-	<meta name="description" content="Erik Pimenta, Engenheiro de Software no Rio de Janeiro. Sistemas completos, do banco de dados à interface, sem me prender a uma linguagem ou stack, com testes, manual técnico e código aberto.">
+	<title data-i18n="meta.titulo">Erik Pimenta | Engenheiro de Software</title>
+	<meta name="description" content="Erik Pimenta, Engenheiro de Software no Rio de Janeiro. Sistemas completos, do banco de dados à interface, sem me prender a uma linguagem ou stack, com testes, manual técnico e código aberto." data-i18n-attr="content:meta.descricao">
 	<meta name="author" content="Erik Pimenta">
 	<meta name="theme-color" content="#0c0a09">
 	<link rel="canonical" href="https://ravelroot.github.io/">
+	<link rel="alternate" hreflang="pt-BR" href="https://ravelroot.github.io/">
+	<link rel="alternate" hreflang="en-US" href="https://ravelroot.github.io/?lang=en">
+	<link rel="alternate" hreflang="fr" href="https://ravelroot.github.io/?lang=fr">
+	<link rel="alternate" hreflang="es" href="https://ravelroot.github.io/?lang=es">
+	<link rel="alternate" hreflang="x-default" href="https://ravelroot.github.io/">
 	<meta property="og:type" content="profile">
 	<meta property="og:locale" content="pt_BR">
+	<meta property="og:locale:alternate" content="en_US">
+	<meta property="og:locale:alternate" content="fr_FR">
+	<meta property="og:locale:alternate" content="es_ES">
 	<meta property="og:site_name" content="Erik Pimenta">
 	<meta property="og:url" content="https://ravelroot.github.io/">
 	<meta property="og:title" content="Erik Pimenta | Engenheiro de Software">
@@ -45,28 +53,39 @@
 		"image": "https://ravelroot.github.io/assets/compartilhar.png",
 		"sameAs": ["https://github.com/ravelroot"],
 		"address": { "@type": "PostalAddress", "addressLocality": "Rio de Janeiro", "addressCountry": "BR" },
+		"knowsLanguage": ["pt-BR", "en", "fr", "es"],
 		"knowsAbout": ["Java", "Spring Boot", "Python", "Django", "FastAPI", "C#", ".NET", "JavaScript", "TypeScript", "React", "PostgreSQL", "Docker", "Microsserviços", "Sistemas distribuídos", "RAG"]
 	}
 	</script>
-	<link rel="stylesheet" href="css/estilo.css?v=35">
+	<link rel="stylesheet" href="css/estilo.css?v=36">
 </head>
 <body>
-	<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+	<a class="pular" href="#conteudo" data-i18n="pular">Pular para o conteúdo</a>
 	<div id="pagina" class="pagina">
 		<header id="topo" class="topo">
 			<div class="container topo-conteudo">
-				<a class="marca" href="#" aria-label="ravel, voltar ao início">
+				<a class="marca" href="#" aria-label="ravel, voltar ao início" data-i18n-attr="aria-label:marca.rotulo">
 					<img class="icone-marca" src="assets/icone-computador.png" height="28" alt="" aria-hidden="true">
 					<span class="marca-titulo" aria-hidden="true">
 						<span id="titulo-digitado" data-texto="ravel"></span>
 						<span class="cursor"></span>
 					</span>
 				</a>
-				<nav class="topo-acoes" aria-label="Atalhos">
-					<a class="topo-icone" href="https://github.com/ravelroot" target="_blank" rel="noopener noreferrer" aria-label="GitHub (abre em nova aba)" title="GitHub">
+				<nav class="topo-acoes" aria-label="Atalhos" data-i18n-attr="aria-label:topo.atalhos">
+					<a class="topo-icone" href="https://github.com/ravelroot" target="_blank" rel="noopener noreferrer" aria-label="GitHub (abre em nova aba)" title="GitHub" data-i18n-attr="aria-label:topo.github">
 						<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
 					</a>
-					<a class="topo-contato" href="#contato" data-aba="aba-contato">Contato</a>
+					<a class="topo-contato" href="#contato" data-aba="aba-contato" data-i18n="topo.contato">Contato</a>
+					<div id="idioma" class="idioma">
+						<button id="botao-idioma" class="botao-idioma" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="menu-idioma">
+							<svg class="botao-idioma-globo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<circle cx="12" cy="12" r="10"/>
+								<path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+							</svg>
+							<span class="botao-idioma-sigla" aria-hidden="true">PT</span>
+						</button>
+						<ul id="menu-idioma" class="menu-idioma" role="menu" hidden></ul>
+					</div>
 					<button id="botao-tema" class="botao-tema" type="button" aria-label="Ativar tema claro" title="Ativar tema claro">
 						<svg class="icone-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 							<circle cx="12" cy="12" r="4"/>
@@ -83,13 +102,13 @@
 		<main id="conteudo" class="principal" tabindex="-1">
 			<div class="container boas-vindas">
 				<div class="apresentacao">
-					<p class="disponivel"><span class="disponivel-ponto" aria-hidden="true"></span>Disponível para novas oportunidades</p>
+					<p class="disponivel"><span class="disponivel-ponto" aria-hidden="true"></span><span data-i18n="apresentacao.disponivel">Disponível para novas oportunidades</span></p>
 					<h1 class="saudacao">Erik Pimenta</h1>
-					<p class="resumo">Engenheiro de Software</p>
-					<p class="apresentacao-texto">Construo sistemas complexos e confiáveis, fáceis de manter e prontos para crescer. Já criei soluções para pagamentos, lojas virtuais, busca de documentos e assistentes com inteligência artificial, todas com cobertura de testes automatizados, manual técnico e documentação de arquitetura.</p>
+					<p class="resumo" data-i18n="apresentacao.cargo">Engenheiro de Software</p>
+					<p class="apresentacao-texto" data-i18n="apresentacao.texto">Construo sistemas complexos e confiáveis, fáceis de manter e prontos para crescer. Já criei soluções para pagamentos, lojas virtuais, busca de documentos e assistentes com inteligência artificial, todas com cobertura de testes automatizados, manual técnico e documentação de arquitetura.</p>
 					<div class="apresentacao-acoes">
-						<a class="botao botao-primario" href="#projetos" data-aba="aba-projetos">Ver projetos</a>
-						<a class="botao botao-secundario" href="#contato" data-aba="aba-contato">Entrar em contato</a>
+						<a class="botao botao-primario" href="#projetos" data-aba="aba-projetos" data-i18n="apresentacao.verProjetos">Ver projetos</a>
+						<a class="botao botao-secundario" href="#contato" data-aba="aba-contato" data-i18n="apresentacao.contato">Entrar em contato</a>
 					</div>
 					<ul class="apresentacao-links">
 						<li>
@@ -99,7 +118,7 @@
 							</a>
 						</li>
 						<li>
-							<button class="botao-link" type="button" data-copiar="ravelroot@outlook.com" title="Copiar e-mail">
+							<button class="botao-link" type="button" data-copiar="ravelroot@outlook.com" title="Copiar e-mail" data-i18n-attr="title:copiar.email">
 								<svg class="icone-copiar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
 								<svg class="icone-copiado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
 								<span class="copiar-rotulo">ravelroot@outlook.com</span>
@@ -109,7 +128,7 @@
 							<svg class="local-icone" viewBox="0 0 384 512" aria-hidden="true">
 								<path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/>
 							</svg>
-							Rio de Janeiro, Brasil
+							<span data-i18n="local.cidade">Rio de Janeiro, Brasil</span>
 						</li>
 					</ul>
 				</div>
@@ -124,48 +143,48 @@
 						<p class="terminal-titulo">root@ravel:~$</p>
 					</div>
 					<div class="terminal-corpo">
-						<p class="linha">Ravel OS [Version 1.42.0]</p>
+						<p class="linha">Ravel OS [Version 1.43.0]</p>
 						<p class="linha">(c) Erik Pimenta. All rights reserved.</p>
 						<p class="linha linha-comando"><span class="caminho">$</span>ravel --info</p>
-						<p class="linha">Confiabilidade, escalabilidade e qualidade de produção.</p>
-						<p class="linha">→ Sistemas distribuídos e motores de processamento de alta escala</p>
-						<p class="linha">→ Microsserviços e APIs para plataformas de e-commerce</p>
-						<p class="linha">→ Aplicações full-stack, do banco de dados à interface</p>
-						<p class="linha">→ Event Sourcing e CQRS em arquiteturas orientadas a eventos</p>
-						<p class="linha">→ IA aplicada com sistemas RAG para documentação técnica</p>
-						<p class="linha">→ Projetos documentados com manual técnico e arquitetura de banco</p>
+						<p class="linha" data-i18n="terminal.foco">Confiabilidade, escalabilidade e qualidade de produção.</p>
+						<p class="linha" data-i18n="terminal.area1">→ Sistemas distribuídos e motores de processamento de alta escala</p>
+						<p class="linha" data-i18n="terminal.area2">→ Microsserviços e APIs para plataformas de e-commerce</p>
+						<p class="linha" data-i18n="terminal.area3">→ Aplicações full-stack, do banco de dados à interface</p>
+						<p class="linha" data-i18n="terminal.area4">→ Event Sourcing e CQRS em arquiteturas orientadas a eventos</p>
+						<p class="linha" data-i18n="terminal.area5">→ IA aplicada com sistemas RAG para documentação técnica</p>
+						<p class="linha" data-i18n="terminal.area6">→ Projetos documentados com manual técnico e arquitetura de banco</p>
 					</div>
 				</div>
 			</div>
 
-			<section id="secao" class="container secao" aria-label="Portfólio">
-				<div class="abas" role="tablist" aria-label="Seções do portfólio">
-					<button id="aba-destaques" class="aba" type="button" role="tab" aria-selected="true" aria-controls="painel-destaques">Destaques</button>
-					<button id="aba-projetos" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-projetos" tabindex="-1">Projetos</button>
-					<button id="aba-habilidades" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-habilidades" tabindex="-1">Habilidades</button>
-					<button id="aba-atividade" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-atividade" tabindex="-1">Atividade</button>
-					<button id="aba-notas" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-notas" tabindex="-1">Notas</button>
-					<button id="aba-documentacao" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-documentacao" tabindex="-1">Documentação</button>
-					<button id="aba-contato" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-contato" tabindex="-1">Contato</button>
+			<section id="secao" class="container secao" aria-label="Portfólio" data-i18n-attr="aria-label:secao.rotulo">
+				<div class="abas" role="tablist" aria-label="Seções do portfólio" data-i18n-attr="aria-label:abas.rotulo">
+					<button id="aba-destaques" class="aba" type="button" role="tab" aria-selected="true" aria-controls="painel-destaques" data-i18n="aba.destaques">Destaques</button>
+					<button id="aba-projetos" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-projetos" tabindex="-1" data-i18n="aba.projetos">Projetos</button>
+					<button id="aba-habilidades" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-habilidades" tabindex="-1" data-i18n="aba.habilidades">Habilidades</button>
+					<button id="aba-atividade" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-atividade" tabindex="-1" data-i18n="aba.atividade">Atividade</button>
+					<button id="aba-notas" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-notas" tabindex="-1" data-i18n="aba.notas">Notas</button>
+					<button id="aba-documentacao" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-documentacao" tabindex="-1" data-i18n="aba.documentacao">Documentação</button>
+					<button id="aba-contato" class="aba" type="button" role="tab" aria-selected="false" aria-controls="painel-contato" tabindex="-1" data-i18n="aba.contato">Contato</button>
 				</div>
 
 				<div id="painel-destaques" class="painel" role="tabpanel" aria-labelledby="aba-destaques">
-					<p class="secao-descricao">Os seis projetos mais completos do portfólio, em detalhe: o Crivo, de pixel art e jogos 2D, e o Grafo, de design e diagramas, editores escritos do zero que rodam no navegador, no Windows e em servidor; o Nexo, uma plataforma de agentes de IA que respondem citando a fonte; o Talos, central de serviços e inventário de TI para desktop; o Bento, um painel administrativo com tempo real; e o Turno, um motor de tarefas distribuídas em que vários workers dividem a mesma fila. Abaixo, as telas, as decisões de engenharia e os números dos testes de cada um.</p>
+					<p class="secao-descricao" data-i18n="painel.destaques">Os seis projetos mais completos do portfólio, em detalhe: o Crivo, de pixel art e jogos 2D, e o Grafo, de design e diagramas, editores escritos do zero que rodam no navegador, no Windows e em servidor; o Nexo, uma plataforma de agentes de IA que respondem citando a fonte; o Talos, central de serviços e inventário de TI para desktop; o Bento, um painel administrativo com tempo real; e o Turno, um motor de tarefas distribuídas em que vários workers dividem a mesma fila. Abaixo, as telas, as decisões de engenharia e os números dos testes de cada um.</p>
 					<div id="destaques" class="destaques"></div>
 				</div>
 
 				<div id="painel-projetos" class="painel" role="tabpanel" aria-labelledby="aba-projetos" hidden>
-					<p class="secao-descricao">Aqui estão os meus projetos, todos com código aberto e a maioria com manual técnico. Filtre pela linguagem ou abra o repositório de cada um.</p>
+					<p class="secao-descricao" data-i18n="painel.projetos">Aqui estão os meus projetos, todos com código aberto e a maioria com manual técnico. Filtre pela linguagem ou abra o repositório de cada um.</p>
 					<div id="projetos" class="grade"></div>
 				</div>
 
 				<div id="painel-habilidades" class="painel" role="tabpanel" aria-labelledby="aba-habilidades" hidden>
-					<p class="secao-descricao">Linguagens, frameworks e ferramentas com que trabalho no dia a dia.</p>
+					<p class="secao-descricao" data-i18n="painel.habilidades">Linguagens, frameworks e ferramentas com que trabalho no dia a dia.</p>
 					<div id="habilidades" class="grade"></div>
 				</div>
 
 				<div id="painel-atividade" class="painel" role="tabpanel" aria-labelledby="aba-atividade" hidden>
-					<p class="secao-descricao">Dados ao vivo do meu GitHub: contribuições ano a ano desde 2016, a cidade que cresce a cada commit no ano escolhido, linguagens mais usadas e os repositórios que receberam commits por último.</p>
+					<p class="secao-descricao" data-i18n="painel.atividade">Dados ao vivo do meu GitHub: contribuições ano a ano desde 2016, a cidade que cresce a cada commit no ano escolhido, linguagens mais usadas e os repositórios que receberam commits por último.</p>
 					<div id="atividade" class="grade" aria-live="polite" aria-busy="true">
 						<article class="cartao cartao-largo cartao-estatico">
 							<div class="cartao-conteudo">
@@ -176,62 +195,62 @@
 				</div>
 
 				<div id="painel-notas" class="painel" role="tabpanel" aria-labelledby="aba-notas" hidden>
-					<p class="secao-descricao">Textos curtos sobre as decisões técnicas por trás dos projetos: o problema, a escolha feita e o que ela custa.</p>
+					<p class="secao-descricao" data-i18n="painel.notas">Textos curtos sobre as decisões técnicas por trás dos projetos: o problema, a escolha feita e o que ela custa.</p>
 					<div id="notas" class="grade"></div>
 				</div>
 
 				<div id="painel-documentacao" class="painel" role="tabpanel" aria-labelledby="aba-documentacao" hidden>
-					<p class="secao-descricao">Cada projeto abaixo tem manual técnico em PDF, e a maioria também traz a arquitetura do banco de dados. Abaixo, a decisão de arquitetura que mais pesou em cada um.</p>
+					<p class="secao-descricao" data-i18n="painel.documentacao">Cada projeto abaixo tem manual técnico em PDF, e a maioria também traz a arquitetura do banco de dados. Abaixo, a decisão de arquitetura que mais pesou em cada um.</p>
 					<div id="documentacao" class="grade"></div>
 				</div>
 
 				<div id="painel-contato" class="painel" role="tabpanel" aria-labelledby="aba-contato" hidden>
-					<p class="secao-descricao">Quer falar sobre uma vaga, um projeto freelance ou uma ideia? Preencha o formulário ou escreva direto para o meu e-mail. Respondo no endereço que você deixar.</p>
+					<p class="secao-descricao" data-i18n="painel.contato">Quer falar sobre uma vaga, um projeto freelance ou uma ideia? Preencha o formulário ou escreva direto para o meu e-mail. Respondo no endereço que você deixar.</p>
 					<div class="contato-grade">
 						<article class="cartao cartao-estatico">
 							<div class="cartao-conteudo">
-								<h3 class="cartao-titulo">Enviar mensagem</h3>
-								<p class="grupo-rotulo">Todos os campos são obrigatórios.</p>
+								<h3 class="cartao-titulo" data-i18n="contato.titulo">Enviar mensagem</h3>
+								<p class="grupo-rotulo" data-i18n="contato.obrigatorios">Todos os campos são obrigatórios.</p>
 								<form id="contato-form" class="contato-form" action="https://formsubmit.co/ravelroot@outlook.com" method="POST">
 									<div class="contato-linha">
 										<label class="campo">
-											<span class="campo-rotulo">Nome</span>
-											<input class="campo-entrada" type="text" name="nome" autocomplete="given-name" maxlength="60" placeholder="Seu nome" required>
+											<span class="campo-rotulo" data-i18n="contato.nome">Nome</span>
+											<input class="campo-entrada" type="text" name="nome" autocomplete="given-name" maxlength="60" placeholder="Seu nome" data-i18n-attr="placeholder:contato.nomeExemplo" required>
 										</label>
 										<label class="campo">
-											<span class="campo-rotulo">Sobrenome</span>
-											<input class="campo-entrada" type="text" name="sobrenome" autocomplete="family-name" maxlength="80" placeholder="Seu sobrenome" required>
+											<span class="campo-rotulo" data-i18n="contato.sobrenome">Sobrenome</span>
+											<input class="campo-entrada" type="text" name="sobrenome" autocomplete="family-name" maxlength="80" placeholder="Seu sobrenome" data-i18n-attr="placeholder:contato.sobrenomeExemplo" required>
 										</label>
 									</div>
 									<div class="contato-linha">
 										<label class="campo">
-											<span class="campo-rotulo">E-mail para resposta</span>
-											<input class="campo-entrada" type="email" name="email" autocomplete="email" maxlength="120" placeholder="voce@exemplo.com" required>
+											<span class="campo-rotulo" data-i18n="contato.email">E-mail para resposta</span>
+											<input class="campo-entrada" type="email" name="email" autocomplete="email" maxlength="120" placeholder="voce@exemplo.com" data-i18n-attr="placeholder:contato.emailExemplo" required>
 										</label>
 										<label class="campo">
-											<span class="campo-rotulo">Motivo do contato</span>
+											<span class="campo-rotulo" data-i18n="contato.motivo">Motivo do contato</span>
 											<span class="campo-select">
 												<select class="campo-entrada" name="motivo" required>
-													<option value="" disabled selected>Escolha um motivo</option>
-													<option>Proposta de trabalho</option>
-													<option>Projeto freelance</option>
-													<option>Dúvida sobre um projeto</option>
-													<option>Parceria ou colaboração</option>
-													<option>Outro assunto</option>
+													<option value="" disabled selected data-i18n="contato.motivoEscolha">Escolha um motivo</option>
+													<option value="Proposta de trabalho" data-i18n="contato.motivoTrabalho">Proposta de trabalho</option>
+													<option value="Projeto freelance" data-i18n="contato.motivoFreelance">Projeto freelance</option>
+													<option value="Dúvida sobre um projeto" data-i18n="contato.motivoDuvida">Dúvida sobre um projeto</option>
+													<option value="Parceria ou colaboração" data-i18n="contato.motivoParceria">Parceria ou colaboração</option>
+													<option value="Outro assunto" data-i18n="contato.motivoOutro">Outro assunto</option>
 												</select>
 											</span>
 										</label>
 									</div>
 									<label class="campo">
-										<span class="campo-rotulo">Mensagem</span>
-										<textarea class="campo-entrada" name="mensagem" rows="7" maxlength="3000" placeholder="Escreva sua mensagem" required></textarea>
+										<span class="campo-rotulo" data-i18n="contato.mensagem">Mensagem</span>
+										<textarea class="campo-entrada" name="mensagem" rows="7" maxlength="3000" placeholder="Escreva sua mensagem" data-i18n-attr="placeholder:contato.mensagemExemplo" required></textarea>
 										<span id="contato-contador" class="campo-contador" aria-hidden="true"></span>
 									</label>
 									<input class="campo-armadilha" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 									<input type="hidden" name="_subject" value="Novo contato pelo portfólio">
 									<input type="hidden" name="_template" value="table">
 									<div class="contato-acoes">
-										<button class="cartao-botao contato-enviar" type="submit">Enviar mensagem</button>
+										<button class="cartao-botao contato-enviar" type="submit" data-i18n="contato.enviar">Enviar mensagem</button>
 										<p id="contato-status" class="contato-status" role="status" aria-live="polite"></p>
 									</div>
 								</form>
@@ -239,17 +258,17 @@
 						</article>
 						<aside class="cartao cartao-estatico contato-lado" aria-labelledby="contato-direto-titulo">
 							<div class="cartao-conteudo">
-								<h3 id="contato-direto-titulo" class="cartao-titulo">Contato direto</h3>
-								<p class="cartao-descricao">Prefere usar o seu próprio e-mail ou olhar o código antes? Os caminhos estão aqui.</p>
+								<h3 id="contato-direto-titulo" class="cartao-titulo" data-i18n="contato.diretoTitulo">Contato direto</h3>
+								<p class="cartao-descricao" data-i18n="contato.diretoTexto">Prefere usar o seu próprio e-mail ou olhar o código antes? Os caminhos estão aqui.</p>
 								<ul class="contato-canais">
 									<li>
-										<span class="contato-canal-rotulo">E-mail</span>
+										<span class="contato-canal-rotulo" data-i18n="comum.email">E-mail</span>
 										<span class="contato-canal-linha">
 											<a class="contato-canal-valor" href="mailto:ravelroot@outlook.com">ravelroot@outlook.com</a>
-											<button class="botao-link contato-copiar" type="button" data-copiar="ravelroot@outlook.com" title="Copiar e-mail">
+											<button class="botao-link contato-copiar" type="button" data-copiar="ravelroot@outlook.com" title="Copiar e-mail" data-i18n-attr="title:copiar.email">
 												<svg class="icone-copiar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
 												<svg class="icone-copiado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-												<span class="copiar-rotulo">Copiar</span>
+												<span class="copiar-rotulo" data-i18n="copiar.rotulo">Copiar</span>
 											</button>
 										</span>
 									</li>
@@ -258,8 +277,8 @@
 										<a class="contato-canal-valor" href="https://github.com/ravelroot" target="_blank" rel="noopener noreferrer">github.com/ravelroot</a>
 									</li>
 									<li>
-										<span class="contato-canal-rotulo">Localização</span>
-										<span class="contato-canal-valor">Rio de Janeiro, Brasil (UTC−3)</span>
+										<span class="contato-canal-rotulo" data-i18n="contato.canalLocal">Localização</span>
+										<span class="contato-canal-valor" data-i18n="contato.local">Rio de Janeiro, Brasil (UTC−3)</span>
 									</li>
 								</ul>
 							</div>
@@ -270,23 +289,24 @@
 		</main>
 
 		<footer class="container rodape">
-			<p>Feito por Erik Pimenta. Todos os direitos reservados &copy; 2026</p>
+			<p data-i18n="rodape.texto">Feito por Erik Pimenta. Todos os direitos reservados &copy; 2026</p>
 			<ul class="rodape-links">
 				<li><a href="https://github.com/ravelroot" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-				<li><a href="mailto:ravelroot@outlook.com">E-mail</a></li>
-				<li><a href="#">Voltar ao topo</a></li>
+				<li><a href="mailto:ravelroot@outlook.com" data-i18n="comum.email">E-mail</a></li>
+				<li><a href="#" data-i18n="rodape.topo">Voltar ao topo</a></li>
 			</ul>
 		</footer>
 		<p id="aviso" class="so-leitor" role="status" aria-live="polite"></p>
 	</div>
 
+	<script src="js/i18n.js?v=1"></script>
 	<script src="js/projetos.js?v=23"></script>
 	<script src="js/habilidades.js?v=5"></script>
 	<script src="js/documentacao.js?v=10"></script>
-	<script src="js/atividade.js?v=8"></script>
-	<script src="js/notas.js?v=5"></script>
+	<script src="js/atividade.js?v=9"></script>
+	<script src="js/notas.js?v=6"></script>
 	<script src="js/destaques.js?v=7"></script>
-	<script src="js/contato.js?v=1"></script>
-	<script src="js/main.js?v=19"></script>
+	<script src="js/contato.js?v=2"></script>
+	<script src="js/main.js?v=20"></script>
 </body>
 </html>
