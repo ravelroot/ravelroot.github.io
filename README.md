@@ -5,22 +5,29 @@
 <h1 align="center">Portfólio<br><sub><sup><sup><sub>Copyright (©) 2026 Erik Pimenta. Todos os direitos reservados.</sub></sup></sup></sub></h1>
 
 <p align="center">
-Meu portfólio técnico: quem eu sou, o que estudo e os sistemas que construí do zero, com foco em arquitetura, escalabilidade e consistência de dados, reunidos em uma página só.<br>
+Meu portfólio técnico: quem eu sou, o que estudo e os sistemas que construí do zero, com foco em arquitetura, escalabilidade e consistência de dados, reunidos em uma página só, em português, inglês, francês e espanhol.<br>
 Feito com HTML5, CSS e JavaScript puros: sem framework, sem build e sem dependências. A aba Atividade busca dados ao vivo na API pública do GitHub.
 </p>
 
 <p align="center">
-HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero dependências
+HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · 4 idiomas · Responsivo · Zero dependências
 </p>
 
 <p align="center">
-  <a href="https://ravelroot.github.io"><b>ravelroot.github.io</b></a>
+  <a href="https://ravelroot.github.io"><b>ravelroot.github.io</b></a><br>
+  <a href="https://ravelroot.github.io/?lang=en">English</a> · <a href="https://ravelroot.github.io/?lang=fr">Français</a> · <a href="https://ravelroot.github.io/?lang=es">Español</a>
 </p>
 
 ---
 
 <p align="center">
-  <img src="assets/preview-portfolio.png?v=25" alt="Prévia do portfólio na aba Projetos: apresentação com selo de disponibilidade, terminal do Ravel OS 1.42.0, abas, filtros por linguagem com os 16 projetos e a primeira fileira de cartões">
+  <img src="assets/preview-portfolio.png?v=26" alt="Prévia do portfólio na aba Projetos: topo com o seletor de idioma, apresentação com selo de disponibilidade, terminal do Ravel OS 1.43.0, abas, filtros por linguagem com os 16 projetos e a primeira fileira de cartões">
+</p>
+
+<p align="center"><b>Quatro idiomas: o site em inglês, com o menu de idiomas aberto</b></p>
+
+<p align="center">
+  <img src="assets/preview-portfolio-idiomas.png?v=1" alt="Prévia do portfólio em inglês, com o menu de idiomas aberto mostrando Português (Brasil), English (US), Français e Español">
 </p>
 
 <p align="center"><b>Aba Destaques</b></p>
@@ -32,7 +39,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 <p align="center"><b>Tema claro, na aba Habilidades</b></p>
 
 <p align="center">
-  <img src="assets/preview-portfolio-claro.png?v=29" alt="Prévia do portfólio no tema claro, na aba Habilidades">
+  <img src="assets/preview-portfolio-claro.png?v=30" alt="Prévia do portfólio no tema claro, na aba Habilidades, com o terminal do Ravel OS 1.43.0">
 </p>
 
 <p align="center"><b>Aba Atividade</b></p>
@@ -72,7 +79,7 @@ HTML5 · CSS3 · JavaScript (ES6+) · API do GitHub · Responsivo · Zero depend
 - **Rodapé** com GitHub, e-mail e **Voltar ao topo**.
 - **Layout responsivo**: duas colunas no computador, uma no celular, sem rolagem lateral.
 - **Entrada rápida**: a página aparece com um esmaecer curto logo que carrega (sem a espera de antes) e, sem JavaScript, aparece direto.
-- **Prévia ao compartilhar o link**: título, descrição e a imagem `assets/compartilhar.png` (1200 × 630) aparecem no WhatsApp, LinkedIn, Discord e afins; a página também traz os dados de pessoa (nome, cargo, GitHub e cidade) em JSON-LD, para buscadores. Para os buscadores, o `index.html` aponta as quatro versões com `hreflang` (`pt-BR`, `en-US`, `fr` e `es`), e o endereço canônico acompanha o idioma aberto.
+- **Prévia ao compartilhar o link**: título, descrição e a imagem `assets/compartilhar.png` (1200 × 630) aparecem no WhatsApp, LinkedIn, Discord e afins; para os buscadores, a página traz os dados de pessoa (nome, cargo, GitHub, cidade e idiomas) em JSON-LD, aponta as quatro versões com `hreflang` (`pt-BR`, `en-US`, `fr` e `es`) e troca o endereço canônico junto com o idioma aberto.
 - **Teclado e leitores de tela**: o primeiro Tab mostra **Pular para o conteúdo**, o nome é o título principal da página (`h1`) e os avisos (como *E-mail copiado*) são lidos em voz alta. O menu de idiomas abre com Enter, Espaço ou as setas, anda pelas setas, Home e End, fecha com Esc (o foco volta ao botão) e avisa o leitor de tela quando o idioma muda, já no idioma novo; o atributo `lang` da página acompanha a escolha.
 - **Acessível a quem prefere menos movimento**: com `prefers-reduced-motion`, as animações são desligadas.
 
@@ -167,7 +174,7 @@ O mesmo e-mail de ativação traz um código aleatório que pode substituir o en
 
 | Quero mudar... | Onde |
 | --- | --- |
-| Nome, selo de disponibilidade, cargo, apresentação, terminal e rodapé | `index.html` |
+| Nome, selo de disponibilidade, cargo, apresentação, terminal e rodapé | `index.html` (as versões em inglês, francês e espanhol ficam em `js/idiomas/`, nas chaves `apresentacao.*`, `terminal.*` e `rodape.*`) |
 | Versão no terminal (*Ravel OS [Version 1.43.0]*) | `index.html`, na primeira linha do `.terminal-corpo`; acompanha o número do arquivo `VERSION` |
 | Imagem que aparece ao compartilhar o link | `assets/compartilhar.png` (1200 × 630), citada nas tags `og:image` e `twitter:image` do `index.html` |
 | Descrição que aparece ao compartilhar o link (WhatsApp, LinkedIn, Discord etc.) | `index.html`, nas tags `<meta name="description">` e `<meta property="og:description">` |
@@ -193,8 +200,10 @@ O mesmo e-mail de ativação traz um código aleatório que pode substituir o en
 | Traduções para inglês, francês e espanhol | `js/idiomas/en.js`, `js/idiomas/fr.js` e `js/idiomas/es.js`: `ui` traz os textos da interface (com as mesmas chaves do português) e `conteudo` traz projetos, habilidades, documentação, notas e destaques |
 | Seletor de idioma (botão e menu) | `index.html`, no `#idioma`; o comportamento fica em `js/main.js`, em `montarSeletorDeIdioma()`, e o visual em `css/estilo.css`, nas classes `.botao-idioma` e `.menu-idioma` |
 | Animação do título e do topo | `js/main.js` |
-| Abas (nomes e textos de cada seção) | `index.html`, nos botões `.aba` e nos painéis `#painel-destaques`, `#painel-projetos`, `#painel-habilidades`, `#painel-atividade`, `#painel-documentacao`, `#painel-notas` e `#painel-contato`; o comportamento fica em `js/main.js`, em `alternarAbas()` |
-| Formulário de contato (e-mail que recebe, campos e motivos) | E-mail de destino: `js/contato.js`, em `CONTATO.destino`, e no `action` do `#contato-form` em `index.html`; campos, motivos e textos: `index.html`, no `#painel-contato` |
+| Abas (nomes e textos de cada seção) | `index.html`, nos botões `.aba` e nos painéis `#painel-destaques`, `#painel-projetos`, `#painel-habilidades`, `#painel-atividade`, `#painel-documentacao`, `#painel-notas` e `#painel-contato`; o comportamento fica em `js/main.js`, em `alternarAbas()`; os nomes e textos nos outros idiomas ficam em `js/idiomas/`, nas chaves `aba.*` e `painel.*` |
+| Formulário de contato (e-mail que recebe, campos e motivos) | E-mail de destino: `js/contato.js`, em `CONTATO.destino`, e no `action` do `#contato-form` em `index.html`; campos, motivos e textos: `index.html`, no `#painel-contato` (o `value` de cada motivo fica em português, para o e-mail chegar sempre igual; o texto visível é traduzido pelas chaves `contato.*` de `js/idiomas/`) |
+
+Todo texto que mudar em português precisa da mesma mudança nos três arquivos de `js/idiomas/` (veja [Idiomas](#idiomas)); sem ela, o texto aparece em português nos outros idiomas.
 
 Depois de alterar um arquivo CSS ou JS, aumente o número de `?v=` nos links do `index.html` (por exemplo, de `?v=2` para `?v=3`). Assim o navegador de quem visita baixa a versão nova em vez de usar a antiga guardada em cache.
 
@@ -276,6 +285,7 @@ Portfolio/
 │   ├── compartilhar.png  imagem da prévia ao compartilhar o link (1200 × 630)
 │   ├── preview-portfolio.png        prévia do tema escuro usada neste README
 │   ├── preview-portfolio-claro.png  prévia do tema claro usada neste README
+│   ├── preview-portfolio-idiomas.png  prévia do site em inglês, com o menu de idiomas aberto
 │   ├── preview-portfolio-documentacao.png  prévia da aba Documentação
 │   ├── preview-portfolio-destaques.png     prévia da aba Destaques
 │   ├── preview-portfolio-atividade.png     prévia da aba Atividade
